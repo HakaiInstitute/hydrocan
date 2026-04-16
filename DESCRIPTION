@@ -1,11 +1,15 @@
 Package: hydrocan
-Title: What the Package Does (One Line, Title Case)
+Title: Unified Access to Canadian Hydrometric Data
 Version: 0.0.0.9000
-Authors@R: 
-    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"))
-Description: What the package does (one paragraph).
-License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
-    license
+Authors@R:
+    c(person("Sam", "Albers", email = "sam.albers@hakai.org", role = c("aut", "cre")),
+    person("Tula Foundation", , role = c("fnd", "cph")),
+    person("Canada Water Agency", , role = "fnd"))
+Description: Provides a unified interface for accessing diverse
+    web-published hydrometric data sources across Canada,
+    presenting users with consistent tabular output regardless
+    of the underlying data source.
+License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.3
+RoxygenNote: 7.3.2

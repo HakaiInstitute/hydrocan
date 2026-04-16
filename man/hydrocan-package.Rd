@@ -8,6 +8,14 @@
 \description{
 Provides a unified interface for accessing diverse web-published hydrometric data sources across Canada, presenting users with consistent tabular output regardless of the underlying data source.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/HakaiInstitute/hydrocan}
+  \item Report bugs at \url{https://github.com/HakaiInstitute/hydrocan/issues}
+}
+
+}
 \author{
 \strong{Maintainer}: Sam Albers \email{sam.albers@hakai.org}
 

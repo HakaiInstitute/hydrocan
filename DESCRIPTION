@@ -15,6 +15,11 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.3
 URL: https://github.com/HakaiInstitute/hydrocan
 BugReports: https://github.com/HakaiInstitute/hydrocan/issues
-Suggests: 
+Imports:
+    dplyr,
+    httr2,
+    rlang,
+    tibble
+Suggests:
     testthat (>= 3.0.0)
 Config/testthat/edition: 3

@@ -1,28 +1,23 @@
 #' Create a hydrocan adapter
 #'
-#' Constructs a validated adapter object that binds a data source name to its
-#' station-listing and data-fetching functions. At least one of
-#' `fetch_flows_fn` or `fetch_daily_flows_fn` must be provided; adapters that
-#' only publish one temporal resolution should leave the other as `NULL`.
+#' Constructs a validated adapter object for a data source. At least one of
+#' `fetch_flows_fn` or `fetch_daily_flows_fn` must be supplied.
 #'
-#' @param name A single non-empty character string identifying this adapter.
-#'   Used as the key in the registry and as the `source` field in output.
-#' @param description A single character string describing the data source,
-#'   including any known limitations (e.g. rolling data window, parameter
-#'   availability). Shown by [hc_list_sources()].
-#' @param list_stations_fn A function taking no arguments that returns a
-#'   character vector of station numbers this adapter can serve.
-#' @param fetch_flows_fn Optional function with signature
-#'   `function(station_number, start_date, end_date)` returning a tibble with
-#'   the hydrocan flows schema (contains `datetime`). Supply `NULL` if the
-#'   source does not publish sub-daily observations.
-#' @param fetch_daily_flows_fn Optional function with signature
-#'   `function(station_number, start_date, end_date)` returning a tibble with
-#'   the hydrocan daily schema (contains `date`). Supply `NULL` if the source
-#'   does not publish daily summaries.
-#' @param list_stations_meta_fn Optional function taking no arguments that
-#'   returns a tibble with the hydrocan stations schema. Supply `NULL` if the
-#'   source does not publish a station metadata endpoint.
+#' @param name Non-empty string identifying this source. Used as the registry
+#'   key and as the `source` column in output.
+#' @param description String describing the source and any known limitations
+#'   (e.g. rolling data window). Shown by [hc_list_sources()].
+#' @param list_stations_fn Function with no arguments returning a character
+#'   vector of station IDs this source can serve.
+#' @param fetch_flows_fn Optional `function(station_number, start_date,
+#'   end_date)` returning a tibble matching the flows schema (`datetime`
+#'   column). `NULL` if sub-daily data is not available.
+#' @param fetch_daily_flows_fn Optional `function(station_number, start_date,
+#'   end_date)` returning a tibble matching the daily flows schema (`date`
+#'   column). `NULL` if daily data is not available.
+#' @param list_stations_meta_fn Optional function with no arguments returning
+#'   a tibble matching the stations schema. `NULL` if station metadata is not
+#'   available.
 #'
 #' @return A list with class `"hydrocan_adapter"`.
 #' @export
@@ -74,12 +69,10 @@ new_hydrocan_adapter <- function(
 
 #' Register a hydrocan adapter
 #'
-#' Stores an adapter in the package registry so it is visible to the router.
-#' Registering an adapter with the same name as an existing one overwrites it.
+#' Adds an adapter to the package registry. Registering under an existing name
+#' overwrites it.
 #'
-#' @param adapter A `"hydrocan_adapter"` object created by
-#'   [new_hydrocan_adapter()].
-#'
+#' @param adapter A `"hydrocan_adapter"` object from [new_hydrocan_adapter()].
 #' @return `adapter`, invisibly.
 #' @export
 register_hydrocan_adapter <- function(adapter) {

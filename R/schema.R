@@ -1,4 +1,4 @@
-# Column sets and valid vocabulary for the hydrocan standard output schema.
+# Required columns for each output schema.
 .FLOWS_COLS <- c(
   "station_number",
   "datetime",
@@ -9,7 +9,6 @@
   "approval",
   "quality_flag"
 )
-
 .DAILY_FLOWS_COLS <- c(
   "station_number",
   "date",
@@ -20,7 +19,6 @@
   "approval",
   "quality_flag"
 )
-
 .STATIONS_COLS <- c(
   "station_number",
   "station_name",
@@ -35,9 +33,8 @@
 
 .VALID_APPROVAL <- c("provisional", "approved", "estimated")
 
-# Canonical unit strings used across all adapters. The names are the raw
-# strings an adapter might return; the values are the hydrocan standard forms.
-# Add new entries here as additional data sources are integrated.
+# Maps raw unit strings from any data source to canonical hydrocan forms.
+# Add entries here as new sources are integrated.
 .UNIT_MAP <- c(
   # --- Flow ---
   "m3/s" = "m3/s",
@@ -56,9 +53,8 @@
   "feet" = "ft"
 )
 
-# Map raw unit strings from adapter output to canonical hydrocan unit strings.
-# Unknown units are passed through unchanged with a warning so that new
-# sources surface their unit strings rather than silently producing bad output.
+# Unknown units pass through unchanged with a warning so new sources surface
+# their raw strings rather than silently producing incorrect output.
 .normalize_units <- function(units) {
   normalized <- .UNIT_MAP[units]
   unknown <- is.na(normalized) & !is.na(units)
@@ -74,8 +70,8 @@
   unname(normalized)
 }
 
-# Validate and normalize a tibble returned by an adapter. Stops on the first
-# structural violation; normalizes the units column for flow/level schemas.
+# Validate required columns and normalize units. Stops on the first structural
+# violation; unit normalization is skipped for the stations schema.
 validate_hydrocan_schema <- function(
   df,
   type = c("flows", "daily", "stations")
@@ -92,7 +88,7 @@ validate_hydrocan_schema <- function(
   missing_cols <- setdiff(required, names(df))
   if (length(missing_cols) > 0L) {
     stop(
-      "Adapter output is missing required columns: ",
+      "Data source output is missing required columns: ",
       paste(missing_cols, collapse = ", "),
       call. = FALSE
     )

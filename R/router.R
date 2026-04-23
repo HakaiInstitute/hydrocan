@@ -1,9 +1,5 @@
-# Resolve which adapter(s) can serve each requested station, fetch data, and
-# combine results. This is the single point of dispatch for all user-facing
-# API functions.
-#
-# type = "flows" dispatches to fetch_flows_fn (returns datetime column)
-# type = "daily"    dispatches to fetch_daily_flows_fn (returns date column)
+# Single dispatch point for all user-facing API functions. Matches each station
+# to its data source, fetches data, and combines results into one tibble.
 .route_and_fetch <- function(
   station_number,
   start_date,

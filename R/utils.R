@@ -1,19 +1,23 @@
-# Coerce start/end date arguments and validate the resulting range. Stops with
-# a clear message if either value cannot be parsed or if the range is inverted.
 .try_as_date <- function(x, arg) {
   d <- tryCatch(as.Date(x), error = \(e) NA_real_)
-  if (is.na(d)) stop("'", arg, "' could not be parsed as a Date.", call. = FALSE)
+  if (is.na(d)) {
+    stop("'", arg, "' could not be parsed as a Date.", call. = FALSE)
+  }
   d
 }
 
-# Coerce start/end date arguments and validate the resulting range. Stops with
-# a clear message if either value cannot be parsed or if the range is inverted.
+# Coerce and validate the date range. Stops if either date cannot be parsed or
+# if the range is inverted.
 .validate_date_range <- function(start_date, end_date) {
   start_date <- .try_as_date(start_date, "start_date")
-  end_date   <- .try_as_date(end_date,   "end_date")
+  end_date <- .try_as_date(end_date, "end_date")
   if (end_date < start_date) {
     stop(
-      "'end_date' (", end_date, ") is before 'start_date' (", start_date, ").",
+      "'end_date' (",
+      end_date,
+      ") is before 'start_date' (",
+      start_date,
+      ").",
       call. = FALSE
     )
   }

@@ -4,23 +4,46 @@
 \alias{new_hydrocan_adapter}
 \title{Create a hydrocan adapter}
 \usage{
-new_hydrocan_adapter(name, list_stations_fn, fetch_flows_fn)
+new_hydrocan_adapter(
+  name,
+  description,
+  list_stations_fn,
+  fetch_flows_fn = NULL,
+  fetch_daily_flows_fn = NULL,
+  list_stations_meta_fn = NULL
+)
 }
 \arguments{
 \item{name}{A single non-empty character string identifying this adapter.
 Used as the key in the registry and as the \code{source} field in output.}
 
+\item{description}{A single character string describing the data source,
+including any known limitations (e.g. rolling data window, parameter
+availability). Shown by \code{\link[=hc_list_sources]{hc_list_sources()}}.}
+
 \item{list_stations_fn}{A function taking no arguments that returns a
 character vector of station numbers this adapter can serve.}
 
-\item{fetch_flows_fn}{A function with signature
-\verb{function(station_number, start_date, end_date)} that returns a tibble
-conforming to the hydrocan schema.}
+\item{fetch_flows_fn}{Optional function with signature
+\verb{function(station_number, start_date, end_date)} returning a tibble with
+the hydrocan flows schema (contains \code{datetime}). Supply \code{NULL} if the
+source does not publish sub-daily observations.}
+
+\item{fetch_daily_flows_fn}{Optional function with signature
+\verb{function(station_number, start_date, end_date)} returning a tibble with
+the hydrocan daily schema (contains \code{date}). Supply \code{NULL} if the source
+does not publish daily summaries.}
+
+\item{list_stations_meta_fn}{Optional function taking no arguments that
+returns a tibble with the hydrocan stations schema. Supply \code{NULL} if the
+source does not publish a station metadata endpoint.}
 }
 \value{
 A list with class \code{"hydrocan_adapter"}.
 }
 \description{
 Constructs a validated adapter object that binds a data source name to its
-station-listing and data-fetching functions.
+station-listing and data-fetching functions. At least one of
+\code{fetch_flows_fn} or \code{fetch_daily_flows_fn} must be provided; adapters that
+only publish one temporal resolution should leave the other as \code{NULL}.
 }

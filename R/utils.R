@@ -1,28 +1,86 @@
-# Coerce a value to POSIXct in UTC, accepting character, Date, or POSIXct input.
-.to_posixct_utc <- function(x) {
-  if (inherits(x, "POSIXct")) {
-    return(as.POSIXct(format(x), tz = "UTC"))
-  }
-  as.POSIXct(as.character(x), tz = "UTC")
+# Coerce start/end date arguments and validate the resulting range. Stops with
+# a clear message if either value cannot be parsed or if the range is inverted.
+.try_as_date <- function(x, arg) {
+  d <- tryCatch(as.Date(x), error = \(e) NA_real_)
+  if (is.na(d)) stop("'", arg, "' could not be parsed as a Date.", call. = FALSE)
+  d
 }
 
-# Group a real-time tibble by station and calendar date, apply `fun` to value.
-# The first observation within each group determines the metadata fields
-# (parameter, units, source, approval, quality_flag).
-.aggregate_daily <- function(df, fun) {
-  df <- dplyr::mutate(df, date = as.Date(.data$datetime))
-
-  dplyr::summarise(
-    dplyr::group_by(df, .data$station_number, .data$date, .data$parameter),
-    value       = fun(.data$value, na.rm = TRUE),
-    units       = dplyr::first(.data$units),
-    source      = dplyr::first(.data$source),
-    approval    = dplyr::first(.data$approval),
-    quality_flag = dplyr::first(.data$quality_flag),
-    .groups = "drop"
-  ) |>
-    dplyr::select(
-      "station_number", "date", "value", "parameter",
-      "units", "source", "approval", "quality_flag"
+# Coerce start/end date arguments and validate the resulting range. Stops with
+# a clear message if either value cannot be parsed or if the range is inverted.
+.validate_date_range <- function(start_date, end_date) {
+  start_date <- .try_as_date(start_date, "start_date")
+  end_date   <- .try_as_date(end_date,   "end_date")
+  if (end_date < start_date) {
+    stop(
+      "'end_date' (", end_date, ") is before 'start_date' (", start_date, ").",
+      call. = FALSE
     )
+  }
+  list(start_date = start_date, end_date = end_date)
+}
+
+# Base request constructor used by all adapters. Sets a consistent User-Agent
+# so that server logs can identify traffic from this package.
+.hydrocan_request <- function(url) {
+  httr2::request(url) |>
+    httr2::req_user_agent(
+      'https://github.com/HakaiInstitute/hydrocan'
+    )
+}
+
+# Build a next_req callback for offset-based pagination. Suitable for any API
+# that uses limit/offset query parameters and returns total_count in the
+# response body. Each call returns a fresh closure with its own offset counter,
+# so sequential or concurrent fetches do not share state.
+.offset_next_req <- function(limit) {
+  offset <- 0L
+  function(resp, req) {
+    body <- httr2::resp_body_json(resp, simplifyVector = TRUE)
+    offset <<- offset + limit
+    if (is.null(body$total_count) || offset >= body$total_count) {
+      return(NULL)
+    }
+    httr2::req_url_query(req, offset = offset)
+  }
+}
+
+.empty_stations_tibble <- function() {
+  tibble::tibble(
+    station_number = character(),
+    station_name = character(),
+    source = character(),
+    longitude = double(),
+    latitude = double(),
+    elevation_m = double(),
+    period_start = as.Date(character()),
+    period_end = as.Date(character()),
+    notes = list()
+  )
+}
+
+.empty_flows_tibble <- function() {
+  tibble::tibble(
+    station_number = character(),
+    datetime = as.POSIXct(character(), tz = "UTC"),
+    value = numeric(),
+    parameter = character(),
+    units = character(),
+    source = character(),
+    approval = character(),
+    quality_flag = character()
+  )
+}
+
+.empty_daily_flows_tibble <- function() {
+  tibble::tibble(
+    station_number = character(),
+    date = as.Date(character()),
+    value = numeric(),
+    parameter = character(),
+    units = character(),
+    source = character(),
+    approval = character(),
+    quality_flag = character()
+  )
 }

@@ -39,7 +39,25 @@
 
   # Fetch each adapter's station list once, outside the per-station loop, so
   # adapters with live station endpoints are not called repeatedly.
-  station_lists <- lapply(adapters, \(a) a$list_stations_fn())
+  station_lists <- lapply(adapters, function(a) {
+    tryCatch(
+      a$list_stations_fn(),
+      error = function(e) {
+        warning(
+          "Failed to list stations from '",
+          a$name,
+          "': ",
+          conditionMessage(e),
+          ". Skipping this data source.",
+          call. = FALSE
+        )
+        NULL
+      }
+    )
+  })
+  valid_adapters <- !vapply(station_lists, is.null, logical(1L))
+  station_lists <- Filter(Negate(is.null), station_lists)
+  adapters <- adapters[valid_adapters]
 
   # For each requested station, find its adapter and fetch data.
   results <- lapply(station_number, function(stn) {

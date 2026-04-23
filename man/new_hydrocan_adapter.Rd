@@ -14,36 +14,29 @@ new_hydrocan_adapter(
 )
 }
 \arguments{
-\item{name}{A single non-empty character string identifying this adapter.
-Used as the key in the registry and as the \code{source} field in output.}
+\item{name}{Non-empty string identifying this source. Used as the registry
+key and as the \code{source} column in output.}
 
-\item{description}{A single character string describing the data source,
-including any known limitations (e.g. rolling data window, parameter
-availability). Shown by \code{\link[=hc_list_sources]{hc_list_sources()}}.}
+\item{description}{String describing the source and any known limitations
+(e.g. rolling data window). Shown by \code{\link[=hc_list_sources]{hc_list_sources()}}.}
 
-\item{list_stations_fn}{A function taking no arguments that returns a
-character vector of station numbers this adapter can serve.}
+\item{list_stations_fn}{Function with no arguments returning a character
+vector of station IDs this source can serve.}
 
-\item{fetch_flows_fn}{Optional function with signature
-\verb{function(station_number, start_date, end_date)} returning a tibble with
-the hydrocan flows schema (contains \code{datetime}). Supply \code{NULL} if the
-source does not publish sub-daily observations.}
+\item{fetch_flows_fn}{Optional \verb{function(station_number, start_date, end_date)} returning a tibble matching the flows schema (\code{datetime}
+column). \code{NULL} if sub-daily data is not available.}
 
-\item{fetch_daily_flows_fn}{Optional function with signature
-\verb{function(station_number, start_date, end_date)} returning a tibble with
-the hydrocan daily schema (contains \code{date}). Supply \code{NULL} if the source
-does not publish daily summaries.}
+\item{fetch_daily_flows_fn}{Optional \verb{function(station_number, start_date, end_date)} returning a tibble matching the daily flows schema (\code{date}
+column). \code{NULL} if daily data is not available.}
 
-\item{list_stations_meta_fn}{Optional function taking no arguments that
-returns a tibble with the hydrocan stations schema. Supply \code{NULL} if the
-source does not publish a station metadata endpoint.}
+\item{list_stations_meta_fn}{Optional function with no arguments returning
+a tibble matching the stations schema. \code{NULL} if station metadata is not
+available.}
 }
 \value{
 A list with class \code{"hydrocan_adapter"}.
 }
 \description{
-Constructs a validated adapter object that binds a data source name to its
-station-listing and data-fetching functions. At least one of
-\code{fetch_flows_fn} or \code{fetch_daily_flows_fn} must be provided; adapters that
-only publish one temporal resolution should leave the other as \code{NULL}.
+Constructs a validated adapter object for a data source. At least one of
+\code{fetch_flows_fn} or \code{fetch_daily_flows_fn} must be supplied.
 }

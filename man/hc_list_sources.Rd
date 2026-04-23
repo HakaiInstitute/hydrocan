@@ -2,7 +2,7 @@
 % Please edit documentation in R/api.R
 \name{hc_list_sources}
 \alias{hc_list_sources}
-\title{List registered adapters}
+\title{List registered data sources}
 \usage{
 hc_list_sources()
 }
@@ -11,7 +11,7 @@ A tibble with columns \code{name} (chr), \code{description} (chr),
 \code{has_flows} (lgl), \code{has_daily_flows} (lgl), and \code{has_stations} (lgl).
 }
 \description{
-Returns a summary of all adapters currently registered in the hydrocan
-registry, including their description and which data types they support.
+Returns a summary of all data sources currently available via hydrocan,
+including their description and which data types they support.
 No network calls are made.
 }

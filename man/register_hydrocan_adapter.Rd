@@ -7,13 +7,12 @@
 register_hydrocan_adapter(adapter)
 }
 \arguments{
-\item{adapter}{A \code{"hydrocan_adapter"} object created by
-\code{\link[=new_hydrocan_adapter]{new_hydrocan_adapter()}}.}
+\item{adapter}{A \code{"hydrocan_adapter"} object from \code{\link[=new_hydrocan_adapter]{new_hydrocan_adapter()}}.}
 }
 \value{
 \code{adapter}, invisibly.
 }
 \description{
-Stores an adapter in the package registry so it is visible to the router.
-Registering an adapter with the same name as an existing one overwrites it.
+Adds an adapter to the package registry. Registering under an existing name
+overwrites it.
 }

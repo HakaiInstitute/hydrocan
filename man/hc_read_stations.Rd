@@ -7,8 +7,9 @@
 hc_read_stations(source = NULL)
 }
 \arguments{
-\item{source}{Optional single character string naming the adapter to query
-directly. When \code{NULL} (default) all registered adapters are queried.}
+\item{source}{Optional single character string naming the data source to
+query directly. When \code{NULL} (default) all registered data sources are
+queried. See \code{\link[=hc_list_sources]{hc_list_sources()}} for available names.}
 }
 \value{
 A tibble with columns \code{station_number} (chr), \code{station_name} (chr),
@@ -17,6 +18,6 @@ A tibble with columns \code{station_number} (chr), \code{station_name} (chr),
 }
 \description{
 Returns location and period-of-record information for all stations available
-from registered adapters. Adapters that do not publish a station metadata
-endpoint are skipped with a warning.
+across registered data sources. Data sources that do not publish station
+metadata are skipped with a warning.
 }

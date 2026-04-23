@@ -2,7 +2,7 @@
 % Please edit documentation in R/api.R
 \name{hc_read_daily_flows}
 \alias{hc_read_daily_flows}
-\title{Retrieve daily flow and level summaries}
+\title{Retrieve daily flow summaries}
 \usage{
 hc_read_daily_flows(
   station_number,
@@ -20,8 +20,9 @@ coercible to Date).}
 \item{end_date}{End of the requested period (Date, or character coercible
 to Date). Defaults to today.}
 
-\item{source}{Optional single character string naming the adapter to use
-directly. When \code{NULL} (default) the router scans all registered adapters.}
+\item{source}{Optional single character string naming the data source to use
+directly. When \code{NULL} (default) the source is detected automatically from
+the station number. See \code{\link[=hc_list_sources]{hc_list_sources()}} for available names.}
 }
 \value{
 A tibble with columns \code{station_number} (chr), \code{date} (Date),
@@ -30,6 +31,6 @@ A tibble with columns \code{station_number} (chr), \code{date} (Date),
 }
 \description{
 Returns one value per station per calendar day as published by the data
-source. Not all adapters support daily data; those that do not will produce
-a warning and return no rows for the affected stations.
+source. Not all data sources publish daily data; those that do not will
+produce a warning and return no rows for the affected stations.
 }

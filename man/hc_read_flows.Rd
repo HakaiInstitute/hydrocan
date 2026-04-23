@@ -2,7 +2,7 @@
 % Please edit documentation in R/api.R
 \name{hc_read_flows}
 \alias{hc_read_flows}
-\title{Retrieve real-time flow and level observations}
+\title{Retrieve sub-daily flow observations}
 \usage{
 hc_read_flows(station_number, start_date, end_date = Sys.Date(), source = NULL)
 }
@@ -15,8 +15,9 @@ coercible to Date).}
 \item{end_date}{End of the requested period (Date, or character coercible
 to Date). Defaults to today.}
 
-\item{source}{Optional single character string naming the adapter to use
-directly. When \code{NULL} (default) the router scans all registered adapters.}
+\item{source}{Optional single character string naming the data source to use
+directly. When \code{NULL} (default) the source is detected automatically from
+the station number. See \code{\link[=hc_list_sources]{hc_list_sources()}} for available names.}
 }
 \value{
 A tibble with columns \code{station_number} (chr), \code{datetime} (POSIXct
@@ -25,6 +26,6 @@ UTC), \code{value} (dbl), \code{parameter} (chr), \code{units} (chr), \code{sour
 }
 \description{
 Fetches sub-daily observations for one or more stations across the requested
-date range. The data source is determined automatically by scanning all
-registered adapters, or fixed explicitly via \code{source}.
+date range. The data source is determined automatically from the station
+number, or fixed explicitly via \code{source}.
 }

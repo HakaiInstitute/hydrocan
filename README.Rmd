@@ -15,6 +15,7 @@ knitr::opts_chunk$set(
 # hydrocan
 
 <!-- badges: start -->
+[![R-CMD-check](https://github.com/HakaiInstitute/hydrocan/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/HakaiInstitute/hydrocan/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 hydrocan provides unified access to Canadian hydrometric data from diverse

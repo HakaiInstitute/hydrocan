@@ -5,6 +5,7 @@
 
 <!-- badges: start -->
 
+[![R-CMD-check](https://github.com/HakaiInstitute/hydrocan/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/HakaiInstitute/hydrocan/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 hydrocan provides unified access to Canadian hydrometric data from
@@ -39,6 +40,7 @@ hc_read_flows(
   start_date = Sys.Date() - 7,
   end_date = Sys.Date()
 )
+#> iterating ■■■■■■■                           20% | ETA:  5s
 #> # A tibble: 192 × 8
 #>    station_number datetime            value parameter units source      approval
 #>    <chr>          <dttm>              <dbl> <chr>     <chr> <chr>       <chr>   

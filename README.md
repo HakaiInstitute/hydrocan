@@ -8,6 +8,9 @@
 [![R-CMD-check](https://github.com/HakaiInstitute/hydrocan/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/HakaiInstitute/hydrocan/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
+> **Warning:** This package is in very early development. The API may
+> change without notice and it should not be used in production.
+
 hydrocan provides unified access to Canadian hydrometric data from
 diverse web-published sources. It is complementary to
 [tidyhydat](https://docs.ropensci.org/tidyhydat/), which covers the
@@ -40,10 +43,17 @@ hc_read_flows(
   start_date = Sys.Date() - 7,
   end_date = Sys.Date()
 )
-#> iterating ■■■■■■■                           20% | ETA:  5s
+#> ── hydrocan ────────────────────────────────────────────────────────────────────
+#>   Observations: 192
+#>   Source: hydroquebec
+#>   Parameter: flow
+#>   Date range: 2026-04-16 to 2026-04-19 23:00:00
+#>   Station: 1 returned
+#> ✔ All stations returned.
+#> ────────────────────────────────────────────────────────────────────────────────
 #> # A tibble: 192 × 8
 #>    station_number datetime            value parameter units source      approval
-#>    <chr>          <dttm>              <dbl> <chr>     <chr> <chr>       <chr>   
+#>  * <chr>          <dttm>              <dbl> <chr>     <chr> <chr>       <chr>   
 #>  1 3-230          2026-04-16 00:00:00  191. flow      m3/s  hydroquebec <NA>    
 #>  2 3-230          2026-04-16 00:00:00  191. flow      m3/s  hydroquebec <NA>    
 #>  3 3-230          2026-04-16 01:00:00  191. flow      m3/s  hydroquebec <NA>    
@@ -62,9 +72,17 @@ hc_read_daily_flows(
   start_date = Sys.Date() - 7,
   end_date = Sys.Date()
 )
+#> ── hydrocan ────────────────────────────────────────────────────────────────────
+#>   Observations: 4
+#>   Source: hydroquebec
+#>   Parameter: flow
+#>   Date range: 2026-04-16 to 2026-04-19
+#>   Station: 1 returned
+#> ✔ All stations returned.
+#> ────────────────────────────────────────────────────────────────────────────────
 #> # A tibble: 4 × 8
 #>   station_number date       value parameter units source   approval quality_flag
-#>   <chr>          <date>     <dbl> <chr>     <chr> <chr>    <chr>    <chr>       
+#> * <chr>          <date>     <dbl> <chr>     <chr> <chr>    <chr>    <chr>       
 #> 1 3-230          2026-04-16  13.5 flow      m3/s  hydroqu… <NA>     Apport filt…
 #> 2 3-230          2026-04-17  16.6 flow      m3/s  hydroqu… <NA>     Apport filt…
 #> 3 3-230          2026-04-18  19.4 flow      m3/s  hydroqu… <NA>     Apport filt…

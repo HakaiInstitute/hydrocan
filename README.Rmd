@@ -1,0 +1,66 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-"
+)
+```
+
+# hydrocan
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+hydrocan provides unified access to Canadian hydrometric data from diverse
+web-published sources. It is complementary to
+[tidyhydat](https://docs.ropensci.org/tidyhydat/), which covers the federal
+Water Survey of Canada (WSC) network. hydrocan adds provincial and utility
+networks that have no existing R package.
+
+Every function returns a consistent tibble regardless of the underlying data
+source, so analysis code works unchanged as new sources are added.
+
+## Installation
+
+```{r install, eval = FALSE}
+# install.packages("pak")
+pak::pak("HakaiInstitute/hydrocan")
+```
+
+## Usage
+
+The two main functions are `hc_read_flows()` for sub-daily observations
+and `hc_read_daily_flows()` for daily aggregates. Both accept one or more
+station numbers, a date range, and an optional `source` argument to target a
+specific adapter directly.
+
+```{r usage}
+library(hydrocan)
+
+# Sub-daily flow observations - source auto-detected from station number
+hc_read_flows(
+  station_number = "3-230",
+  start_date = Sys.Date() - 7,
+  end_date = Sys.Date()
+)
+
+hc_read_daily_flows(
+  station_number = "3-230",
+  start_date = Sys.Date() - 7,
+  end_date = Sys.Date()
+)
+```
+
+## Supported sources
+
+```{r}
+hc_list_sources()
+```
+
+

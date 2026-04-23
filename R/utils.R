@@ -1,5 +1,8 @@
 .try_as_date <- function(x, arg) {
   d <- tryCatch(as.Date(x), error = \(e) NA_real_)
+  if (length(d) != 1L) {
+    stop("'", arg, "' must be a single Date value.", call. = FALSE)
+  }
   if (is.na(d)) {
     stop("'", arg, "' could not be parsed as a Date.", call. = FALSE)
   }

@@ -18,7 +18,6 @@ BugReports: https://github.com/HakaiInstitute/hydrocan/issues
 Imports:
     dplyr,
     httr2,
-    rlang,
     tibble
 Suggests:
     testthat (>= 3.0.0)

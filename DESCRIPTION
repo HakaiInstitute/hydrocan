@@ -18,6 +18,7 @@ BugReports: https://github.com/HakaiInstitute/hydrocan/issues
 Depends: 
     R (>= 4.2.0)
 Imports:
+    cli,
     dplyr,
     httr2,
     tibble

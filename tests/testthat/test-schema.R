@@ -113,7 +113,10 @@ test_that("validate_hydrocan_schema passes a well-formed stations tibble", {
 
 test_that("validate_hydrocan_schema errors on missing column for stations type", {
   expect_error(
-    hydrocan:::validate_hydrocan_schema(good_stations[, -4], "stations"),
+    hydrocan:::validate_hydrocan_schema(
+      good_stations[, names(good_stations) != "longitude"],
+      "stations"
+    ),
     "longitude"
   )
 })

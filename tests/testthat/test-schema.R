@@ -120,8 +120,9 @@ test_that("validate_hydrocan_schema errors on missing column for stations type",
 
 
 test_that(".normalize_units handles a vector of mixed units", {
-  result <- suppressWarnings(
-    hydrocan:::.normalize_units(c("cms", "cfs", "furlongs/fortnight"))
+  expect_warning(
+    result <- hydrocan:::.normalize_units(c("cms", "cfs", "furlongs/fortnight")),
+    "furlongs/fortnight"
   )
   expect_equal(result[1L], "m3/s")
   expect_equal(result[2L], "ft3/s")

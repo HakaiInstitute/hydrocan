@@ -189,8 +189,8 @@ hydrocan_adapter_hydroquebec <- function() {
       "Rolling window of approximately 10 days - historical data is not available."
     ),
     .hq_list_stations,
-    fetch_flows_fn        = .hq_fetch_flows,
-    fetch_daily_flows_fn  = .hq_fetch_daily_flows,
+    fetch_flows_fn = .hq_fetch_flows,
+    fetch_daily_flows_fn = .hq_fetch_daily_flows,
     list_stations_meta_fn = .hq_list_stations_meta
   )
 }

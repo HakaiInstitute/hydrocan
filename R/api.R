@@ -124,9 +124,9 @@ hc_read_flows <- function(
   end_date = Sys.Date(),
   source = NULL
 ) {
-  dates      <- .validate_date_range(start_date, end_date)
+  dates <- .validate_date_range(start_date, end_date)
   start_date <- dates$start_date
-  end_date   <- dates$end_date
+  end_date <- dates$end_date
 
   result <- .route_and_fetch(
     station_number,
@@ -135,7 +135,8 @@ hc_read_flows <- function(
     source,
     type = "flows"
   )
-  validate_hydrocan_schema(result, type = "flows")
+  result <- validate_hydrocan_schema(result, type = "flows")
+  new_hydrocan_flows(result, station_number)
 }
 
 #' Retrieve daily flow summaries
@@ -156,9 +157,9 @@ hc_read_daily_flows <- function(
   end_date = Sys.Date(),
   source = NULL
 ) {
-  dates      <- .validate_date_range(start_date, end_date)
+  dates <- .validate_date_range(start_date, end_date)
   start_date <- dates$start_date
-  end_date   <- dates$end_date
+  end_date <- dates$end_date
 
   result <- .route_and_fetch(
     station_number,
@@ -167,5 +168,6 @@ hc_read_daily_flows <- function(
     source,
     type = "daily"
   )
-  validate_hydrocan_schema(result, type = "daily")
+  result <- validate_hydrocan_schema(result, type = "daily")
+  new_hydrocan_daily_flows(result, station_number)
 }

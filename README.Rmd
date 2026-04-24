@@ -15,7 +15,10 @@ knitr::opts_chunk$set(
 # hydrocan
 
 <!-- badges: start -->
+[![R-CMD-check](https://github.com/HakaiInstitute/hydrocan/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/HakaiInstitute/hydrocan/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
+
+> **Warning:** This package is in very early development. The API may change without notice and it should not be used in production.
 
 hydrocan provides unified access to Canadian hydrometric data from diverse
 web-published sources. It is complementary to

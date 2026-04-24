@@ -1,0 +1,89 @@
+{
+    "total_count": 312,
+    "results": [
+        {
+            "identifiant": "3-230",
+            "split_date": "2026/04/20T18:00:00Z",
+            "split_value": "208.62",
+            "depil_json_nom_unite_mesure": "m³/s",
+            "depil_json_type_point_donnee": "Débit déversé - Tunnel de Transfert"
+        },
+        {
+            "identifiant": "3-230",
+            "split_date": "2026/04/20T18:00:00Z",
+            "split_value": "208.62",
+            "depil_json_nom_unite_mesure": "m³/s",
+            "depil_json_type_point_donnee": "Débit total"
+        },
+        {
+            "identifiant": "3-230",
+            "split_date": "2026/04/20T19:00:00Z",
+            "split_value": "208.70",
+            "depil_json_nom_unite_mesure": "m³/s",
+            "depil_json_type_point_donnee": "Débit total"
+        },
+        {
+            "identifiant": "3-230",
+            "split_date": "2026/04/20T19:00:00Z",
+            "split_value": "208.70",
+            "depil_json_nom_unite_mesure": "m³/s",
+            "depil_json_type_point_donnee": "Débit déversé - Tunnel de Transfert"
+        },
+        {
+            "identifiant": "3-230",
+            "split_date": "2026/04/20T20:00:00Z",
+            "split_value": "208.83",
+            "depil_json_nom_unite_mesure": "m³/s",
+            "depil_json_type_point_donnee": "Débit total"
+        },
+        {
+            "identifiant": "3-230",
+            "split_date": "2026/04/20T20:00:00Z",
+            "split_value": "208.83",
+            "depil_json_nom_unite_mesure": "m³/s",
+            "depil_json_type_point_donnee": "Débit déversé - Tunnel de Transfert"
+        },
+        {
+            "identifiant": "3-230",
+            "split_date": "2026/04/20T21:00:00Z",
+            "split_value": "209.00",
+            "depil_json_nom_unite_mesure": "m³/s",
+            "depil_json_type_point_donnee": "Débit total"
+        },
+        {
+            "identifiant": "3-230",
+            "split_date": "2026/04/20T21:00:00Z",
+            "split_value": "209.00",
+            "depil_json_nom_unite_mesure": "m³/s",
+            "depil_json_type_point_donnee": "Débit déversé - Tunnel de Transfert"
+        },
+        {
+            "identifiant": "3-230",
+            "split_date": "2026/04/20T22:00:00Z",
+            "split_value": "209.35",
+            "depil_json_nom_unite_mesure": "m³/s",
+            "depil_json_type_point_donnee": "Débit déversé - Tunnel de Transfert"
+        },
+        {
+            "identifiant": "3-230",
+            "split_date": "2026/04/20T22:00:00Z",
+            "split_value": "209.35",
+            "depil_json_nom_unite_mesure": "m³/s",
+            "depil_json_type_point_donnee": "Débit total"
+        },
+        {
+            "identifiant": "3-230",
+            "split_date": "2026/04/20T23:00:00Z",
+            "split_value": "209.45",
+            "depil_json_nom_unite_mesure": "m³/s",
+            "depil_json_type_point_donnee": "Débit déversé - Tunnel de Transfert"
+        },
+        {
+            "identifiant": "3-230",
+            "split_date": "2026/04/20T23:00:00Z",
+            "split_value": "209.45",
+            "depil_json_nom_unite_mesure": "m³/s",
+            "depil_json_type_point_donnee": "Débit total"
+        }
+    ]
+}

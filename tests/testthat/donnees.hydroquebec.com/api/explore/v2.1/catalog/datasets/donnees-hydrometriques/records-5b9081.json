@@ -1,0 +1,54 @@
+{
+    "total_count": 7,
+    "results": [
+        {
+            "identifiant": "3-230",
+            "split_date": "2026/04/14T00:00:00Z",
+            "split_value": "10.70",
+            "depil_json_nom_unite_mesure": "m³/s",
+            "depil_json_type_point_donnee": "Apport filtré"
+        },
+        {
+            "identifiant": "3-230",
+            "split_date": "2026/04/15T00:00:00Z",
+            "split_value": "11.30",
+            "depil_json_nom_unite_mesure": "m³/s",
+            "depil_json_type_point_donnee": "Apport filtré"
+        },
+        {
+            "identifiant": "3-230",
+            "split_date": "2026/04/16T00:00:00Z",
+            "split_value": "13.53",
+            "depil_json_nom_unite_mesure": "m³/s",
+            "depil_json_type_point_donnee": "Apport filtré"
+        },
+        {
+            "identifiant": "3-230",
+            "split_date": "2026/04/17T00:00:00Z",
+            "split_value": "16.55",
+            "depil_json_nom_unite_mesure": "m³/s",
+            "depil_json_type_point_donnee": "Apport filtré"
+        },
+        {
+            "identifiant": "3-230",
+            "split_date": "2026/04/18T00:00:00Z",
+            "split_value": "19.35",
+            "depil_json_nom_unite_mesure": "m³/s",
+            "depil_json_type_point_donnee": "Apport filtré"
+        },
+        {
+            "identifiant": "3-230",
+            "split_date": "2026/04/19T00:00:00Z",
+            "split_value": "21.62",
+            "depil_json_nom_unite_mesure": "m³/s",
+            "depil_json_type_point_donnee": "Apport filtré"
+        },
+        {
+            "identifiant": "3-230",
+            "split_date": "2026/04/20T00:00:00Z",
+            "split_value": "22.70",
+            "depil_json_nom_unite_mesure": "m³/s",
+            "depil_json_type_point_donnee": "Apport filtré"
+        }
+    ]
+}

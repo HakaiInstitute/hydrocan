@@ -6,12 +6,15 @@
 \alias{hydrocan-package}
 \title{hydrocan: Unified Access to Canadian Hydrometric Data}
 \description{
+\if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
+
 Provides a unified interface for accessing diverse web-published hydrometric data sources across Canada, presenting users with consistent tabular output regardless of the underlying data source.
 }
 \seealso{
 Useful links:
 \itemize{
   \item \url{https://github.com/HakaiInstitute/hydrocan}
+  \item \url{https://hakaiinstitute.github.io/hydrocan/}
   \item Report bugs at \url{https://github.com/HakaiInstitute/hydrocan/issues}
 }
 

@@ -10,6 +10,8 @@ Useful links:
 
 - <https://github.com/HakaiInstitute/hydrocan>
 
+- <https://hakaiinstitute.github.io/hydrocan/>
+
 - Report bugs at <https://github.com/HakaiInstitute/hydrocan/issues>
 
 ## Author

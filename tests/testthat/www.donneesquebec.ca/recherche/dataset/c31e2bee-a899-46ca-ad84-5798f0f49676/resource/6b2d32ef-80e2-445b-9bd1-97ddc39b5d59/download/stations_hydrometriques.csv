@@ -1,0 +1,4 @@
+no,nom,type,etat,lien_historique,longitude,latitude,debut,fin,regime,cours_eau
+030101,Rivière Châteauguay,Débit instantané,Ouverte,https://www.cehq.gouv.qc.ca/depot/historique_donnees/fichier/030101_Q.txt,-73.778,45.212,1960,2024,Naturel,Châteauguay
+030102,Station fermée,Débit instantané,Fermée,https://www.cehq.gouv.qc.ca/depot/historique_donnees/fichier/030102_Q.txt,-73.500,45.300,1990,2020,Naturel,fictive
+030103,Sans débit,Niveau seulement,Ouverte,https://www.cehq.gouv.qc.ca/depot/historique_donnees/fichier/030103_Q.txt,-73.600,45.400,1980,2024,Naturel,fictive

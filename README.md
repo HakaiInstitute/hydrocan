@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# hydrocan
+# hydrocan <img src="man/figures/logo.png" align="right" height="139" />
 
 <!-- badges: start -->
 
@@ -22,9 +22,11 @@ data source, so analysis code works unchanged as new sources are added.
 
 ## Installation
 
+You can install the development version of hydrocan from the Hakai
+Institute r-universe server:
+
 ``` r
-# install.packages("pak")
-pak::pak("HakaiInstitute/hydrocan")
+install.packages("hydrocan", repos = "https://hakaiinstitute.r-universe.dev")
 ```
 
 ## Usage
@@ -47,23 +49,23 @@ hc_read_flows(
 #>   Observations: 192
 #>   Source: hydroquebec
 #>   Parameter: flow
-#>   Date range: 2026-04-16 to 2026-04-19 23:00:00
+#>   Date range: 2026-04-21 to 2026-04-24 23:00:00
 #>   Station: 1 returned
 #> ✔ All stations returned.
 #> ────────────────────────────────────────────────────────────────────────────────
 #> # A tibble: 192 × 8
 #>    station_number datetime            value parameter units source      approval
 #>  * <chr>          <dttm>              <dbl> <chr>     <chr> <chr>       <chr>   
-#>  1 3-230          2026-04-16 00:00:00  191. flow      m3/s  hydroquebec <NA>    
-#>  2 3-230          2026-04-16 00:00:00  191. flow      m3/s  hydroquebec <NA>    
-#>  3 3-230          2026-04-16 01:00:00  191. flow      m3/s  hydroquebec <NA>    
-#>  4 3-230          2026-04-16 01:00:00  191. flow      m3/s  hydroquebec <NA>    
-#>  5 3-230          2026-04-16 02:00:00  191. flow      m3/s  hydroquebec <NA>    
-#>  6 3-230          2026-04-16 02:00:00  191. flow      m3/s  hydroquebec <NA>    
-#>  7 3-230          2026-04-16 03:00:00  191  flow      m3/s  hydroquebec <NA>    
-#>  8 3-230          2026-04-16 03:00:00  191  flow      m3/s  hydroquebec <NA>    
-#>  9 3-230          2026-04-16 04:00:00  191. flow      m3/s  hydroquebec <NA>    
-#> 10 3-230          2026-04-16 04:00:00  191. flow      m3/s  hydroquebec <NA>    
+#>  1 3-230          2026-04-21 00:00:00  210. flow      m3/s  hydroquebec <NA>    
+#>  2 3-230          2026-04-21 00:00:00  210. flow      m3/s  hydroquebec <NA>    
+#>  3 3-230          2026-04-21 01:00:00  210. flow      m3/s  hydroquebec <NA>    
+#>  4 3-230          2026-04-21 01:00:00  210. flow      m3/s  hydroquebec <NA>    
+#>  5 3-230          2026-04-21 02:00:00  210. flow      m3/s  hydroquebec <NA>    
+#>  6 3-230          2026-04-21 02:00:00  210. flow      m3/s  hydroquebec <NA>    
+#>  7 3-230          2026-04-21 03:00:00  210. flow      m3/s  hydroquebec <NA>    
+#>  8 3-230          2026-04-21 03:00:00  210. flow      m3/s  hydroquebec <NA>    
+#>  9 3-230          2026-04-21 04:00:00  210. flow      m3/s  hydroquebec <NA>    
+#> 10 3-230          2026-04-21 04:00:00  210. flow      m3/s  hydroquebec <NA>    
 #> # ℹ 182 more rows
 #> # ℹ 1 more variable: quality_flag <chr>
 
@@ -76,17 +78,17 @@ hc_read_daily_flows(
 #>   Observations: 4
 #>   Source: hydroquebec
 #>   Parameter: flow
-#>   Date range: 2026-04-16 to 2026-04-19
+#>   Date range: 2026-04-21 to 2026-04-24
 #>   Station: 1 returned
 #> ✔ All stations returned.
 #> ────────────────────────────────────────────────────────────────────────────────
 #> # A tibble: 4 × 8
 #>   station_number date       value parameter units source   approval quality_flag
 #> * <chr>          <date>     <dbl> <chr>     <chr> <chr>    <chr>    <chr>       
-#> 1 3-230          2026-04-16  13.5 flow      m3/s  hydroqu… <NA>     Apport filt…
-#> 2 3-230          2026-04-17  16.6 flow      m3/s  hydroqu… <NA>     Apport filt…
-#> 3 3-230          2026-04-18  19.4 flow      m3/s  hydroqu… <NA>     Apport filt…
-#> 4 3-230          2026-04-19  21.6 flow      m3/s  hydroqu… <NA>     Apport filt…
+#> 1 3-230          2026-04-21  23.4 flow      m3/s  hydroqu… <NA>     Apport filt…
+#> 2 3-230          2026-04-22  24.3 flow      m3/s  hydroqu… <NA>     Apport filt…
+#> 3 3-230          2026-04-23  25.3 flow      m3/s  hydroqu… <NA>     Apport filt…
+#> 4 3-230          2026-04-24  27.5 flow      m3/s  hydroqu… <NA>     Apport filt…
 ```
 
 ## Supported sources

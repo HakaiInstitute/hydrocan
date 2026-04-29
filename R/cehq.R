@@ -97,16 +97,25 @@
   )
 }
 
-# Each CEHQ station's full period of record is in one text file. There is no
-# server-side date filtering, so the full file is fetched and filtered in R.
-# Data lines are identified by a leading six-digit station number; all other
-# lines are metadata header content.
+# Parse a CEHQ daily observation file. The file suffix selects the parameter:
+# "_Q.txt" for discharge (flow, m³/s) or "_N.txt" for stage (level, m).
 #
-# The third column is ambiguous: it is the discharge value when numeric, but
-# some rows carry only a remark code and no measurement. The columns are split
-# and the third field is tested for numeric content to resolve the ambiguity.
-.cehq_fetch_daily_flows <- function(station_number, start_date, end_date) {
-  url <- paste0(.CEHQ_DATA_BASE_URL, "/", station_number, "_Q.txt")
+# Each station's full period of record is in one file; there is no server-side
+# date filtering so the full file is fetched and trimmed in R. Data lines are
+# identified by a leading six-digit station number.
+#
+# The third column is ambiguous: it is the value when numeric, but some rows
+# carry only a remark code with no measurement. The field is tested for numeric
+# content to resolve the ambiguity.
+.cehq_fetch_daily <- function(
+  station_number,
+  start_date,
+  end_date,
+  suffix,
+  parameter,
+  units
+) {
+  url <- paste0(.CEHQ_DATA_BASE_URL, "/", station_number, suffix)
   resp <- tryCatch(
     httr2::req_perform(.hydrocan_request(url)),
     error = function(e) NULL
@@ -115,9 +124,8 @@
     return(.empty_daily_tibble())
   }
 
-  # The header lines contain French text in windows-1252, but all data lines
-  # are pure ASCII (digits, slashes, letters). Encoding only matters for the
-  # header rows, which are discarded, so reading as latin1 is safe.
+  # Header lines contain French text in windows-1252, but all data lines are
+  # pure ASCII. Encoding only matters for header rows, which are discarded.
   text <- httr2::resp_body_string(resp, encoding = "latin1")
   lines <- strsplit(text, "\n", fixed = TRUE)[[1L]]
   data_lines <- grep("^[0-9]{6}[[:space:]]", lines, value = TRUE)
@@ -143,8 +151,8 @@
     station_number = station_number,
     date = as.Date(raw$date_str, format = "%Y/%m/%d"),
     value = ifelse(has_value, numeric_value, NA_real_),
-    parameter = "flow",
-    units = "m3/s",
+    parameter = parameter,
+    units = units,
     source = "cehq",
     approval = .cehq_remark_to_approval(
       ifelse(has_value, raw$remark, raw$v_or_r)
@@ -159,57 +167,26 @@
   ]
 }
 
-# Fetch and parse daily water levels for a single CEHQ station. Mirrors
-# .cehq_fetch_daily_flows but reads the _N.txt (niveau) file instead of
-# _Q.txt (débit). Levels are reported in metres.
+.cehq_fetch_daily_flows <- function(station_number, start_date, end_date) {
+  .cehq_fetch_daily(
+    station_number,
+    start_date,
+    end_date,
+    "_Q.txt",
+    "flow",
+    "m3/s"
+  )
+}
+
 .cehq_fetch_daily_levels <- function(station_number, start_date, end_date) {
-  url <- paste0(.CEHQ_DATA_BASE_URL, "/", station_number, "_N.txt")
-  resp <- tryCatch(
-    httr2::req_perform(.hydrocan_request(url)),
-    error = function(e) NULL
+  .cehq_fetch_daily(
+    station_number,
+    start_date,
+    end_date,
+    "_N.txt",
+    "level",
+    "m"
   )
-  if (is.null(resp) || httr2::resp_status(resp) != 200L) {
-    return(.empty_daily_tibble())
-  }
-
-  text <- httr2::resp_body_string(resp, encoding = "latin1")
-  lines <- strsplit(text, "\n", fixed = TRUE)[[1L]]
-  data_lines <- grep("^[0-9]{6}[[:space:]]", lines, value = TRUE)
-
-  if (length(data_lines) == 0L) {
-    return(.empty_daily_tibble())
-  }
-
-  raw <- utils::read.table(
-    text = paste(data_lines, collapse = "\n"),
-    header = FALSE,
-    col.names = c("station_id", "date_str", "v_or_r", "remark"),
-    colClasses = "character",
-    fill = TRUE,
-    na.strings = ""
-  )
-
-  numeric_value <- suppressWarnings(as.numeric(raw$v_or_r))
-  has_value <- !is.na(numeric_value)
-
-  result <- tibble::tibble(
-    station_number = station_number,
-    date = as.Date(raw$date_str, format = "%Y/%m/%d"),
-    value = ifelse(has_value, numeric_value, NA_real_),
-    parameter = "level",
-    units = "m",
-    source = "cehq",
-    approval = .cehq_remark_to_approval(
-      ifelse(has_value, raw$remark, raw$v_or_r)
-    ),
-    quality_flag = ifelse(has_value, raw$remark, raw$v_or_r)
-  )
-
-  result[
-    !is.na(result$date) &
-      result$date >= start_date &
-      result$date <= end_date,
-  ]
 }
 
 #' @keywords internal

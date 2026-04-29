@@ -39,31 +39,33 @@ install.packages("hydrocan", repos = "https://hakaiinstitute.r-universe.dev")
 
 ## Usage
 
-The two main functions are `hc_read_flows()` for sub-daily observations
-and `hc_read_daily_flows()` for daily aggregates. Both accept one or more
-station numbers, a date range, and an optional `source` argument to target a
-specific adapter directly.
+The main functions are `hc_read_flows()` for sub-daily observations and
+`hc_read_daily_flows()` for daily aggregates. Both accept one or more station
+numbers, a date range, and an optional `source` argument to target a specific
+adapter directly. When `source` is omitted, the router matches each station
+number to its data source automatically.
 
 ```{r usage}
 library(hydrocan)
 
-# Sub-daily flow observations - source auto-detected from station number
+# Sub-daily flow observations from a single Hydro-Quebec station
 hc_read_flows(
   station_number = "3-230",
-  start_date = Sys.Date() - 7,
-  end_date = Sys.Date()
+  start_date = Sys.Date() - 7
 )
 
+# Daily flows from two stations across two sources in one call -
+# the router detects that "030101" belongs to CEHQ and "3-230" to Hydro-Quebec
 hc_read_daily_flows(
-  station_number = "3-230",
-  start_date = Sys.Date() - 7,
-  end_date = Sys.Date()
+  station_number = c("030101", "3-230"),
+  start_date = Sys.Date() - 7
 )
 ```
 
 ## Supported sources
 
 ```{r}
+#| eval: false
 hc_list_sources()
 ```
 

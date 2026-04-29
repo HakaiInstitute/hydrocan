@@ -15,13 +15,11 @@
     levels = "fetch_levels_fn",
     daily_levels = "fetch_daily_levels_fn"
   )
-  empty_fn <- switch(
-    type,
-    realtime = .empty_realtime_tibble,
-    daily = .empty_daily_tibble,
-    levels = .empty_realtime_tibble,
-    daily_levels = .empty_daily_tibble
-  )
+  empty_fn <- if (type %in% c("realtime", "levels")) {
+    .empty_realtime_tibble
+  } else {
+    .empty_daily_tibble
+  }
 
   # Build the candidate adapter list.
   if (!is.null(source)) {

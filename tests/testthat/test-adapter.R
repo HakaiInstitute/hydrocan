@@ -43,12 +43,30 @@ test_that("new_hydrocan_adapter rejects non-function arguments", {
     ),
     "fetch_daily_flows_fn"
   )
+  expect_error(
+    new_hydrocan_adapter(
+      "ok",
+      "desc",
+      identity,
+      fetch_levels_fn = "not_fn"
+    ),
+    "fetch_levels_fn"
+  )
+  expect_error(
+    new_hydrocan_adapter(
+      "ok",
+      "desc",
+      identity,
+      fetch_daily_levels_fn = "not_fn"
+    ),
+    "fetch_daily_levels_fn"
+  )
 })
 
 test_that("new_hydrocan_adapter requires at least one fetch function", {
   expect_error(
     new_hydrocan_adapter("ok", "desc", identity),
-    "At least one"
+    "At least one fetch function"
   )
 })
 
@@ -72,6 +90,32 @@ test_that("new_hydrocan_adapter accepts only fetch_daily_flows_fn", {
   )
   expect_s3_class(a, "hydrocan_adapter")
   expect_null(a$fetch_flows_fn)
+})
+
+test_that("new_hydrocan_adapter accepts only fetch_levels_fn", {
+  a <- new_hydrocan_adapter(
+    "levels_only",
+    "desc",
+    identity,
+    fetch_levels_fn = identity
+  )
+  expect_s3_class(a, "hydrocan_adapter")
+  expect_null(a$fetch_flows_fn)
+  expect_null(a$fetch_daily_flows_fn)
+  expect_null(a$fetch_daily_levels_fn)
+})
+
+test_that("new_hydrocan_adapter accepts only fetch_daily_levels_fn", {
+  a <- new_hydrocan_adapter(
+    "daily_levels_only",
+    "desc",
+    identity,
+    fetch_daily_levels_fn = identity
+  )
+  expect_s3_class(a, "hydrocan_adapter")
+  expect_null(a$fetch_flows_fn)
+  expect_null(a$fetch_daily_flows_fn)
+  expect_null(a$fetch_levels_fn)
 })
 
 test_that("new_hydrocan_adapter returns a correctly structured object", {
@@ -109,7 +153,15 @@ test_that("hc_list_sources returns the correct schema", {
   expect_s3_class(result, "tbl_df")
   expect_named(
     result,
-    c("name", "description", "has_flows", "has_daily_flows", "has_stations")
+    c(
+      "name",
+      "description",
+      "has_flows",
+      "has_daily_flows",
+      "has_levels",
+      "has_daily_levels",
+      "has_stations"
+    )
   )
   expect_type(result$has_flows, "logical")
 })
@@ -121,9 +173,13 @@ test_that("hc_list_sources reflects adapter capabilities correctly", {
   mock_row <- result[result$name == "mock", ]
   expect_true(mock_row$has_flows)
   expect_true(mock_row$has_daily_flows)
+  expect_true(mock_row$has_levels)
+  expect_true(mock_row$has_daily_levels)
   expect_true(mock_row$has_stations)
   rt_row <- result[result$name == "mock_rt_only", ]
   expect_true(rt_row$has_flows)
   expect_false(rt_row$has_daily_flows)
+  expect_false(rt_row$has_levels)
+  expect_false(rt_row$has_daily_levels)
   expect_false(rt_row$has_stations)
 })

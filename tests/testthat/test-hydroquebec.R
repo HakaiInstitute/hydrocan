@@ -39,7 +39,7 @@ test_that("HQ fetch returns a valid schema for a known station", {
       end_date = "2026-04-20",
       source = "hydroquebec"
     )
-    expect_s3_class(result, "hydrocan_flows")
+    expect_s3_class(result, "hydrocan_realtime")
     expect_named(
       result,
       c(
@@ -68,7 +68,7 @@ test_that("HQ daily aggregation works end-to-end", {
       end_date = "2026-04-20",
       source = "hydroquebec"
     )
-    expect_s3_class(result, "hydrocan_daily_flows")
+    expect_s3_class(result, "hydrocan_daily")
     expect_named(
       result,
       c(

@@ -38,6 +38,39 @@
   )
 }
 
+.mock_fetch_levels <- function(station_number, start_date, end_date) {
+  dates <- seq(start_date, end_date, by = "day")
+  n <- length(dates)
+  morning_times <- as.POSIXct(paste0(dates, " 06:00:00"), tz = "UTC")
+  evening_times <- as.POSIXct(paste0(dates, " 18:00:00"), tz = "UTC")
+
+  tibble::tibble(
+    station_number = rep(station_number, n * 2L),
+    datetime = c(morning_times, evening_times),
+    value = seq(0.5, by = 0.01, length.out = n * 2L),
+    parameter = "level",
+    units = "m",
+    source = "mock",
+    approval = "provisional",
+    quality_flag = NA_character_
+  )
+}
+
+.mock_fetch_daily_levels <- function(station_number, start_date, end_date) {
+  dates <- seq(start_date, end_date, by = "day")
+
+  tibble::tibble(
+    station_number = rep(station_number, length(dates)),
+    date = dates,
+    value = seq(0.5, by = 0.01, length.out = length(dates)),
+    parameter = "level",
+    units = "m",
+    source = "mock",
+    approval = "provisional",
+    quality_flag = NA_character_
+  )
+}
+
 .mock_list_stations_meta <- function() {
   tibble::tibble(
     station_number = .mock_stations,
@@ -58,6 +91,8 @@ mock_adapter <- new_hydrocan_adapter(
   .mock_list_stations,
   fetch_flows_fn = .mock_fetch_flows,
   fetch_daily_flows_fn = .mock_fetch_daily_flows,
+  fetch_levels_fn = .mock_fetch_levels,
+  fetch_daily_levels_fn = .mock_fetch_daily_levels,
   list_stations_meta_fn = .mock_list_stations_meta
 )
 

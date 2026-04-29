@@ -32,8 +32,8 @@ good_daily <- tibble::tibble(
   quality_flag = NA_character_
 )
 
-test_that("validate_hydrocan_schema passes a well-formed flows tibble", {
-  result <- hydrocan:::validate_hydrocan_schema(good_rt, "flows")
+test_that("validate_hydrocan_schema passes a well-formed realtime tibble", {
+  result <- hydrocan:::validate_hydrocan_schema(good_rt, "realtime")
   expect_s3_class(result, "data.frame")
 })
 
@@ -44,7 +44,7 @@ test_that("validate_hydrocan_schema passes a well-formed daily tibble", {
 
 test_that("validate_hydrocan_schema errors on missing column", {
   expect_error(
-    hydrocan:::validate_hydrocan_schema(good_rt[, -1], "flows"),
+    hydrocan:::validate_hydrocan_schema(good_rt[, -1], "realtime"),
     "station_number"
   )
   expect_error(
@@ -57,7 +57,7 @@ test_that("validate_hydrocan_schema errors on invalid approval value", {
   bad <- good_rt
   bad$approval <- "unknown"
   expect_error(
-    hydrocan:::validate_hydrocan_schema(bad, "flows"),
+    hydrocan:::validate_hydrocan_schema(bad, "realtime"),
     "approval"
   )
 })
@@ -66,7 +66,7 @@ test_that("validate_hydrocan_schema accepts NA in approval", {
   na_approval <- good_rt
   na_approval$approval <- NA_character_
   expect_s3_class(
-    hydrocan:::validate_hydrocan_schema(na_approval, "flows"),
+    hydrocan:::validate_hydrocan_schema(na_approval, "realtime"),
     "data.frame"
   )
 })
@@ -76,7 +76,7 @@ test_that("validate_hydrocan_schema accepts all valid approval values", {
     df <- good_rt
     df$approval <- val
     expect_s3_class(
-      hydrocan:::validate_hydrocan_schema(df, "flows"),
+      hydrocan:::validate_hydrocan_schema(df, "realtime"),
       "data.frame"
     )
   }
@@ -102,7 +102,7 @@ test_that(".normalize_units passes unknown units through with a warning", {
 test_that("validate_hydrocan_schema normalizes units in the returned tibble", {
   raw <- good_rt
   raw$units <- "m\u00b3/s"
-  result <- hydrocan:::validate_hydrocan_schema(raw, "flows")
+  result <- hydrocan:::validate_hydrocan_schema(raw, "realtime")
   expect_equal(result$units, "m3/s")
 })
 
@@ -124,7 +124,11 @@ test_that("validate_hydrocan_schema errors on missing column for stations type",
 
 test_that(".normalize_units handles a vector of mixed units", {
   expect_warning(
-    result <- hydrocan:::.normalize_units(c("cms", "cfs", "furlongs/fortnight")),
+    result <- hydrocan:::.normalize_units(c(
+      "cms",
+      "cfs",
+      "furlongs/fortnight"
+    )),
     "furlongs/fortnight"
   )
   expect_equal(result[1L], "m3/s")

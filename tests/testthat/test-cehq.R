@@ -4,7 +4,9 @@ test_that("hydrocan_adapter_cehq creates a valid adapter", {
   expect_equal(a$name, "cehq")
   expect_true(is.function(a$list_stations_fn))
   expect_null(a$fetch_flows_fn)
+  expect_null(a$fetch_levels_fn)
   expect_true(is.function(a$fetch_daily_flows_fn))
+  expect_true(is.function(a$fetch_daily_levels_fn))
   expect_true(is.function(a$list_stations_meta_fn))
 })
 
@@ -32,9 +34,15 @@ test_that("CEHQ station metadata returns correct schema", {
     expect_named(
       meta,
       c(
-        "station_number", "station_name", "source",
-        "longitude", "latitude", "elevation_m",
-        "period_start", "period_end", "notes"
+        "station_number",
+        "station_name",
+        "source",
+        "longitude",
+        "latitude",
+        "elevation_m",
+        "period_start",
+        "period_end",
+        "notes"
       )
     )
     expect_equal(nrow(meta), 1L)
@@ -55,12 +63,18 @@ test_that("CEHQ fetch_daily_flows returns valid schema for a known station", {
       end_date = "2022-01-05",
       source = "cehq"
     )
-    expect_s3_class(result, "hydrocan_daily_flows")
+    expect_s3_class(result, "hydrocan_daily")
     expect_named(
       result,
       c(
-        "station_number", "date", "value", "parameter",
-        "units", "source", "approval", "quality_flag"
+        "station_number",
+        "date",
+        "value",
+        "parameter",
+        "units",
+        "source",
+        "approval",
+        "quality_flag"
       )
     )
     expect_equal(nrow(result), 5L)
@@ -100,6 +114,53 @@ test_that("CEHQ fetch_daily_flows maps approval and quality_flag correctly", {
   })
 })
 
+test_that("CEHQ fetch_daily_levels returns valid schema for a known station", {
+  httptest2::with_mock_api({
+    result <- hc_read_daily_levels(
+      station_number = "030101",
+      start_date = "2022-01-01",
+      end_date = "2022-01-05",
+      source = "cehq"
+    )
+    expect_s3_class(result, "hydrocan_daily")
+    expect_named(
+      result,
+      c(
+        "station_number",
+        "date",
+        "value",
+        "parameter",
+        "units",
+        "source",
+        "approval",
+        "quality_flag"
+      )
+    )
+    expect_equal(nrow(result), 5L)
+    expect_equal(unique(result$parameter), "level")
+    expect_equal(unique(result$units), "m")
+    expect_equal(unique(result$source), "cehq")
+  })
+})
+
+test_that("CEHQ fetch_daily_levels maps approval and quality_flag correctly", {
+  httptest2::with_mock_api({
+    result <- hc_read_daily_levels(
+      station_number = "030101",
+      start_date = "2022-01-01",
+      end_date = "2022-01-05",
+      source = "cehq"
+    )
+    expect_equal(result$approval[[1L]], "approved")
+    expect_true(is.na(result$quality_flag[[1L]]))
+    expect_equal(result$approval[[2L]], "provisional")
+    expect_equal(result$quality_flag[[2L]], "P")
+    expect_equal(result$approval[[3L]], "estimated")
+    expect_equal(result$value[[4L]], NA_real_)
+    expect_equal(result$approval[[4L]], "estimated")
+  })
+})
+
 test_that("CEHQ fetch_daily_flows returns empty tibble for unknown station", {
   httptest2::with_mock_api({
     # No fixture exists for 999999_Q.txt; the tryCatch in the adapter
@@ -114,8 +175,14 @@ test_that("CEHQ fetch_daily_flows returns empty tibble for unknown station", {
     expect_named(
       result,
       c(
-        "station_number", "date", "value", "parameter",
-        "units", "source", "approval", "quality_flag"
+        "station_number",
+        "date",
+        "value",
+        "parameter",
+        "units",
+        "source",
+        "approval",
+        "quality_flag"
       )
     )
   })

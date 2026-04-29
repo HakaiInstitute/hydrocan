@@ -1,7 +1,7 @@
 #' Create a hydrocan adapter
 #'
-#' Constructs a validated adapter object for a data source. At least one of
-#' `fetch_flows_fn` or `fetch_daily_flows_fn` must be supplied.
+#' Constructs a validated adapter object for a data source. At least one fetch
+#' function must be supplied.
 #'
 #' @param name Non-empty string identifying this source. Used as the registry
 #'   key and as the `source` column in output.
@@ -11,10 +11,18 @@
 #'   vector of station IDs this source can serve.
 #' @param fetch_flows_fn Optional `function(station_number, start_date,
 #'   end_date)` returning a tibble matching the flows schema (`datetime`
-#'   column). `NULL` if sub-daily data is not available.
+#'   column). `NULL` if sub-daily flow data is not available.
 #' @param fetch_daily_flows_fn Optional `function(station_number, start_date,
 #'   end_date)` returning a tibble matching the daily flows schema (`date`
-#'   column). `NULL` if daily data is not available.
+#'   column). `NULL` if daily flow data is not available.
+#' @param fetch_levels_fn Optional `function(station_number, start_date,
+#'   end_date)` returning a tibble matching the flows schema (`datetime`
+#'   column) with `parameter = "level"`. `NULL` if sub-daily level data is not
+#'   available.
+#' @param fetch_daily_levels_fn Optional `function(station_number, start_date,
+#'   end_date)` returning a tibble matching the daily flows schema (`date`
+#'   column) with `parameter = "level"`. `NULL` if daily level data is not
+#'   available.
 #' @param list_stations_meta_fn Optional function with no arguments returning
 #'   a tibble matching the stations schema. `NULL` if station metadata is not
 #'   available.
@@ -27,6 +35,8 @@ new_hydrocan_adapter <- function(
   list_stations_fn,
   fetch_flows_fn = NULL,
   fetch_daily_flows_fn = NULL,
+  fetch_levels_fn = NULL,
+  fetch_daily_levels_fn = NULL,
   list_stations_meta_fn = NULL
 ) {
   if (!is.character(name) || length(name) != 1L || nchar(name) == 0L) {
@@ -38,20 +48,27 @@ new_hydrocan_adapter <- function(
   if (!is.function(list_stations_fn)) {
     stop("'list_stations_fn' must be a function.", call. = FALSE)
   }
-  if (!is.null(fetch_flows_fn) && !is.function(fetch_flows_fn)) {
-    stop("'fetch_flows_fn' must be a function or NULL.", call. = FALSE)
+  fetch_fns <- list(
+    fetch_flows_fn = fetch_flows_fn,
+    fetch_daily_flows_fn = fetch_daily_flows_fn,
+    fetch_levels_fn = fetch_levels_fn,
+    fetch_daily_levels_fn = fetch_daily_levels_fn
+  )
+  for (nm in names(fetch_fns)) {
+    if (!is.null(fetch_fns[[nm]]) && !is.function(fetch_fns[[nm]])) {
+      stop("'", nm, "' must be a function or NULL.", call. = FALSE)
+    }
   }
-  if (!is.null(fetch_daily_flows_fn) && !is.function(fetch_daily_flows_fn)) {
-    stop("'fetch_daily_flows_fn' must be a function or NULL.", call. = FALSE)
+  if (all(vapply(fetch_fns, is.null, logical(1L)))) {
+    stop(
+      "At least one fetch function must be provided (",
+      paste(names(fetch_fns), collapse = ", "),
+      ").",
+      call. = FALSE
+    )
   }
   if (!is.null(list_stations_meta_fn) && !is.function(list_stations_meta_fn)) {
     stop("'list_stations_meta_fn' must be a function or NULL.", call. = FALSE)
-  }
-  if (is.null(fetch_flows_fn) && is.null(fetch_daily_flows_fn)) {
-    stop(
-      "At least one of 'fetch_flows_fn' or 'fetch_daily_flows_fn' must be provided.",
-      call. = FALSE
-    )
   }
 
   structure(
@@ -61,6 +78,8 @@ new_hydrocan_adapter <- function(
       list_stations_fn = list_stations_fn,
       fetch_flows_fn = fetch_flows_fn,
       fetch_daily_flows_fn = fetch_daily_flows_fn,
+      fetch_levels_fn = fetch_levels_fn,
+      fetch_daily_levels_fn = fetch_daily_levels_fn,
       list_stations_meta_fn = list_stations_meta_fn
     ),
     class = "hydrocan_adapter"

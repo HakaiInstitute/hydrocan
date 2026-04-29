@@ -56,20 +56,22 @@
 
   tibble::tibble(
     station_number = df$no,
-    station_name   = df$nom,
-    source         = "cehq",
-    longitude      = suppressWarnings(as.double(df$longitude)),
-    latitude       = suppressWarnings(as.double(df$latitude)),
-    elevation_m    = NA_real_,
-    period_start   = year_to_date(df$debut),
-    period_end     = year_to_date(df$fin),
-    notes          = lapply(
+    station_name = df$nom,
+    source = "cehq",
+    longitude = suppressWarnings(as.double(df$longitude)),
+    latitude = suppressWarnings(as.double(df$latitude)),
+    elevation_m = NA_real_,
+    period_start = year_to_date(df$debut),
+    period_end = year_to_date(df$fin),
+    notes = lapply(
       seq_len(nrow(df)),
-      \(i) list(
-        regime    = df$regime[[i]],
-        cours_eau = df$cours_eau[[i]],
-        type      = df$type[[i]]
-      )
+      \(i) {
+        list(
+          regime = df$regime[[i]],
+          cours_eau = df$cours_eau[[i]],
+          type = df$type[[i]]
+        )
+      }
     )
   )
 }
@@ -81,11 +83,14 @@
 #   all else = approved (gauged, converted, corrected, etc.)
 .cehq_remark_to_approval <- function(remark) {
   ifelse(
-    is.na(remark),          "approved",
+    is.na(remark),
+    "approved",
     ifelse(
-      remark == "E",        "estimated",
+      remark == "E",
+      "estimated",
       ifelse(
-        startsWith(remark, "P"), "provisional",
+        startsWith(remark, "P"),
+        "provisional",
         "approved"
       )
     )
@@ -107,7 +112,7 @@
     error = function(e) NULL
   )
   if (is.null(resp) || httr2::resp_status(resp) != 200L) {
-    return(.empty_daily_flows_tibble())
+    return(.empty_daily_tibble())
   }
 
   # The header lines contain French text in windows-1252, but all data lines
@@ -118,7 +123,7 @@
   data_lines <- grep("^[0-9]{6}[[:space:]]", lines, value = TRUE)
 
   if (length(data_lines) == 0L) {
-    return(.empty_daily_flows_tibble())
+    return(.empty_daily_tibble())
   }
 
   raw <- utils::read.table(
@@ -136,15 +141,68 @@
 
   result <- tibble::tibble(
     station_number = station_number,
-    date           = as.Date(raw$date_str, format = "%Y/%m/%d"),
-    value          = ifelse(has_value, numeric_value, NA_real_),
-    parameter      = "flow",
-    units          = "m3/s",
-    source         = "cehq",
-    approval       = .cehq_remark_to_approval(
+    date = as.Date(raw$date_str, format = "%Y/%m/%d"),
+    value = ifelse(has_value, numeric_value, NA_real_),
+    parameter = "flow",
+    units = "m3/s",
+    source = "cehq",
+    approval = .cehq_remark_to_approval(
       ifelse(has_value, raw$remark, raw$v_or_r)
     ),
-    quality_flag   = ifelse(has_value, raw$remark, raw$v_or_r)
+    quality_flag = ifelse(has_value, raw$remark, raw$v_or_r)
+  )
+
+  result[
+    !is.na(result$date) &
+      result$date >= start_date &
+      result$date <= end_date,
+  ]
+}
+
+# Fetch and parse daily water levels for a single CEHQ station. Mirrors
+# .cehq_fetch_daily_flows but reads the _N.txt (niveau) file instead of
+# _Q.txt (débit). Levels are reported in metres.
+.cehq_fetch_daily_levels <- function(station_number, start_date, end_date) {
+  url <- paste0(.CEHQ_DATA_BASE_URL, "/", station_number, "_N.txt")
+  resp <- tryCatch(
+    httr2::req_perform(.hydrocan_request(url)),
+    error = function(e) NULL
+  )
+  if (is.null(resp) || httr2::resp_status(resp) != 200L) {
+    return(.empty_daily_tibble())
+  }
+
+  text <- httr2::resp_body_string(resp, encoding = "latin1")
+  lines <- strsplit(text, "\n", fixed = TRUE)[[1L]]
+  data_lines <- grep("^[0-9]{6}[[:space:]]", lines, value = TRUE)
+
+  if (length(data_lines) == 0L) {
+    return(.empty_daily_tibble())
+  }
+
+  raw <- utils::read.table(
+    text = paste(data_lines, collapse = "\n"),
+    header = FALSE,
+    col.names = c("station_id", "date_str", "v_or_r", "remark"),
+    colClasses = "character",
+    fill = TRUE,
+    na.strings = ""
+  )
+
+  numeric_value <- suppressWarnings(as.numeric(raw$v_or_r))
+  has_value <- !is.na(numeric_value)
+
+  result <- tibble::tibble(
+    station_number = station_number,
+    date = as.Date(raw$date_str, format = "%Y/%m/%d"),
+    value = ifelse(has_value, numeric_value, NA_real_),
+    parameter = "level",
+    units = "m",
+    source = "cehq",
+    approval = .cehq_remark_to_approval(
+      ifelse(has_value, raw$remark, raw$v_or_r)
+    ),
+    quality_flag = ifelse(has_value, raw$remark, raw$v_or_r)
   )
 
   result[
@@ -162,11 +220,12 @@ hydrocan_adapter_cehq <- function() {
       "Centre d'expertise hydrique du Quebec (CEHQ).",
       "Provincial river gauge network for Quebec; natural rivers only,",
       "distinct from the Hydro-Quebec utility adapter.",
-      "Daily validated flows only; sub-daily data not available.",
+      "Daily validated flows and levels; sub-daily data not available.",
       "Full period of record per station fetched and filtered locally."
     ),
     .cehq_list_stations,
-    fetch_daily_flows_fn  = .cehq_fetch_daily_flows,
+    fetch_daily_flows_fn = .cehq_fetch_daily_flows,
+    fetch_daily_levels_fn = .cehq_fetch_daily_levels,
     list_stations_meta_fn = .cehq_list_stations_meta
   )
 }

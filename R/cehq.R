@@ -116,11 +116,15 @@
   units
 ) {
   url <- paste0(.CEHQ_DATA_BASE_URL, "/", station_number, suffix)
+  # 404/410 mean the station has no data file; treat as empty. All other
+  # failures (network error, 5xx, timeout) propagate so the router converts
+  # them to a warning rather than silently returning empty data.
   resp <- tryCatch(
     httr2::req_perform(.hydrocan_request(url)),
-    error = function(e) NULL
+    httr2_http_404 = function(e) NULL,
+    httr2_http_410 = function(e) NULL
   )
-  if (is.null(resp) || httr2::resp_status(resp) != 200L) {
+  if (is.null(resp)) {
     return(.empty_daily_tibble())
   }
 

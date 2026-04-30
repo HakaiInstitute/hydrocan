@@ -163,8 +163,8 @@ test_that("CEHQ fetch_daily_levels maps approval and quality_flag correctly", {
 
 test_that("CEHQ fetch_daily_flows returns empty tibble for unknown station", {
   httptest2::with_mock_api({
-    # No fixture exists for 999999_Q.txt; the tryCatch in the adapter
-    # catches httptest2's "no mock found" error and returns an empty result.
+    # 999999_Q.R fixture returns a 404; the adapter catches httr2_http_404
+    # and returns an empty tibble. Network errors and 5xx propagate.
     result <- hydrocan:::hydrocan_adapter_cehq()$fetch_daily_flows_fn(
       "999999",
       as.Date("2022-01-01"),

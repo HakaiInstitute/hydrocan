@@ -86,7 +86,7 @@
   )
   df <- .hq_collect(where, .HQ_SELECT)
   if (is.null(df)) {
-    return(.empty_flows_tibble())
+    return(.empty_realtime_tibble())
   }
 
   result <- tibble::tibble(
@@ -119,7 +119,7 @@
   )
   df <- .hq_collect(where, .HQ_SELECT)
   if (is.null(df)) {
-    return(.empty_daily_flows_tibble())
+    return(.empty_daily_tibble())
   }
 
   result <- tibble::tibble(

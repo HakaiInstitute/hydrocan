@@ -6,7 +6,7 @@ test_that("hc_read_flows returns the correct schema", {
     end_date = "2024-01-03",
     source = "mock"
   )
-  expect_s3_class(result, "hydrocan_flows")
+  expect_s3_class(result, "hydrocan_realtime")
   expect_s3_class(result, "tbl_df")
   expect_named(
     result,
@@ -33,7 +33,7 @@ test_that("hc_read_daily_flows returns the correct schema", {
     end_date = "2024-01-03",
     source = "mock"
   )
-  expect_s3_class(result, "hydrocan_daily_flows")
+  expect_s3_class(result, "hydrocan_daily")
   expect_s3_class(result, "tbl_df")
   expect_named(
     result,
@@ -61,6 +61,89 @@ test_that("hc_read_daily_flows produces one row per day from daily fetch", {
     source = "mock"
   )
   expect_equal(nrow(result), 3L)
+})
+
+test_that("hc_read_levels returns the correct schema", {
+  local_register_adapter(mock_adapter)
+  result <- hc_read_levels(
+    "TOCHI001",
+    start_date = "2024-01-01",
+    end_date = "2024-01-03",
+    source = "mock"
+  )
+  expect_s3_class(result, "hydrocan_realtime")
+  expect_s3_class(result, "tbl_df")
+  expect_named(
+    result,
+    c(
+      "station_number",
+      "datetime",
+      "value",
+      "parameter",
+      "units",
+      "source",
+      "approval",
+      "quality_flag"
+    )
+  )
+  expect_equal(unique(result$parameter), "level")
+  expect_equal(unique(result$units), "m")
+})
+
+test_that("hc_read_daily_levels returns the correct schema", {
+  local_register_adapter(mock_adapter)
+  result <- hc_read_daily_levels(
+    "TOCHI001",
+    start_date = "2024-01-01",
+    end_date = "2024-01-03",
+    source = "mock"
+  )
+  expect_s3_class(result, "hydrocan_daily")
+  expect_s3_class(result, "tbl_df")
+  expect_named(
+    result,
+    c(
+      "station_number",
+      "date",
+      "value",
+      "parameter",
+      "units",
+      "source",
+      "approval",
+      "quality_flag"
+    )
+  )
+  expect_s3_class(result$date, "Date")
+  expect_equal(nrow(result), 3L)
+  expect_equal(unique(result$parameter), "level")
+})
+
+test_that("hc_read_levels warns when adapter has no levels support", {
+  local_register_adapter(mock_adapter_flows_only)
+  expect_warning(
+    result <- hc_read_levels(
+      "TOCHI001",
+      start_date = "2024-01-01",
+      end_date = "2024-01-01",
+      source = "mock_rt_only"
+    ),
+    "does not support"
+  )
+  expect_equal(nrow(result), 0L)
+})
+
+test_that("hc_read_daily_levels warns when adapter has no daily levels support", {
+  local_register_adapter(mock_adapter_flows_only)
+  expect_warning(
+    result <- hc_read_daily_levels(
+      "TOCHI001",
+      start_date = "2024-01-01",
+      end_date = "2024-01-01",
+      source = "mock_rt_only"
+    ),
+    "does not support"
+  )
+  expect_equal(nrow(result), 0L)
 })
 
 test_that("hc_read_daily_flows warns when adapter has no daily support", {
@@ -182,7 +265,7 @@ test_that("hc_read_daily_flows records requested_stations on the returned object
   expect_equal(attr(result, "requested_stations"), "TOCHI001")
 })
 
-test_that("print.hydrocan_flows snapshot", {
+test_that("print.hydrocan_realtime snapshot", {
   local_register_adapter(mock_adapter)
   result <- hc_read_flows(
     "TOCHI001",
@@ -193,7 +276,7 @@ test_that("print.hydrocan_flows snapshot", {
   expect_snapshot(print(result))
 })
 
-test_that("print.hydrocan_daily_flows snapshot", {
+test_that("print.hydrocan_daily snapshot", {
   local_register_adapter(mock_adapter)
   result <- hc_read_daily_flows(
     "TOCHI001",
@@ -204,7 +287,7 @@ test_that("print.hydrocan_daily_flows snapshot", {
   expect_snapshot(print(result))
 })
 
-test_that("print.hydrocan_flows reports stations that were requested but not returned", {
+test_that("print.hydrocan_realtime reports stations that were requested but not returned", {
   local_register_adapter(mock_adapter)
   # ALDERAAN001 is not in the mock registry so the router drops it with a
   # warning; the print method should then flag it as missing.
@@ -232,7 +315,7 @@ test_that("hc_read_flows auto-routes when source is not specified", {
     start_date = "2024-01-01",
     end_date = "2024-01-01"
   )
-  expect_s3_class(result, "hydrocan_flows")
+  expect_s3_class(result, "hydrocan_realtime")
   expect_equal(unique(result$station_number), "TOCHI001")
 })
 
@@ -244,7 +327,7 @@ test_that("hc_read_daily_flows auto-routes when source is not specified", {
     start_date = "2024-01-01",
     end_date = "2024-01-03"
   )
-  expect_s3_class(result, "hydrocan_daily_flows")
+  expect_s3_class(result, "hydrocan_daily")
   expect_equal(nrow(result), 3L)
 })
 

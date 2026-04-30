@@ -5,37 +5,64 @@
 
 .mock_list_stations <- function() .mock_stations
 
-.mock_fetch_flows <- function(station_number, start_date, end_date) {
+.mock_fetch_realtime <- function(
+  station_number,
+  start_date,
+  end_date,
+  parameter,
+  units,
+  start_val,
+  by_val
+) {
   dates <- seq(start_date, end_date, by = "day")
   n <- length(dates)
   morning_times <- as.POSIXct(paste0(dates, " 06:00:00"), tz = "UTC")
   evening_times <- as.POSIXct(paste0(dates, " 18:00:00"), tz = "UTC")
-
   tibble::tibble(
     station_number = rep(station_number, n * 2L),
     datetime = c(morning_times, evening_times),
-    value = seq(1.0, by = 1.0, length.out = n * 2L),
-    parameter = "flow",
-    units = "m3/s",
+    value = seq(start_val, by = by_val, length.out = n * 2L),
+    parameter = parameter,
+    units = units,
     source = "mock",
     approval = "provisional",
     quality_flag = NA_character_
   )
 }
 
-.mock_fetch_daily_flows <- function(station_number, start_date, end_date) {
+.mock_fetch_daily <- function(
+  station_number,
+  start_date,
+  end_date,
+  parameter,
+  units,
+  start_val,
+  by_val
+) {
   dates <- seq(start_date, end_date, by = "day")
-
   tibble::tibble(
     station_number = rep(station_number, length(dates)),
     date = dates,
-    value = seq(10.0, by = 1.0, length.out = length(dates)),
-    parameter = "flow",
-    units = "m3/s",
+    value = seq(start_val, by = by_val, length.out = length(dates)),
+    parameter = parameter,
+    units = units,
     source = "mock",
     approval = "provisional",
     quality_flag = NA_character_
   )
+}
+
+.mock_fetch_flows <- function(stn, s, e) {
+  .mock_fetch_realtime(stn, s, e, "flow", "m3/s", 1.0, 1.0)
+}
+.mock_fetch_levels <- function(stn, s, e) {
+  .mock_fetch_realtime(stn, s, e, "level", "m", 0.5, 0.01)
+}
+.mock_fetch_daily_flows <- function(stn, s, e) {
+  .mock_fetch_daily(stn, s, e, "flow", "m3/s", 10.0, 1.0)
+}
+.mock_fetch_daily_levels <- function(stn, s, e) {
+  .mock_fetch_daily(stn, s, e, "level", "m", 0.5, 0.01)
 }
 
 .mock_list_stations_meta <- function() {
@@ -58,6 +85,8 @@ mock_adapter <- new_hydrocan_adapter(
   .mock_list_stations,
   fetch_flows_fn = .mock_fetch_flows,
   fetch_daily_flows_fn = .mock_fetch_daily_flows,
+  fetch_levels_fn = .mock_fetch_levels,
+  fetch_daily_levels_fn = .mock_fetch_daily_levels,
   list_stations_meta_fn = .mock_list_stations_meta
 )
 

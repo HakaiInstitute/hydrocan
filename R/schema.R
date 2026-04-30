@@ -1,5 +1,5 @@
 # Required columns for each output schema.
-.FLOWS_COLS <- c(
+.REALTIME_COLS <- c(
   "station_number",
   "datetime",
   "value",
@@ -9,7 +9,7 @@
   "approval",
   "quality_flag"
 )
-.DAILY_FLOWS_COLS <- c(
+.DAILY_COLS <- c(
   "station_number",
   "date",
   "value",
@@ -74,14 +74,14 @@
 # violation; unit normalization is skipped for the stations schema.
 validate_hydrocan_schema <- function(
   df,
-  type = c("flows", "daily", "stations")
+  type = c("realtime", "daily", "stations")
 ) {
   type <- match.arg(type)
 
   required <- switch(
     type,
-    flows = .FLOWS_COLS,
-    daily = .DAILY_FLOWS_COLS,
+    realtime = .REALTIME_COLS,
+    daily = .DAILY_COLS,
     stations = .STATIONS_COLS
   )
 

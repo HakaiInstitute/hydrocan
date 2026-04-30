@@ -5,18 +5,20 @@
   start_date,
   end_date,
   source = NULL,
-  type = c("flows", "daily")
+  type = c("realtime", "daily", "levels", "daily_levels")
 ) {
   type <- match.arg(type)
-  fetch_fn_field <- if (type == "flows") {
-    "fetch_flows_fn"
+  fetch_fn_field <- switch(
+    type,
+    realtime = "fetch_flows_fn",
+    daily = "fetch_daily_flows_fn",
+    levels = "fetch_levels_fn",
+    daily_levels = "fetch_daily_levels_fn"
+  )
+  empty_fn <- if (type %in% c("realtime", "levels")) {
+    .empty_realtime_tibble
   } else {
-    "fetch_daily_flows_fn"
-  }
-  empty_fn <- if (type == "flows") {
-    .empty_flows_tibble
-  } else {
-    .empty_daily_flows_tibble
+    .empty_daily_tibble
   }
 
   # Build the candidate adapter list.

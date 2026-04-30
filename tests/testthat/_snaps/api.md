@@ -1,4 +1,4 @@
-# print.hydrocan_flows snapshot
+# print.hydrocan_realtime snapshot
 
     Code
       print(result)
@@ -19,7 +19,7 @@
       2 TOCHI001       2024-01-01 18:00:00     2 flow      m3/s  mock   provisional
       # i 1 more variable: quality_flag <chr>
 
-# print.hydrocan_daily_flows snapshot
+# print.hydrocan_daily snapshot
 
     Code
       print(result)
@@ -38,7 +38,7 @@
       * <chr>          <date>     <dbl> <chr>     <chr> <chr>  <chr>      <chr>       
       1 TOCHI001       2024-01-01    10 flow      m3/s  mock   provision~ <NA>        
 
-# print.hydrocan_flows reports stations that were requested but not returned
+# print.hydrocan_realtime reports stations that were requested but not returned
 
     Code
       print(result)

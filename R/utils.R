@@ -66,7 +66,7 @@
   )
 }
 
-.empty_flows_tibble <- function() {
+.empty_realtime_tibble <- function() {
   tibble::tibble(
     station_number = character(),
     datetime = as.POSIXct(character(), tz = "UTC"),
@@ -79,7 +79,7 @@
   )
 }
 
-.empty_daily_flows_tibble <- function() {
+.empty_daily_tibble <- function() {
   tibble::tibble(
     station_number = character(),
     date = as.Date(character()),

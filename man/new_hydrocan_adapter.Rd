@@ -10,6 +10,8 @@ new_hydrocan_adapter(
   list_stations_fn,
   fetch_flows_fn = NULL,
   fetch_daily_flows_fn = NULL,
+  fetch_levels_fn = NULL,
+  fetch_daily_levels_fn = NULL,
   list_stations_meta_fn = NULL
 )
 }
@@ -24,10 +26,18 @@ key and as the \code{source} column in output.}
 vector of station IDs this source can serve.}
 
 \item{fetch_flows_fn}{Optional \verb{function(station_number, start_date, end_date)} returning a tibble matching the flows schema (\code{datetime}
-column). \code{NULL} if sub-daily data is not available.}
+column). \code{NULL} if sub-daily flow data is not available.}
 
 \item{fetch_daily_flows_fn}{Optional \verb{function(station_number, start_date, end_date)} returning a tibble matching the daily flows schema (\code{date}
-column). \code{NULL} if daily data is not available.}
+column). \code{NULL} if daily flow data is not available.}
+
+\item{fetch_levels_fn}{Optional \verb{function(station_number, start_date, end_date)} returning a tibble matching the flows schema (\code{datetime}
+column) with \code{parameter = "level"}. \code{NULL} if sub-daily level data is not
+available.}
+
+\item{fetch_daily_levels_fn}{Optional \verb{function(station_number, start_date, end_date)} returning a tibble matching the daily flows schema (\code{date}
+column) with \code{parameter = "level"}. \code{NULL} if daily level data is not
+available.}
 
 \item{list_stations_meta_fn}{Optional function with no arguments returning
 a tibble matching the stations schema. \code{NULL} if station metadata is not
@@ -37,6 +47,6 @@ available.}
 A list with class \code{"hydrocan_adapter"}.
 }
 \description{
-Constructs a validated adapter object for a data source. At least one of
-\code{fetch_flows_fn} or \code{fetch_daily_flows_fn} must be supplied.
+Constructs a validated adapter object for a data source. At least one fetch
+function must be supplied.
 }

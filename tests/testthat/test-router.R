@@ -80,6 +80,33 @@ test_that(".route_and_fetch handles multiple stations", {
   expect_setequal(unique(result$station_number), c("TOCHI001", "HOTH001"))
 })
 
+test_that(".route_and_fetch dispatches fetch_levels_fn when type is 'levels'", {
+  local_register_adapter(mock_adapter)
+  result <- hydrocan:::.route_and_fetch(
+    "TOCHI001",
+    as.Date("2024-01-01"),
+    as.Date("2024-01-03"),
+    source = "mock",
+    type = "levels"
+  )
+  expect_true("datetime" %in% names(result))
+  expect_equal(unique(result$parameter), "level")
+})
+
+test_that(".route_and_fetch dispatches fetch_daily_levels_fn when type is 'daily_levels'", {
+  local_register_adapter(mock_adapter)
+  result <- hydrocan:::.route_and_fetch(
+    "TOCHI001",
+    as.Date("2024-01-01"),
+    as.Date("2024-01-03"),
+    source = "mock",
+    type = "daily_levels"
+  )
+  expect_true("date" %in% names(result))
+  expect_equal(nrow(result), 3L)
+  expect_equal(unique(result$parameter), "level")
+})
+
 test_that(".route_and_fetch dispatches fetch_daily_flows_fn when type is 'daily'", {
   local_register_adapter(mock_adapter)
   result <- hydrocan:::.route_and_fetch(

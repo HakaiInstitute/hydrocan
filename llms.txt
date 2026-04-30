@@ -121,3 +121,9 @@ hc_list_sources()
 - [`register_hydrocan_adapter()`](https://hakaiinstitute.github.io/hydrocan/reference/register_hydrocan_adapter.md)
   : Register a hydrocan adapter
 
+# Articles
+
+### All vignettes
+
+- [The hydrocan adapter
+  system](https://hakaiinstitute.github.io/hydrocan/articles/hydrocan-adapters.md):

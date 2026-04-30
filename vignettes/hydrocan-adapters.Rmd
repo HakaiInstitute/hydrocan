@@ -269,27 +269,56 @@ Add one line to the `.onLoad` block in `R/hydrocan-package.R`:
 
 ### Step 3 - Add tests
 
-Create `tests/testthat/test-myprov.R` with integration tests guarded by
-`skip_if_offline()`:
+Tests for adapters are written against a mock adapter rather than hitting the
+live network. This keeps the test suite fast and fully offline. The pattern,
+established in `tests/testthat/helper-mocks.R`, is:
+
+1. Write a `list_stations_fn` that returns a hardcoded character vector.
+2. Write fetch functions that generate deterministic tibbles from their date
+   arguments without making any HTTP requests.
+3. Assemble these into an adapter with `new_hydrocan_adapter()`.
+4. Register it for the duration of a single test with `local_register_adapter()`,
+   which restores the prior registry state on exit.
 
 ```r
-test_that("myprov adapter returns valid schema", {
-  skip_if_offline()
+.myprov_stations <- c("MP001", "MP002")
+
+.myprov_mock_fetch_flows <- function(station_number, start_date, end_date) {
+  dates <- seq(as.Date(start_date), as.Date(end_date), by = "day")
+  tibble::tibble(
+    station_number = station_number,
+    datetime       = as.POSIXct(dates, tz = "UTC"),
+    value          = seq_along(dates) * 1.0,
+    parameter      = "flow",
+    units          = "m3/s",
+    source         = "myprov",
+    approval       = "provisional",
+    quality_flag   = NA_character_
+  )
+}
+
+mock_myprov_adapter <- new_hydrocan_adapter(
+  "myprov",
+  "Mock MyProv adapter for offline testing.",
+  function() .myprov_stations,
+  fetch_flows_fn = .myprov_mock_fetch_flows
+)
+
+test_that("myprov adapter returns correct schema", {
+  local_register_adapter(mock_myprov_adapter)
   result <- hc_read_flows(
     station_number = "MP001",
-    start_date     = Sys.Date() - 3,
-    end_date       = Sys.Date(),
+    start_date     = "2024-01-01",
+    end_date       = "2024-01-03",
     source         = "myprov"
   )
-  expect_s3_class(result, "tbl_df")
-  expect_true(nrow(result) > 0L)
+  expect_s3_class(result, "hydrocan_realtime")
+  expect_equal(nrow(result), 3L)
 })
 ```
 
-The mock adapter in `tests/testthat/helper-mocks.R` shows how to write offline
-unit tests that exercise the router and schema validation logic without making
-any HTTP requests. The `local_register_adapter()` helper registers an adapter
-for the duration of a single test and restores the registry state on exit.
+`local_register_adapter()` and `local_clear_registry()` are defined in
+`tests/testthat/helper-mocks.R` and are available to all test files automatically.
 
 ### What the schema validator will catch
 

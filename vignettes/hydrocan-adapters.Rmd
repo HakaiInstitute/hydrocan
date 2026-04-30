@@ -214,7 +214,7 @@ Create `R/myprov.R`:
     httr2::resp_body_json(simplifyVector = TRUE)
 
   tibble::tibble(
-    station_number = resp$station_id,
+    station_number = station_number,
     datetime       = as.POSIXct(resp$timestamp, tz = "UTC"),
     value          = as.numeric(resp$discharge_cms),
     parameter      = "flow",
@@ -322,8 +322,9 @@ test_that("myprov adapter returns correct schema", {
 
 ### What the schema validator will catch
 
-`validate_hydrocan_schema()` is called automatically after every public API
-call. It will stop with a clear message if:
+`validate_hydrocan_schema()` is called automatically after every data-fetching
+API call (`hc_read_flows()`, `hc_read_daily_flows()`, `hc_read_levels()`,
+`hc_read_daily_levels()`). It will stop with a clear message if:
 
 - Any required column is missing from the returned tibble.
 - The `approval` column contains a non-`NA` value other than `"provisional"`,

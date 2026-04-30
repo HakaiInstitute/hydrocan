@@ -138,18 +138,17 @@ hc_read_flows <- function(
   source = NULL
 ) {
   dates <- .validate_date_range(start_date, end_date)
-  start_date <- dates$start_date
-  end_date <- dates$end_date
-
   result <- .route_and_fetch(
     station_number,
-    start_date,
-    end_date,
+    dates$start_date,
+    dates$end_date,
     source,
     type = "realtime"
   )
-  result <- validate_hydrocan_schema(result, type = "realtime")
-  new_hydrocan_realtime(result, station_number)
+  new_hydrocan_realtime(
+    validate_hydrocan_schema(result, "realtime"),
+    station_number
+  )
 }
 
 #' Retrieve sub-daily water level observations
@@ -171,18 +170,17 @@ hc_read_levels <- function(
   source = NULL
 ) {
   dates <- .validate_date_range(start_date, end_date)
-  start_date <- dates$start_date
-  end_date <- dates$end_date
-
   result <- .route_and_fetch(
     station_number,
-    start_date,
-    end_date,
+    dates$start_date,
+    dates$end_date,
     source,
     type = "levels"
   )
-  result <- validate_hydrocan_schema(result, type = "realtime")
-  new_hydrocan_realtime(result, station_number)
+  new_hydrocan_realtime(
+    validate_hydrocan_schema(result, "realtime"),
+    station_number
+  )
 }
 
 #' Retrieve daily flow summaries
@@ -204,18 +202,14 @@ hc_read_daily_flows <- function(
   source = NULL
 ) {
   dates <- .validate_date_range(start_date, end_date)
-  start_date <- dates$start_date
-  end_date <- dates$end_date
-
   result <- .route_and_fetch(
     station_number,
-    start_date,
-    end_date,
+    dates$start_date,
+    dates$end_date,
     source,
     type = "daily"
   )
-  result <- validate_hydrocan_schema(result, type = "daily")
-  new_hydrocan_daily(result, station_number)
+  new_hydrocan_daily(validate_hydrocan_schema(result, "daily"), station_number)
 }
 
 #' Retrieve daily water level summaries
@@ -237,16 +231,12 @@ hc_read_daily_levels <- function(
   source = NULL
 ) {
   dates <- .validate_date_range(start_date, end_date)
-  start_date <- dates$start_date
-  end_date <- dates$end_date
-
   result <- .route_and_fetch(
     station_number,
-    start_date,
-    end_date,
+    dates$start_date,
+    dates$end_date,
     source,
     type = "daily_levels"
   )
-  result <- validate_hydrocan_schema(result, type = "daily")
-  new_hydrocan_daily(result, station_number)
+  new_hydrocan_daily(validate_hydrocan_schema(result, "daily"), station_number)
 }

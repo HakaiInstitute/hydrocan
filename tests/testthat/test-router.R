@@ -7,7 +7,7 @@ test_that(".route_and_fetch returns data for a known station", {
     source = "mock"
   )
   expect_s3_class(result, "tbl_df")
-  expect_equal(unique(result$station_number), "TOCHI001")
+  expect_equal(unique(result$station_id), "TOCHI001")
 })
 
 test_that(".route_and_fetch warns and skips an unknown station", {
@@ -32,7 +32,7 @@ test_that(".route_and_fetch respects the source argument", {
     as.Date("2024-01-01"),
     source = "mock"
   )
-  expect_equal(unique(result$source), "mock")
+  expect_equal(unique(result$provider_name), "mock")
 })
 
 test_that(".route_and_fetch errors on unknown source name", {
@@ -77,7 +77,7 @@ test_that(".route_and_fetch handles multiple stations", {
     as.Date("2024-01-02"),
     source = "mock"
   )
-  expect_setequal(unique(result$station_number), c("TOCHI001", "HOTH001"))
+  expect_setequal(unique(result$station_id), c("TOCHI001", "HOTH001"))
 })
 
 test_that(".route_and_fetch dispatches fetch_levels_fn when type is 'levels'", {
@@ -89,8 +89,8 @@ test_that(".route_and_fetch dispatches fetch_levels_fn when type is 'levels'", {
     source = "mock",
     type = "levels"
   )
-  expect_true("datetime" %in% names(result))
-  expect_equal(unique(result$parameter), "level")
+  expect_true("timestamp" %in% names(result))
+  expect_equal(unique(result$parameter), "water_level")
 })
 
 test_that(".route_and_fetch dispatches fetch_daily_levels_fn when type is 'daily_levels'", {
@@ -104,7 +104,7 @@ test_that(".route_and_fetch dispatches fetch_daily_levels_fn when type is 'daily
   )
   expect_true("date" %in% names(result))
   expect_equal(nrow(result), 3L)
-  expect_equal(unique(result$parameter), "level")
+  expect_equal(unique(result$parameter), "water_level")
 })
 
 test_that(".route_and_fetch dispatches fetch_daily_flows_fn when type is 'daily'", {
@@ -117,7 +117,7 @@ test_that(".route_and_fetch dispatches fetch_daily_flows_fn when type is 'daily'
     type = "daily"
   )
   expect_true("date" %in% names(result))
-  expect_false("datetime" %in% names(result))
+  expect_false("timestamp" %in% names(result))
   expect_equal(nrow(result), 3L)
 })
 

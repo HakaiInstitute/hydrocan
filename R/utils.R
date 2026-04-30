@@ -54,9 +54,9 @@
 
 .empty_stations_tibble <- function() {
   tibble::tibble(
-    station_number = character(),
+    station_id = character(),
     station_name = character(),
-    source = character(),
+    provider_name = character(),
     longitude = double(),
     latitude = double(),
     elevation_m = double(),
@@ -68,12 +68,12 @@
 
 .empty_realtime_tibble <- function() {
   tibble::tibble(
-    station_number = character(),
-    datetime = as.POSIXct(character(), tz = "UTC"),
+    station_id = character(),
+    timestamp = as.POSIXct(character(), tz = "UTC"),
     value = numeric(),
     parameter = character(),
-    units = character(),
-    source = character(),
+    unit = character(),
+    provider_name = character(),
     approval = character(),
     quality_flag = character()
   )
@@ -81,12 +81,12 @@
 
 .empty_daily_tibble <- function() {
   tibble::tibble(
-    station_number = character(),
+    station_id = character(),
     date = as.Date(character()),
     value = numeric(),
     parameter = character(),
-    units = character(),
-    source = character(),
+    unit = character(),
+    provider_name = character(),
     approval = character(),
     quality_flag = character()
   )

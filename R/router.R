@@ -1,7 +1,7 @@
 # Single dispatch point for all user-facing API functions. Matches each station
 # to its data source, fetches data, and combines results into one tibble.
 .route_and_fetch <- function(
-  station_number,
+  station_id,
   start_date,
   end_date,
   source = NULL,
@@ -62,7 +62,7 @@
   adapters <- adapters[valid_adapters]
 
   # For each requested station, find its adapter and fetch data.
-  results <- lapply(station_number, function(stn) {
+  results <- lapply(station_id, function(stn) {
     matching <- adapters[vapply(
       station_lists,
       \(stns) stn %in% stns,

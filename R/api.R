@@ -6,7 +6,8 @@
 #'
 #' @return A tibble with columns `name` (chr), `description` (chr),
 #'   `has_flows` (lgl), `has_daily_flows` (lgl), `has_levels` (lgl),
-#'   `has_daily_levels` (lgl), and `has_stations` (lgl).
+#'   `has_daily_levels` (lgl), `has_stations` (lgl), `license` (chr),
+#'   `license_url` (chr), and `terms_url` (chr).
 #' @export
 hc_list_sources <- function() {
   adapters <- as.list(.hydrocan_registry)
@@ -18,7 +19,10 @@ hc_list_sources <- function() {
       has_daily_flows = logical(),
       has_levels = logical(),
       has_daily_levels = logical(),
-      has_stations = logical()
+      has_stations = logical(),
+      license = character(),
+      license_url = character(),
+      terms_url = character()
     ))
   }
   tibble::tibble(
@@ -44,6 +48,21 @@ hc_list_sources <- function() {
       adapters,
       \(a) !is.null(a$list_stations_meta_fn),
       logical(1L)
+    ),
+    license = vapply(
+      adapters,
+      \(a) if (!is.null(a$license)) a$license else NA_character_,
+      character(1L)
+    ),
+    license_url = vapply(
+      adapters,
+      \(a) if (!is.null(a$license_url)) a$license_url else NA_character_,
+      character(1L)
+    ),
+    terms_url = vapply(
+      adapters,
+      \(a) if (!is.null(a$terms_url)) a$terms_url else NA_character_,
+      character(1L)
     )
   )
 }
@@ -58,9 +77,10 @@ hc_list_sources <- function() {
 #'   query directly. When `NULL` (default) all registered data sources are
 #'   queried. See [hc_list_sources()] for available names.
 #'
-#' @return A tibble with columns `station_number` (chr), `station_name` (chr),
-#'   `source` (chr), `longitude` (dbl), `latitude` (dbl), `elevation_m` (dbl),
-#'   `period_start` (Date), `period_end` (Date), and `notes` (list).
+#' @return A tibble with columns `station_id` (chr), `station_name` (chr),
+#'   `provider_name` (chr), `longitude` (dbl), `latitude` (dbl),
+#'   `elevation_m` (dbl), `period_start` (Date), `period_end` (Date), and
+#'   `notes` (list).
 #' @export
 hc_read_stations <- function(source = NULL) {
   if (!is.null(source)) {
@@ -118,28 +138,28 @@ hc_read_stations <- function(source = NULL) {
 #' date range. The data source is determined automatically from the station
 #' number, or fixed explicitly via `source`.
 #'
-#' @param station_number Character vector of station identifiers.
+#' @param station_id Character vector of station identifiers.
 #' @param start_date Start of the requested period (Date, or character
 #'   coercible to Date).
 #' @param end_date End of the requested period (Date, or character coercible
 #'   to Date). Defaults to today.
 #' @param source Optional single character string naming the data source to use
 #'   directly. When `NULL` (default) the source is detected automatically from
-#'   the station number. See [hc_list_sources()] for available names.
+#'   the station ID. See [hc_list_sources()] for available names.
 #'
-#' @return A tibble with columns `station_number` (chr), `datetime` (POSIXct
-#'   UTC), `value` (dbl), `parameter` (chr), `units` (chr), `source` (chr),
-#'   `approval` (chr), and `quality_flag` (chr).
+#' @return A tibble with columns `station_id` (chr), `timestamp` (POSIXct
+#'   UTC), `value` (dbl), `parameter` (chr), `unit` (chr), `provider_name`
+#'   (chr), `approval` (chr), and `quality_flag` (chr).
 #' @export
 hc_read_flows <- function(
-  station_number,
+  station_id,
   start_date,
   end_date = Sys.Date(),
   source = NULL
 ) {
   dates <- .validate_date_range(start_date, end_date)
   result <- .route_and_fetch(
-    station_number,
+    station_id,
     dates$start_date,
     dates$end_date,
     source,
@@ -147,7 +167,7 @@ hc_read_flows <- function(
   )
   new_hydrocan_realtime(
     validate_hydrocan_schema(result, "realtime"),
-    station_number
+    station_id
   )
 }
 
@@ -155,23 +175,23 @@ hc_read_flows <- function(
 #'
 #' Fetches sub-daily water level observations for one or more stations across
 #' the requested date range. The data source is determined automatically from
-#' the station number, or fixed explicitly via `source`.
+#' the station ID, or fixed explicitly via `source`.
 #'
 #' @inheritParams hc_read_flows
 #'
-#' @return A tibble with columns `station_number` (chr), `datetime` (POSIXct
-#'   UTC), `value` (dbl), `parameter` (chr: `"level"`), `units` (chr),
-#'   `source` (chr), `approval` (chr), and `quality_flag` (chr).
+#' @return A tibble with columns `station_id` (chr), `timestamp` (POSIXct
+#'   UTC), `value` (dbl), `parameter` (chr: `"water_level"`), `unit` (chr),
+#'   `provider_name` (chr), `approval` (chr), and `quality_flag` (chr).
 #' @export
 hc_read_levels <- function(
-  station_number,
+  station_id,
   start_date,
   end_date = Sys.Date(),
   source = NULL
 ) {
   dates <- .validate_date_range(start_date, end_date)
   result <- .route_and_fetch(
-    station_number,
+    station_id,
     dates$start_date,
     dates$end_date,
     source,
@@ -179,7 +199,7 @@ hc_read_levels <- function(
   )
   new_hydrocan_realtime(
     validate_hydrocan_schema(result, "realtime"),
-    station_number
+    station_id
   )
 }
 
@@ -191,25 +211,25 @@ hc_read_levels <- function(
 #'
 #' @inheritParams hc_read_flows
 #'
-#' @return A tibble with columns `station_number` (chr), `date` (Date),
-#'   `value` (dbl), `parameter` (chr), `units` (chr), `source` (chr),
+#' @return A tibble with columns `station_id` (chr), `date` (Date),
+#'   `value` (dbl), `parameter` (chr), `unit` (chr), `provider_name` (chr),
 #'   `approval` (chr), and `quality_flag` (chr).
 #' @export
 hc_read_daily_flows <- function(
-  station_number,
+  station_id,
   start_date,
   end_date = Sys.Date(),
   source = NULL
 ) {
   dates <- .validate_date_range(start_date, end_date)
   result <- .route_and_fetch(
-    station_number,
+    station_id,
     dates$start_date,
     dates$end_date,
     source,
     type = "daily"
   )
-  new_hydrocan_daily(validate_hydrocan_schema(result, "daily"), station_number)
+  new_hydrocan_daily(validate_hydrocan_schema(result, "daily"), station_id)
 }
 
 #' Retrieve daily water level summaries
@@ -220,23 +240,23 @@ hc_read_daily_flows <- function(
 #'
 #' @inheritParams hc_read_flows
 #'
-#' @return A tibble with columns `station_number` (chr), `date` (Date),
-#'   `value` (dbl), `parameter` (chr: `"level"`), `units` (chr), `source`
-#'   (chr), `approval` (chr), and `quality_flag` (chr).
+#' @return A tibble with columns `station_id` (chr), `date` (Date),
+#'   `value` (dbl), `parameter` (chr: `"water_level"`), `unit` (chr),
+#'   `provider_name` (chr), `approval` (chr), and `quality_flag` (chr).
 #' @export
 hc_read_daily_levels <- function(
-  station_number,
+  station_id,
   start_date,
   end_date = Sys.Date(),
   source = NULL
 ) {
   dates <- .validate_date_range(start_date, end_date)
   result <- .route_and_fetch(
-    station_number,
+    station_id,
     dates$start_date,
     dates$end_date,
     source,
     type = "daily_levels"
   )
-  new_hydrocan_daily(validate_hydrocan_schema(result, "daily"), station_number)
+  new_hydrocan_daily(validate_hydrocan_schema(result, "daily"), station_id)
 }

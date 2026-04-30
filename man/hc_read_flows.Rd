@@ -4,10 +4,10 @@
 \alias{hc_read_flows}
 \title{Retrieve sub-daily flow observations}
 \usage{
-hc_read_flows(station_number, start_date, end_date = Sys.Date(), source = NULL)
+hc_read_flows(station_id, start_date, end_date = Sys.Date(), source = NULL)
 }
 \arguments{
-\item{station_number}{Character vector of station identifiers.}
+\item{station_id}{Character vector of station identifiers.}
 
 \item{start_date}{Start of the requested period (Date, or character
 coercible to Date).}
@@ -17,12 +17,12 @@ to Date). Defaults to today.}
 
 \item{source}{Optional single character string naming the data source to use
 directly. When \code{NULL} (default) the source is detected automatically from
-the station number. See \code{\link[=hc_list_sources]{hc_list_sources()}} for available names.}
+the station ID. See \code{\link[=hc_list_sources]{hc_list_sources()}} for available names.}
 }
 \value{
-A tibble with columns \code{station_number} (chr), \code{datetime} (POSIXct
-UTC), \code{value} (dbl), \code{parameter} (chr), \code{units} (chr), \code{source} (chr),
-\code{approval} (chr), and \code{quality_flag} (chr).
+A tibble with columns \code{station_id} (chr), \code{timestamp} (POSIXct
+UTC), \code{value} (dbl), \code{parameter} (chr), \code{unit} (chr), \code{provider_name}
+(chr), \code{approval} (chr), and \code{quality_flag} (chr).
 }
 \description{
 Fetches sub-daily observations for one or more stations across the requested

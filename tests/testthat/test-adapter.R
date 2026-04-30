@@ -160,7 +160,10 @@ test_that("hc_list_sources returns the correct schema", {
       "has_daily_flows",
       "has_levels",
       "has_daily_levels",
-      "has_stations"
+      "has_stations",
+      "license",
+      "license_url",
+      "terms_url"
     )
   )
   expect_type(result$has_flows, "logical")

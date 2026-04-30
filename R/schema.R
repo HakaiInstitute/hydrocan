@@ -1,28 +1,28 @@
 # Required columns for each output schema.
 .REALTIME_COLS <- c(
-  "station_number",
-  "datetime",
+  "station_id",
+  "timestamp",
   "value",
   "parameter",
-  "units",
-  "source",
+  "unit",
+  "provider_name",
   "approval",
   "quality_flag"
 )
 .DAILY_COLS <- c(
-  "station_number",
+  "station_id",
   "date",
   "value",
   "parameter",
-  "units",
-  "source",
+  "unit",
+  "provider_name",
   "approval",
   "quality_flag"
 )
 .STATIONS_COLS <- c(
-  "station_number",
+  "station_id",
   "station_name",
-  "source",
+  "provider_name",
   "longitude",
   "latitude",
   "elevation_m",
@@ -105,7 +105,7 @@ validate_hydrocan_schema <- function(
         call. = FALSE
       )
     }
-    df$units <- .normalize_units(df$units)
+    df$unit <- .normalize_units(df$unit)
   }
 
   df

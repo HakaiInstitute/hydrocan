@@ -1,7 +1,7 @@
 good_stations <- tibble::tibble(
-  station_number = "X",
+  station_id = "X",
   station_name = "Station X",
-  source = "mock",
+  provider_name = "mock",
   longitude = -114.0,
   latitude = 51.0,
   elevation_m = 1000.0,
@@ -11,23 +11,23 @@ good_stations <- tibble::tibble(
 )
 
 good_rt <- tibble::tibble(
-  station_number = "X",
-  datetime = as.POSIXct("2024-01-01 00:00:00", tz = "UTC"),
+  station_id = "X",
+  timestamp = as.POSIXct("2024-01-01 00:00:00", tz = "UTC"),
   value = 1.0,
-  parameter = "flow",
-  units = "m3/s",
-  source = "mock",
+  parameter = "water_discharge",
+  unit = "m3/s",
+  provider_name = "mock",
   approval = "provisional",
   quality_flag = NA_character_
 )
 
 good_daily <- tibble::tibble(
-  station_number = "X",
+  station_id = "X",
   date = as.Date("2024-01-01"),
   value = 1.0,
-  parameter = "flow",
-  units = "m3/s",
-  source = "mock",
+  parameter = "water_discharge",
+  unit = "m3/s",
+  provider_name = "mock",
   approval = "provisional",
   quality_flag = NA_character_
 )
@@ -45,7 +45,7 @@ test_that("validate_hydrocan_schema passes a well-formed daily tibble", {
 test_that("validate_hydrocan_schema errors on missing column", {
   expect_error(
     hydrocan:::validate_hydrocan_schema(good_rt[, -1], "realtime"),
-    "station_number"
+    "station_id"
   )
   expect_error(
     hydrocan:::validate_hydrocan_schema(good_daily[, -2], "daily"),
@@ -101,9 +101,9 @@ test_that(".normalize_units passes unknown units through with a warning", {
 
 test_that("validate_hydrocan_schema normalizes units in the returned tibble", {
   raw <- good_rt
-  raw$units <- "m\u00b3/s"
+  raw$unit <- "m\u00b3/s"
   result <- hydrocan:::validate_hydrocan_schema(raw, "realtime")
-  expect_equal(result$units, "m3/s")
+  expect_equal(result$unit, "m3/s")
 })
 
 test_that("validate_hydrocan_schema passes a well-formed stations tibble", {

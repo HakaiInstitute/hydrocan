@@ -39,20 +39,26 @@ new_hydrocan_adapter(
   fetch_daily_flows_fn = NULL,
   fetch_levels_fn = NULL,
   fetch_daily_levels_fn = NULL,
-  list_stations_meta_fn = NULL
+  list_stations_meta_fn = NULL,
+  license = NULL,
+  license_url = NULL,
+  terms_url = NULL
 )
 ```
 
 | Argument | Type | Contract |
 |---|---|---|
-| `name` | single character | Unique identifier; becomes the `source` column in all output and the registry key |
+| `name` | single character | Unique identifier; becomes the `provider_name` column in all output and the registry key |
 | `description` | single character | Human-readable description of the source and its limitations; shown by `hc_list_sources()` |
 | `list_stations_fn` | `function()` | No arguments; returns a character vector of station IDs this adapter can serve |
-| `fetch_flows_fn` | `function(station_number, start_date, end_date)` or `NULL` | Returns a tibble matching the realtime schema; `NULL` if sub-daily flow data is not available |
-| `fetch_daily_flows_fn` | `function(station_number, start_date, end_date)` or `NULL` | Returns a tibble matching the daily schema; `NULL` if daily flow data is not available |
-| `fetch_levels_fn` | `function(station_number, start_date, end_date)` or `NULL` | Returns a tibble matching the realtime schema with `parameter = "level"`; `NULL` if sub-daily level data is not available |
-| `fetch_daily_levels_fn` | `function(station_number, start_date, end_date)` or `NULL` | Returns a tibble matching the daily schema with `parameter = "level"`; `NULL` if daily level data is not available |
+| `fetch_flows_fn` | `function(station_id, start_date, end_date)` or `NULL` | Returns a tibble matching the realtime schema; `NULL` if sub-daily flow data is not available |
+| `fetch_daily_flows_fn` | `function(station_id, start_date, end_date)` or `NULL` | Returns a tibble matching the daily schema; `NULL` if daily flow data is not available |
+| `fetch_levels_fn` | `function(station_id, start_date, end_date)` or `NULL` | Returns a tibble matching the realtime schema with `parameter = "water_level"`; `NULL` if sub-daily level data is not available |
+| `fetch_daily_levels_fn` | `function(station_id, start_date, end_date)` or `NULL` | Returns a tibble matching the daily schema with `parameter = "water_level"`; `NULL` if daily level data is not available |
 | `list_stations_meta_fn` | `function()` or `NULL` | No arguments; returns a tibble matching the stations schema; `NULL` if station metadata is not available |
+| `license` | single character or `NULL` | Optional license name (e.g. `"CC-BY 4.0"`); exposed by `hc_list_sources()` |
+| `license_url` | single character or `NULL` | Optional URL to the license text |
+| `terms_url` | single character or `NULL` | Optional URL to the data provider's terms of use |
 
 At least one fetch function must be non-`NULL`.
 
@@ -62,27 +68,27 @@ At least one fetch function must be non-`NULL`.
 
 | Column | Type | Notes |
 |---|---|---|
-| `station_number` | chr | As provided by the caller |
-| `datetime` | POSIXct UTC | Sub-daily observations |
+| `station_id` | chr | As provided by the caller |
+| `timestamp` | POSIXct UTC | Sub-daily observations |
 | `value` | dbl | |
-| `parameter` | chr | `"flow"` or `"level"` |
-| `units` | chr | Canonical form after normalization (e.g. `"m3/s"`, `"m"`) |
-| `source` | chr | Must equal the adapter name |
+| `parameter` | chr | `"water_discharge"` or `"water_level"` |
+| `unit` | chr | Canonical form after normalization (e.g. `"m3/s"`, `"m"`) |
+| `provider_name` | chr | Must equal the adapter name |
 | `approval` | chr or NA | `"provisional"`, `"approved"`, `"estimated"`, or `NA` |
 | `quality_flag` | chr | Source-specific passthrough; `NA` if unavailable |
 
 #### Daily - `fetch_daily_flows_fn` / `fetch_daily_levels_fn`
 
 Same as the realtime schema above, but with `date` (Date) in place of
-`datetime` (POSIXct).
+`timestamp` (POSIXct).
 
 #### Stations - `list_stations_meta_fn`
 
 | Column | Type | Notes |
 |---|---|---|
-| `station_number` | chr | |
+| `station_id` | chr | |
 | `station_name` | chr | |
-| `source` | chr | Must equal the adapter name |
+| `provider_name` | chr | Must equal the adapter name |
 | `longitude` | dbl | |
 | `latitude` | dbl | |
 | `elevation_m` | dbl | `NA` if unavailable |
@@ -125,7 +131,7 @@ Opendatasoft REST API. No authentication is required.
 - Station IDs use Hydro-Quebec's internal format, e.g. `"3-230"`.
 - The dataset covers a rolling window of approximately 10 days; historical data
   is not available.
-- Only flow data is available (`parameter = "flow"`); no water level.
+- Only flow data is available (`parameter = "water_discharge"`); no water level.
 - The `approval` column is `NA` for all records (the source does not publish
   approval status); `quality_flag` carries the source's point type field.
 
@@ -136,7 +142,7 @@ library(hydrocan)
 
 # Sub-daily (hourly) flows
 flows <- hc_read_flows(
-  station_number = "3-230",
+  station_id = "3-230",
   start_date = Sys.Date() - 5,
   end_date = Sys.Date(),
   source = "hydroquebec"
@@ -144,7 +150,7 @@ flows <- hc_read_flows(
 
 # Source-native daily flows
 daily <- hc_read_daily_flows(
-  station_number = "3-230",
+  station_id = "3-230",
   start_date = Sys.Date() - 5,
   end_date = Sys.Date(),
   source = "hydroquebec"
@@ -201,11 +207,11 @@ Create `R/myprov.R`:
   resp$station_id  # character vector
 }
 
-.myprov_fetch_flows <- function(station_number, start_date, end_date) {
+.myprov_fetch_flows <- function(station_id, start_date, end_date) {
   resp <- httr2::request(.MYPROV_URL) |>
     httr2::req_url_query(
       endpoint = "timeseries",
-      station  = station_number,
+      station  = station_id,
       from     = format(start_date),
       to       = format(end_date),
       format   = "json"
@@ -214,14 +220,14 @@ Create `R/myprov.R`:
     httr2::resp_body_json(simplifyVector = TRUE)
 
   tibble::tibble(
-    station_number = station_number,
-    datetime       = as.POSIXct(resp$timestamp, tz = "UTC"),
-    value          = as.numeric(resp$discharge_cms),
-    parameter      = "flow",
-    units          = "m3/s",
-    source         = "myprov",
-    approval       = dplyr::if_else(resp$approved, "approved", "provisional"),
-    quality_flag   = resp$quality_code
+    station_id    = station_id,
+    timestamp     = as.POSIXct(resp$timestamp, tz = "UTC"),
+    value         = as.numeric(resp$discharge_cms),
+    parameter     = "water_discharge",
+    unit          = "m3/s",
+    provider_name = "myprov",
+    approval      = dplyr::if_else(resp$approved, "approved", "provisional"),
+    quality_flag  = resp$quality_code
   )
 }
 
@@ -283,17 +289,17 @@ established in `tests/testthat/helper-mocks.R`, is:
 ```r
 .myprov_stations <- c("MP001", "MP002")
 
-.myprov_mock_fetch_flows <- function(station_number, start_date, end_date) {
+.myprov_mock_fetch_flows <- function(station_id, start_date, end_date) {
   dates <- seq(as.Date(start_date), as.Date(end_date), by = "day")
   tibble::tibble(
-    station_number = station_number,
-    datetime       = as.POSIXct(dates, tz = "UTC"),
-    value          = seq_along(dates) * 1.0,
-    parameter      = "flow",
-    units          = "m3/s",
-    source         = "myprov",
-    approval       = "provisional",
-    quality_flag   = NA_character_
+    station_id    = station_id,
+    timestamp     = as.POSIXct(dates, tz = "UTC"),
+    value         = seq_along(dates) * 1.0,
+    parameter     = "water_discharge",
+    unit          = "m3/s",
+    provider_name = "myprov",
+    approval      = "provisional",
+    quality_flag  = NA_character_
   )
 }
 
@@ -307,10 +313,10 @@ mock_myprov_adapter <- new_hydrocan_adapter(
 test_that("myprov adapter returns correct schema", {
   local_register_adapter(mock_myprov_adapter)
   result <- hc_read_flows(
-    station_number = "MP001",
-    start_date     = "2024-01-01",
-    end_date       = "2024-01-03",
-    source         = "myprov"
+    station_id = "MP001",
+    start_date = "2024-01-01",
+    end_date   = "2024-01-03",
+    source     = "myprov"
   )
   expect_s3_class(result, "hydrocan_realtime")
   expect_equal(nrow(result), 3L)
@@ -330,7 +336,7 @@ API call (`hc_read_flows()`, `hc_read_daily_flows()`, `hc_read_levels()`,
 - The `approval` column contains a non-`NA` value other than `"provisional"`,
   `"approved"`, or `"estimated"`.
 
-It also normalises the `units` column: common variants such as `"m³/s"`,
+It also normalises the `unit` column: common variants such as `"m³/s"`,
 `"cms"`, or `"m^3/s"` are all mapped to the canonical `"m3/s"`. Unrecognised
 unit strings pass through unchanged with a warning, identifying the raw string
 so it can be added to the mapping table in `R/schema.R`.

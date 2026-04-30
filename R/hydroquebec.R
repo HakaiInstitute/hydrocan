@@ -78,10 +78,10 @@
 .HQ_SELECT <- "identifiant,split_date,split_value,depil_json_nom_unite_mesure,depil_json_type_point_donnee"
 
 # Fetch hourly observations for one station within [start_date, end_date].
-.hq_fetch_flows <- function(station_number, start_date, end_date) {
+.hq_fetch_flows <- function(station_id, start_date, end_date) {
   where <- paste0(
     'identifiant="',
-    station_number,
+    station_id,
     '" AND depil_json_pas_temps="Horaire"'
   )
   df <- .hq_collect(where, .HQ_SELECT)
@@ -90,12 +90,12 @@
   }
 
   result <- tibble::tibble(
-    station_number = df$identifiant,
-    datetime = .hq_parse_datetime(df$split_date),
+    station_id = df$identifiant,
+    timestamp = .hq_parse_datetime(df$split_date),
     value = suppressWarnings(as.numeric(df$split_value)),
-    parameter = "flow",
-    units = df$depil_json_nom_unite_mesure,
-    source = "hydroquebec",
+    parameter = "water_discharge",
+    unit = df$depil_json_nom_unite_mesure,
+    provider_name = "hydroquebec",
     approval = NA_character_,
     quality_flag = df$depil_json_type_point_donnee
   )
@@ -104,17 +104,17 @@
   start_posix <- as.POSIXct(paste0(format(start_date), " 00:00:00"), tz = "UTC")
   end_posix <- as.POSIXct(paste0(format(end_date), " 23:59:59"), tz = "UTC")
   result[
-    !is.na(result$datetime) &
-      result$datetime >= start_posix &
-      result$datetime <= end_posix,
+    !is.na(result$timestamp) &
+      result$timestamp >= start_posix &
+      result$timestamp <= end_posix,
   ]
 }
 
 # Fetch source-native daily summaries for one station within [start_date, end_date].
-.hq_fetch_daily_flows <- function(station_number, start_date, end_date) {
+.hq_fetch_daily_flows <- function(station_id, start_date, end_date) {
   where <- paste0(
     'identifiant="',
-    station_number,
+    station_id,
     '" AND depil_json_pas_temps="Journalier"'
   )
   df <- .hq_collect(where, .HQ_SELECT)
@@ -123,12 +123,12 @@
   }
 
   result <- tibble::tibble(
-    station_number = df$identifiant,
+    station_id = df$identifiant,
     date = as.Date(.hq_parse_datetime(df$split_date), tz = "UTC"),
     value = suppressWarnings(as.numeric(df$split_value)),
-    parameter = "flow",
-    units = df$depil_json_nom_unite_mesure,
-    source = "hydroquebec",
+    parameter = "water_discharge",
+    unit = df$depil_json_nom_unite_mesure,
+    provider_name = "hydroquebec",
     approval = NA_character_,
     quality_flag = df$depil_json_type_point_donnee
   )
@@ -162,9 +162,9 @@
   }
 
   tibble::tibble(
-    station_number = df$identifiant,
+    station_id = df$identifiant,
     station_name = df$nom,
-    source = "hydroquebec",
+    provider_name = "hydroquebec",
     longitude = df$xcoord,
     latitude = df$ycoord,
     elevation_m = suppressWarnings(as.double(df$zcoord)),

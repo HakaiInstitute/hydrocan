@@ -34,7 +34,7 @@ test_that("HQ station list returns a non-empty character vector", {
 test_that("HQ fetch returns a valid schema for a known station", {
   httptest2::with_mock_api({
     result <- hc_read_flows(
-      station_number = "3-230",
+      station_id = "3-230",
       start_date = "2026-04-18",
       end_date = "2026-04-20",
       source = "hydroquebec"
@@ -43,19 +43,19 @@ test_that("HQ fetch returns a valid schema for a known station", {
     expect_named(
       result,
       c(
-        "station_number",
-        "datetime",
+        "station_id",
+        "timestamp",
         "value",
         "parameter",
-        "units",
-        "source",
+        "unit",
+        "provider_name",
         "approval",
         "quality_flag"
       )
     )
     expect_gt(nrow(result), 0L)
-    expect_equal(unique(result$parameter), "flow")
-    expect_equal(unique(result$source), "hydroquebec")
+    expect_equal(unique(result$parameter), "water_discharge")
+    expect_equal(unique(result$provider_name), "hydroquebec")
     expect_true(all(is.na(result$approval)))
   })
 })
@@ -63,7 +63,7 @@ test_that("HQ fetch returns a valid schema for a known station", {
 test_that("HQ daily aggregation works end-to-end", {
   httptest2::with_mock_api({
     result <- hc_read_daily_flows(
-      station_number = "3-230",
+      station_id = "3-230",
       start_date = "2026-04-18",
       end_date = "2026-04-20",
       source = "hydroquebec"
@@ -72,12 +72,12 @@ test_that("HQ daily aggregation works end-to-end", {
     expect_named(
       result,
       c(
-        "station_number",
+        "station_id",
         "date",
         "value",
         "parameter",
-        "units",
-        "source",
+        "unit",
+        "provider_name",
         "approval",
         "quality_flag"
       )

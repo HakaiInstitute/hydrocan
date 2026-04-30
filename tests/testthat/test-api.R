@@ -11,18 +11,18 @@ test_that("hc_read_flows returns the correct schema", {
   expect_named(
     result,
     c(
-      "station_number",
-      "datetime",
+      "station_id",
+      "timestamp",
       "value",
       "parameter",
-      "units",
-      "source",
+      "unit",
+      "provider_name",
       "approval",
       "quality_flag"
     )
   )
-  expect_s3_class(result$datetime, "POSIXct")
-  expect_equal(attr(result$datetime, "tzone"), "UTC")
+  expect_s3_class(result$timestamp, "POSIXct")
+  expect_equal(attr(result$timestamp, "tzone"), "UTC")
 })
 
 test_that("hc_read_daily_flows returns the correct schema", {
@@ -38,18 +38,18 @@ test_that("hc_read_daily_flows returns the correct schema", {
   expect_named(
     result,
     c(
-      "station_number",
+      "station_id",
       "date",
       "value",
       "parameter",
-      "units",
-      "source",
+      "unit",
+      "provider_name",
       "approval",
       "quality_flag"
     )
   )
   expect_s3_class(result$date, "Date")
-  expect_false("datetime" %in% names(result))
+  expect_false("timestamp" %in% names(result))
 })
 
 test_that("hc_read_daily_flows produces one row per day from daily fetch", {
@@ -76,18 +76,18 @@ test_that("hc_read_levels returns the correct schema", {
   expect_named(
     result,
     c(
-      "station_number",
-      "datetime",
+      "station_id",
+      "timestamp",
       "value",
       "parameter",
-      "units",
-      "source",
+      "unit",
+      "provider_name",
       "approval",
       "quality_flag"
     )
   )
-  expect_equal(unique(result$parameter), "level")
-  expect_equal(unique(result$units), "m")
+  expect_equal(unique(result$parameter), "water_level")
+  expect_equal(unique(result$unit), "m")
 })
 
 test_that("hc_read_daily_levels returns the correct schema", {
@@ -103,19 +103,19 @@ test_that("hc_read_daily_levels returns the correct schema", {
   expect_named(
     result,
     c(
-      "station_number",
+      "station_id",
       "date",
       "value",
       "parameter",
-      "units",
-      "source",
+      "unit",
+      "provider_name",
       "approval",
       "quality_flag"
     )
   )
   expect_s3_class(result$date, "Date")
   expect_equal(nrow(result), 3L)
-  expect_equal(unique(result$parameter), "level")
+  expect_equal(unique(result$parameter), "water_level")
 })
 
 test_that("hc_read_levels warns when adapter has no levels support", {
@@ -167,9 +167,9 @@ test_that("hc_read_stations returns the correct schema", {
   expect_named(
     result,
     c(
-      "station_number",
+      "station_id",
       "station_name",
-      "source",
+      "provider_name",
       "longitude",
       "latitude",
       "elevation_m",
@@ -316,7 +316,7 @@ test_that("hc_read_flows auto-routes when source is not specified", {
     end_date = "2024-01-01"
   )
   expect_s3_class(result, "hydrocan_realtime")
-  expect_equal(unique(result$station_number), "TOCHI001")
+  expect_equal(unique(result$station_id), "TOCHI001")
 })
 
 test_that("hc_read_daily_flows auto-routes when source is not specified", {
@@ -336,5 +336,5 @@ test_that("hc_read_stations without source queries all registered adapters", {
   local_register_adapter(mock_adapter)
   result <- hc_read_stations()
   expect_equal(nrow(result), length(.mock_stations))
-  expect_equal(unique(result$source), "mock")
+  expect_equal(unique(result$provider_name), "mock")
 })

@@ -5,14 +5,14 @@
 \title{Retrieve daily flow summaries}
 \usage{
 hc_read_daily_flows(
-  station_number,
+  station_id,
   start_date,
   end_date = Sys.Date(),
   source = NULL
 )
 }
 \arguments{
-\item{station_number}{Character vector of station identifiers.}
+\item{station_id}{Character vector of station identifiers.}
 
 \item{start_date}{Start of the requested period (Date, or character
 coercible to Date).}
@@ -22,11 +22,11 @@ to Date). Defaults to today.}
 
 \item{source}{Optional single character string naming the data source to use
 directly. When \code{NULL} (default) the source is detected automatically from
-the station number. See \code{\link[=hc_list_sources]{hc_list_sources()}} for available names.}
+the station ID. See \code{\link[=hc_list_sources]{hc_list_sources()}} for available names.}
 }
 \value{
-A tibble with columns \code{station_number} (chr), \code{date} (Date),
-\code{value} (dbl), \code{parameter} (chr), \code{units} (chr), \code{source} (chr),
+A tibble with columns \code{station_id} (chr), \code{date} (Date),
+\code{value} (dbl), \code{parameter} (chr), \code{unit} (chr), \code{provider_name} (chr),
 \code{approval} (chr), and \code{quality_flag} (chr).
 }
 \description{

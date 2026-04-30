@@ -1,7 +1,7 @@
 # Create a hydrocan adapter
 
-Constructs a validated adapter object for a data source. At least one of
-`fetch_flows_fn` or `fetch_daily_flows_fn` must be supplied.
+Constructs a validated adapter object for a data source. At least one
+fetch function must be supplied.
 
 ## Usage
 
@@ -12,6 +12,8 @@ new_hydrocan_adapter(
   list_stations_fn,
   fetch_flows_fn = NULL,
   fetch_daily_flows_fn = NULL,
+  fetch_levels_fn = NULL,
+  fetch_daily_levels_fn = NULL,
   list_stations_meta_fn = NULL
 )
 ```
@@ -38,13 +40,26 @@ new_hydrocan_adapter(
 
   Optional `function(station_number, start_date, end_date)` returning a
   tibble matching the flows schema (`datetime` column). `NULL` if
-  sub-daily data is not available.
+  sub-daily flow data is not available.
 
 - fetch_daily_flows_fn:
 
   Optional `function(station_number, start_date, end_date)` returning a
   tibble matching the daily flows schema (`date` column). `NULL` if
-  daily data is not available.
+  daily flow data is not available.
+
+- fetch_levels_fn:
+
+  Optional `function(station_number, start_date, end_date)` returning a
+  tibble matching the flows schema (`datetime` column) with
+  `parameter = "level"`. `NULL` if sub-daily level data is not
+  available.
+
+- fetch_daily_levels_fn:
+
+  Optional `function(station_number, start_date, end_date)` returning a
+  tibble matching the daily flows schema (`date` column) with
+  `parameter = "level"`. `NULL` if daily level data is not available.
 
 - list_stations_meta_fn:
 

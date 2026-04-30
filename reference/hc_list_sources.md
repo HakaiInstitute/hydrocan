@@ -13,4 +13,5 @@ hc_list_sources()
 ## Value
 
 A tibble with columns `name` (chr), `description` (chr), `has_flows`
-(lgl), `has_daily_flows` (lgl), and `has_stations` (lgl).
+(lgl), `has_daily_flows` (lgl), `has_levels` (lgl), `has_daily_levels`
+(lgl), and `has_stations` (lgl).

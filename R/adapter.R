@@ -77,6 +77,19 @@ new_hydrocan_adapter <- function(
   if (!is.null(list_stations_meta_fn) && !is.function(list_stations_meta_fn)) {
     stop("'list_stations_meta_fn' must be a function or NULL.", call. = FALSE)
   }
+  for (nm in c("license", "license_url", "terms_url")) {
+    val <- get(nm)
+    if (!is.null(val)) {
+      if (!is.character(val) || length(val) != 1L || is.na(val)) {
+        stop(
+          "'",
+          nm,
+          "' must be a single non-NA character string or NULL.",
+          call. = FALSE
+        )
+      }
+    }
+  }
 
   structure(
     list(

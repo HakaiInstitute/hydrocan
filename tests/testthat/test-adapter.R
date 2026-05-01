@@ -132,6 +132,60 @@ test_that("new_hydrocan_adapter returns a correctly structured object", {
   expect_identical(a$fetch_flows_fn, identity)
 })
 
+test_that("new_hydrocan_adapter rejects invalid license fields", {
+  base_args <- list(
+    "ok",
+    "desc",
+    identity,
+    fetch_flows_fn = identity
+  )
+  for (nm in c("license", "license_url", "terms_url")) {
+    expect_error(
+      do.call(
+        new_hydrocan_adapter,
+        c(base_args, stats::setNames(list(123L), nm))
+      ),
+      nm
+    )
+    expect_error(
+      do.call(
+        new_hydrocan_adapter,
+        c(base_args, stats::setNames(list(c("a", "b")), nm))
+      ),
+      nm
+    )
+    expect_error(
+      do.call(
+        new_hydrocan_adapter,
+        c(base_args, stats::setNames(list(NA_character_), nm))
+      ),
+      nm
+    )
+  }
+})
+
+test_that("new_hydrocan_adapter accepts valid license fields", {
+  a <- new_hydrocan_adapter(
+    "ok",
+    "desc",
+    identity,
+    fetch_flows_fn = identity,
+    license = "CC-BY 4.0",
+    license_url = "https://creativecommons.org/licenses/by/4.0/",
+    terms_url = "https://example.com/terms"
+  )
+  expect_equal(a$license, "CC-BY 4.0")
+  expect_equal(a$license_url, "https://creativecommons.org/licenses/by/4.0/")
+  expect_equal(a$terms_url, "https://example.com/terms")
+})
+
+test_that("new_hydrocan_adapter stores NULL when license fields are omitted", {
+  a <- new_hydrocan_adapter("ok", "desc", identity, fetch_flows_fn = identity)
+  expect_null(a$license)
+  expect_null(a$license_url)
+  expect_null(a$terms_url)
+})
+
 test_that("register_hydrocan_adapter rejects non-adapter input", {
   expect_error(register_hydrocan_adapter(list(name = "x")), "hydrocan_adapter")
 })

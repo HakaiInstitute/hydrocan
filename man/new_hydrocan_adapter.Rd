@@ -12,12 +12,15 @@ new_hydrocan_adapter(
   fetch_daily_flows_fn = NULL,
   fetch_levels_fn = NULL,
   fetch_daily_levels_fn = NULL,
-  list_stations_meta_fn = NULL
+  list_stations_meta_fn = NULL,
+  license = NULL,
+  license_url = NULL,
+  terms_url = NULL
 )
 }
 \arguments{
 \item{name}{Non-empty string identifying this source. Used as the registry
-key and as the \code{source} column in output.}
+key and as the \code{provider_name} column in output.}
 
 \item{description}{String describing the source and any known limitations
 (e.g. rolling data window). Shown by \code{\link[=hc_list_sources]{hc_list_sources()}}.}
@@ -25,23 +28,30 @@ key and as the \code{source} column in output.}
 \item{list_stations_fn}{Function with no arguments returning a character
 vector of station IDs this source can serve.}
 
-\item{fetch_flows_fn}{Optional \verb{function(station_number, start_date, end_date)} returning a tibble matching the flows schema (\code{datetime}
+\item{fetch_flows_fn}{Optional \verb{function(station_id, start_date, end_date)} returning a tibble matching the flows schema (\code{timestamp}
 column). \code{NULL} if sub-daily flow data is not available.}
 
-\item{fetch_daily_flows_fn}{Optional \verb{function(station_number, start_date, end_date)} returning a tibble matching the daily flows schema (\code{date}
+\item{fetch_daily_flows_fn}{Optional \verb{function(station_id, start_date, end_date)} returning a tibble matching the daily flows schema (\code{date}
 column). \code{NULL} if daily flow data is not available.}
 
-\item{fetch_levels_fn}{Optional \verb{function(station_number, start_date, end_date)} returning a tibble matching the flows schema (\code{datetime}
-column) with \code{parameter = "level"}. \code{NULL} if sub-daily level data is not
-available.}
+\item{fetch_levels_fn}{Optional \verb{function(station_id, start_date, end_date)} returning a tibble matching the flows schema (\code{timestamp}
+column) with \code{parameter = "water_level"}. \code{NULL} if sub-daily level data
+is not available.}
 
-\item{fetch_daily_levels_fn}{Optional \verb{function(station_number, start_date, end_date)} returning a tibble matching the daily flows schema (\code{date}
-column) with \code{parameter = "level"}. \code{NULL} if daily level data is not
-available.}
+\item{fetch_daily_levels_fn}{Optional \verb{function(station_id, start_date, end_date)} returning a tibble matching the daily flows schema (\code{date}
+column) with \code{parameter = "water_level"}. \code{NULL} if daily level data is
+not available.}
 
 \item{list_stations_meta_fn}{Optional function with no arguments returning
 a tibble matching the stations schema. \code{NULL} if station metadata is not
 available.}
+
+\item{license}{Optional string naming the data license (e.g. \code{"CC-BY 4.0"}).}
+
+\item{license_url}{Optional string with a URL to the license text.}
+
+\item{terms_url}{Optional string with a URL to the data provider's terms of
+use or data policy.}
 }
 \value{
 A list with class \code{"hydrocan_adapter"}.

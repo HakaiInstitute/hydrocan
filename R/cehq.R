@@ -55,9 +55,9 @@
   }
 
   tibble::tibble(
-    station_number = df$no,
+    station_id = df$no,
     station_name = df$nom,
-    source = "cehq",
+    provider_name = "cehq",
     longitude = suppressWarnings(as.double(df$longitude)),
     latitude = suppressWarnings(as.double(df$latitude)),
     elevation_m = NA_real_,
@@ -108,14 +108,14 @@
 # carry only a remark code with no measurement. The field is tested for numeric
 # content to resolve the ambiguity.
 .cehq_fetch_daily <- function(
-  station_number,
+  station_id,
   start_date,
   end_date,
   suffix,
   parameter,
-  units
+  unit
 ) {
-  url <- paste0(.CEHQ_DATA_BASE_URL, "/", station_number, suffix)
+  url <- paste0(.CEHQ_DATA_BASE_URL, "/", station_id, suffix)
   # 404/410 mean the station has no data file; treat as empty. All other
   # failures (network error, 5xx, timeout) propagate so the router converts
   # them to a warning rather than silently returning empty data.
@@ -152,12 +152,12 @@
   has_value <- !is.na(numeric_value)
 
   result <- tibble::tibble(
-    station_number = station_number,
+    station_id = station_id,
     date = as.Date(raw$date_str, format = "%Y/%m/%d"),
     value = ifelse(has_value, numeric_value, NA_real_),
     parameter = parameter,
-    units = units,
-    source = "cehq",
+    unit = unit,
+    provider_name = "cehq",
     approval = .cehq_remark_to_approval(
       ifelse(has_value, raw$remark, raw$v_or_r)
     ),
@@ -165,30 +165,28 @@
   )
 
   result[
-    !is.na(result$date) &
-      result$date >= start_date &
-      result$date <= end_date,
+    !is.na(result$date) & result$date >= start_date & result$date <= end_date,
   ]
 }
 
-.cehq_fetch_daily_flows <- function(station_number, start_date, end_date) {
+.cehq_fetch_daily_flows <- function(station_id, start_date, end_date) {
   .cehq_fetch_daily(
-    station_number,
+    station_id,
     start_date,
     end_date,
     "_Q.txt",
-    "flow",
+    "water_discharge",
     "m3/s"
   )
 }
 
-.cehq_fetch_daily_levels <- function(station_number, start_date, end_date) {
+.cehq_fetch_daily_levels <- function(station_id, start_date, end_date) {
   .cehq_fetch_daily(
-    station_number,
+    station_id,
     start_date,
     end_date,
     "_N.txt",
-    "level",
+    "water_level",
     "m"
   )
 }

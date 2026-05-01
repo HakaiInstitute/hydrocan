@@ -4,15 +4,10 @@
 \alias{hc_read_levels}
 \title{Retrieve sub-daily water level observations}
 \usage{
-hc_read_levels(
-  station_number,
-  start_date,
-  end_date = Sys.Date(),
-  source = NULL
-)
+hc_read_levels(station_id, start_date, end_date = Sys.Date(), source = NULL)
 }
 \arguments{
-\item{station_number}{Character vector of station identifiers.}
+\item{station_id}{Character vector of station identifiers.}
 
 \item{start_date}{Start of the requested period (Date, or character
 coercible to Date).}
@@ -22,15 +17,15 @@ to Date). Defaults to today.}
 
 \item{source}{Optional single character string naming the data source to use
 directly. When \code{NULL} (default) the source is detected automatically from
-the station number. See \code{\link[=hc_list_sources]{hc_list_sources()}} for available names.}
+the station ID. See \code{\link[=hc_list_sources]{hc_list_sources()}} for available names.}
 }
 \value{
-A tibble with columns \code{station_number} (chr), \code{datetime} (POSIXct
-UTC), \code{value} (dbl), \code{parameter} (chr: \code{"level"}), \code{units} (chr),
-\code{source} (chr), \code{approval} (chr), and \code{quality_flag} (chr).
+A tibble with columns \code{station_id} (chr), \code{timestamp} (POSIXct
+UTC), \code{value} (dbl), \code{parameter} (chr: \code{"water_level"}), \code{unit} (chr),
+\code{provider_name} (chr), \code{approval} (chr), and \code{quality_flag} (chr).
 }
 \description{
 Fetches sub-daily water level observations for one or more stations across
 the requested date range. The data source is determined automatically from
-the station number, or fixed explicitly via \code{source}.
+the station ID, or fixed explicitly via \code{source}.
 }

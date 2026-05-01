@@ -6,11 +6,11 @@
 .mock_list_stations <- function() .mock_stations
 
 .mock_fetch_realtime <- function(
-  station_number,
+  station_id,
   start_date,
   end_date,
   parameter,
-  units,
+  unit,
   start_val,
   by_val
 ) {
@@ -19,57 +19,57 @@
   morning_times <- as.POSIXct(paste0(dates, " 06:00:00"), tz = "UTC")
   evening_times <- as.POSIXct(paste0(dates, " 18:00:00"), tz = "UTC")
   tibble::tibble(
-    station_number = rep(station_number, n * 2L),
-    datetime = c(morning_times, evening_times),
+    station_id = rep(station_id, n * 2L),
+    timestamp = c(morning_times, evening_times),
     value = seq(start_val, by = by_val, length.out = n * 2L),
     parameter = parameter,
-    units = units,
-    source = "mock",
+    unit = unit,
+    provider_name = "mock",
     approval = "provisional",
     quality_flag = NA_character_
   )
 }
 
 .mock_fetch_daily <- function(
-  station_number,
+  station_id,
   start_date,
   end_date,
   parameter,
-  units,
+  unit,
   start_val,
   by_val
 ) {
   dates <- seq(start_date, end_date, by = "day")
   tibble::tibble(
-    station_number = rep(station_number, length(dates)),
+    station_id = rep(station_id, length(dates)),
     date = dates,
     value = seq(start_val, by = by_val, length.out = length(dates)),
     parameter = parameter,
-    units = units,
-    source = "mock",
+    unit = unit,
+    provider_name = "mock",
     approval = "provisional",
     quality_flag = NA_character_
   )
 }
 
 .mock_fetch_flows <- function(stn, s, e) {
-  .mock_fetch_realtime(stn, s, e, "flow", "m3/s", 1.0, 1.0)
+  .mock_fetch_realtime(stn, s, e, "water_discharge", "m3/s", 1.0, 1.0)
 }
 .mock_fetch_levels <- function(stn, s, e) {
-  .mock_fetch_realtime(stn, s, e, "level", "m", 0.5, 0.01)
+  .mock_fetch_realtime(stn, s, e, "water_level", "m", 0.5, 0.01)
 }
 .mock_fetch_daily_flows <- function(stn, s, e) {
-  .mock_fetch_daily(stn, s, e, "flow", "m3/s", 10.0, 1.0)
+  .mock_fetch_daily(stn, s, e, "water_discharge", "m3/s", 10.0, 1.0)
 }
 .mock_fetch_daily_levels <- function(stn, s, e) {
-  .mock_fetch_daily(stn, s, e, "level", "m", 0.5, 0.01)
+  .mock_fetch_daily(stn, s, e, "water_level", "m", 0.5, 0.01)
 }
 
 .mock_list_stations_meta <- function() {
   tibble::tibble(
-    station_number = .mock_stations,
+    station_id = .mock_stations,
     station_name = c("Tochi Station", "Hoth Station"),
-    source = "mock",
+    provider_name = "mock",
     longitude = c(-114.0, -113.5),
     latitude = c(51.0, 51.5),
     elevation_m = c(1000.0, 1100.0),

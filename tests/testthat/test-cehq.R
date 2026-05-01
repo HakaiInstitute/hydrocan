@@ -34,9 +34,9 @@ test_that("CEHQ station metadata returns correct schema", {
     expect_named(
       meta,
       c(
-        "station_number",
+        "station_id",
         "station_name",
-        "source",
+        "provider_name",
         "longitude",
         "latitude",
         "elevation_m",
@@ -46,8 +46,8 @@ test_that("CEHQ station metadata returns correct schema", {
       )
     )
     expect_equal(nrow(meta), 1L)
-    expect_equal(meta$station_number, "030101")
-    expect_equal(meta$source, "cehq")
+    expect_equal(meta$station_id, "030101")
+    expect_equal(meta$provider_name, "cehq")
     expect_s3_class(meta$period_start, "Date")
     expect_equal(as.integer(format(meta$period_start, "%Y")), 1960L)
     expect_true(is.na(meta$elevation_m))
@@ -58,7 +58,7 @@ test_that("CEHQ station metadata returns correct schema", {
 test_that("CEHQ fetch_daily_flows returns valid schema for a known station", {
   httptest2::with_mock_api({
     result <- hc_read_daily_flows(
-      station_number = "030101",
+      station_id = "030101",
       start_date = "2022-01-01",
       end_date = "2022-01-05",
       source = "cehq"
@@ -67,28 +67,28 @@ test_that("CEHQ fetch_daily_flows returns valid schema for a known station", {
     expect_named(
       result,
       c(
-        "station_number",
+        "station_id",
         "date",
         "value",
         "parameter",
-        "units",
-        "source",
+        "unit",
+        "provider_name",
         "approval",
         "quality_flag"
       )
     )
     expect_equal(nrow(result), 5L)
     expect_s3_class(result$date, "Date")
-    expect_equal(unique(result$parameter), "flow")
-    expect_equal(unique(result$units), "m3/s")
-    expect_equal(unique(result$source), "cehq")
+    expect_equal(unique(result$parameter), "water_discharge")
+    expect_equal(unique(result$unit), "m3/s")
+    expect_equal(unique(result$provider_name), "cehq")
   })
 })
 
 test_that("CEHQ fetch_daily_flows maps approval and quality_flag correctly", {
   httptest2::with_mock_api({
     result <- hc_read_daily_flows(
-      station_number = "030101",
+      station_id = "030101",
       start_date = "2022-01-01",
       end_date = "2022-01-05",
       source = "cehq"
@@ -117,7 +117,7 @@ test_that("CEHQ fetch_daily_flows maps approval and quality_flag correctly", {
 test_that("CEHQ fetch_daily_levels returns valid schema for a known station", {
   httptest2::with_mock_api({
     result <- hc_read_daily_levels(
-      station_number = "030101",
+      station_id = "030101",
       start_date = "2022-01-01",
       end_date = "2022-01-05",
       source = "cehq"
@@ -126,27 +126,27 @@ test_that("CEHQ fetch_daily_levels returns valid schema for a known station", {
     expect_named(
       result,
       c(
-        "station_number",
+        "station_id",
         "date",
         "value",
         "parameter",
-        "units",
-        "source",
+        "unit",
+        "provider_name",
         "approval",
         "quality_flag"
       )
     )
     expect_equal(nrow(result), 5L)
-    expect_equal(unique(result$parameter), "level")
-    expect_equal(unique(result$units), "m")
-    expect_equal(unique(result$source), "cehq")
+    expect_equal(unique(result$parameter), "water_level")
+    expect_equal(unique(result$unit), "m")
+    expect_equal(unique(result$provider_name), "cehq")
   })
 })
 
 test_that("CEHQ fetch_daily_levels maps approval and quality_flag correctly", {
   httptest2::with_mock_api({
     result <- hc_read_daily_levels(
-      station_number = "030101",
+      station_id = "030101",
       start_date = "2022-01-01",
       end_date = "2022-01-05",
       source = "cehq"
@@ -175,12 +175,12 @@ test_that("CEHQ fetch_daily_flows returns empty tibble for unknown station", {
     expect_named(
       result,
       c(
-        "station_number",
+        "station_id",
         "date",
         "value",
         "parameter",
-        "units",
-        "source",
+        "unit",
+        "provider_name",
         "approval",
         "quality_flag"
       )

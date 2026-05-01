@@ -12,9 +12,10 @@ query directly. When \code{NULL} (default) all registered data sources are
 queried. See \code{\link[=hc_list_sources]{hc_list_sources()}} for available names.}
 }
 \value{
-A tibble with columns \code{station_number} (chr), \code{station_name} (chr),
-\code{source} (chr), \code{longitude} (dbl), \code{latitude} (dbl), \code{elevation_m} (dbl),
-\code{period_start} (Date), \code{period_end} (Date), and \code{notes} (list).
+A tibble with columns \code{station_id} (chr), \code{station_name} (chr),
+\code{provider_name} (chr), \code{longitude} (dbl), \code{latitude} (dbl),
+\code{elevation_m} (dbl), \code{period_start} (Date), \code{period_end} (Date), and
+\code{notes} (list).
 }
 \description{
 Returns location and period-of-record information for all stations available

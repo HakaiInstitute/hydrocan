@@ -1,28 +1,28 @@
 # Constructors attach the class and record which stations were originally
 # requested so the print method can report any that came back empty.
 
-new_hydrocan_realtime <- function(x, station_number) {
+new_hydrocan_realtime <- function(x, station_id) {
   structure(
     x,
     class = c("hydrocan_realtime", class(x)),
-    requested_stations = station_number
+    requested_stations = station_id
   )
 }
 
-new_hydrocan_daily <- function(x, station_number) {
+new_hydrocan_daily <- function(x, station_id) {
   structure(
     x,
     class = c("hydrocan_daily", class(x)),
-    requested_stations = station_number
+    requested_stations = station_id
   )
 }
 
 # Shared header printed above the tibble for both classes.
 .print_hydrocan_header <- function(x, time_col) {
   n_obs <- nrow(x)
-  sources <- unique(x$source)
+  sources <- unique(x$provider_name)
   params <- unique(x$parameter)
-  returned <- unique(x$station_number)
+  returned <- unique(x$station_id)
   requested <- attr(x, "requested_stations")
   missing <- setdiff(requested, returned)
 
@@ -53,7 +53,7 @@ new_hydrocan_daily <- function(x, station_number) {
 
 #' @export
 print.hydrocan_realtime <- function(x, ...) {
-  .print_hydrocan_header(x, "datetime")
+  .print_hydrocan_header(x, "timestamp")
   NextMethod()
   invisible(x)
 }

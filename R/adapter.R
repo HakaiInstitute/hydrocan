@@ -4,28 +4,32 @@
 #' function must be supplied.
 #'
 #' @param name Non-empty string identifying this source. Used as the registry
-#'   key and as the `source` column in output.
+#'   key and as the `provider_name` column in output.
 #' @param description String describing the source and any known limitations
 #'   (e.g. rolling data window). Shown by [hc_list_sources()].
 #' @param list_stations_fn Function with no arguments returning a character
 #'   vector of station IDs this source can serve.
-#' @param fetch_flows_fn Optional `function(station_number, start_date,
-#'   end_date)` returning a tibble matching the flows schema (`datetime`
+#' @param fetch_flows_fn Optional `function(station_id, start_date,
+#'   end_date)` returning a tibble matching the flows schema (`timestamp`
 #'   column). `NULL` if sub-daily flow data is not available.
-#' @param fetch_daily_flows_fn Optional `function(station_number, start_date,
+#' @param fetch_daily_flows_fn Optional `function(station_id, start_date,
 #'   end_date)` returning a tibble matching the daily flows schema (`date`
 #'   column). `NULL` if daily flow data is not available.
-#' @param fetch_levels_fn Optional `function(station_number, start_date,
-#'   end_date)` returning a tibble matching the flows schema (`datetime`
-#'   column) with `parameter = "level"`. `NULL` if sub-daily level data is not
-#'   available.
-#' @param fetch_daily_levels_fn Optional `function(station_number, start_date,
+#' @param fetch_levels_fn Optional `function(station_id, start_date,
+#'   end_date)` returning a tibble matching the flows schema (`timestamp`
+#'   column) with `parameter = "water_level"`. `NULL` if sub-daily level data
+#'   is not available.
+#' @param fetch_daily_levels_fn Optional `function(station_id, start_date,
 #'   end_date)` returning a tibble matching the daily flows schema (`date`
-#'   column) with `parameter = "level"`. `NULL` if daily level data is not
-#'   available.
+#'   column) with `parameter = "water_level"`. `NULL` if daily level data is
+#'   not available.
 #' @param list_stations_meta_fn Optional function with no arguments returning
 #'   a tibble matching the stations schema. `NULL` if station metadata is not
 #'   available.
+#' @param license Optional string naming the data license (e.g. `"CC-BY 4.0"`).
+#' @param license_url Optional string with a URL to the license text.
+#' @param terms_url Optional string with a URL to the data provider's terms of
+#'   use or data policy.
 #'
 #' @return A list with class `"hydrocan_adapter"`.
 #' @export
@@ -37,7 +41,10 @@ new_hydrocan_adapter <- function(
   fetch_daily_flows_fn = NULL,
   fetch_levels_fn = NULL,
   fetch_daily_levels_fn = NULL,
-  list_stations_meta_fn = NULL
+  list_stations_meta_fn = NULL,
+  license = NULL,
+  license_url = NULL,
+  terms_url = NULL
 ) {
   if (!is.character(name) || length(name) != 1L || nchar(name) == 0L) {
     stop("'name' must be a single non-empty character string.", call. = FALSE)
@@ -70,6 +77,19 @@ new_hydrocan_adapter <- function(
   if (!is.null(list_stations_meta_fn) && !is.function(list_stations_meta_fn)) {
     stop("'list_stations_meta_fn' must be a function or NULL.", call. = FALSE)
   }
+  for (nm in c("license", "license_url", "terms_url")) {
+    val <- get(nm)
+    if (!is.null(val)) {
+      if (!is.character(val) || length(val) != 1L || is.na(val)) {
+        stop(
+          "'",
+          nm,
+          "' must be a single non-NA character string or NULL.",
+          call. = FALSE
+        )
+      }
+    }
+  }
 
   structure(
     list(
@@ -80,7 +100,10 @@ new_hydrocan_adapter <- function(
       fetch_daily_flows_fn = fetch_daily_flows_fn,
       fetch_levels_fn = fetch_levels_fn,
       fetch_daily_levels_fn = fetch_daily_levels_fn,
-      list_stations_meta_fn = list_stations_meta_fn
+      list_stations_meta_fn = list_stations_meta_fn,
+      license = license,
+      license_url = license_url,
+      terms_url = terms_url
     ),
     class = "hydrocan_adapter"
   )

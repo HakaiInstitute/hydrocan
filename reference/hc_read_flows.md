@@ -7,12 +7,12 @@ the station number, or fixed explicitly via `source`.
 ## Usage
 
 ``` r
-hc_read_flows(station_number, start_date, end_date = Sys.Date(), source = NULL)
+hc_read_flows(station_id, start_date, end_date = Sys.Date(), source = NULL)
 ```
 
 ## Arguments
 
-- station_number:
+- station_id:
 
   Character vector of station identifiers.
 
@@ -29,12 +29,12 @@ hc_read_flows(station_number, start_date, end_date = Sys.Date(), source = NULL)
 
   Optional single character string naming the data source to use
   directly. When `NULL` (default) the source is detected automatically
-  from the station number. See
+  from the station ID. See
   [`hc_list_sources()`](https://hakaiinstitute.github.io/hydrocan/reference/hc_list_sources.md)
   for available names.
 
 ## Value
 
-A tibble with columns `station_number` (chr), `datetime` (POSIXct UTC),
-`value` (dbl), `parameter` (chr), `units` (chr), `source` (chr),
+A tibble with columns `station_id` (chr), `timestamp` (POSIXct UTC),
+`value` (dbl), `parameter` (chr), `unit` (chr), `provider_name` (chr),
 `approval` (chr), and `quality_flag` (chr).

@@ -52,7 +52,7 @@ do not will produce a warning and return no rows for the affected stations.</p>
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">hc_read_daily_levels</span><span class="op">(</span></span>
-<span>  <span class="va">station_number</span>,</span>
+<span>  <span class="va">station_id</span>,</span>
 <span>  <span class="va">start_date</span>,</span>
 <span>  end_date <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  source <span class="op">=</span> <span class="cn">NULL</span></span>
@@ -63,7 +63,7 @@ do not will produce a warning and return no rows for the affected stations.</p>
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
 
 
-<dl><dt id="arg-station-number">station_number<a class="anchor" aria-label="anchor" href="#arg-station-number"></a></dt>
+<dl><dt id="arg-station-id">station_id<a class="anchor" aria-label="anchor" href="#arg-station-id"></a></dt>
 <dd><p>Character vector of station identifiers.</p></dd>
 
 
@@ -80,14 +80,14 @@ to Date). Defaults to today.</p></dd>
 <dt id="arg-source">source<a class="anchor" aria-label="anchor" href="#arg-source"></a></dt>
 <dd><p>Optional single character string naming the data source to use
 directly. When <code>NULL</code> (default) the source is detected automatically from
-the station number. See <code><a href="hc_list_sources.html">hc_list_sources()</a></code> for available names.</p></dd>
+the station ID. See <code><a href="hc_list_sources.html">hc_list_sources()</a></code> for available names.</p></dd>
 
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A tibble with columns <code>station_number</code> (chr), <code>date</code> (Date),
-<code>value</code> (dbl), <code>parameter</code> (chr: <code>"level"</code>), <code>units</code> (chr), <code>source</code>
-(chr), <code>approval</code> (chr), and <code>quality_flag</code> (chr).</p>
+    <p>A tibble with columns <code>station_id</code> (chr), <code>date</code> (Date),
+<code>value</code> (dbl), <code>parameter</code> (chr: <code>"water_level"</code>), <code>unit</code> (chr),
+<code>provider_name</code> (chr), <code>approval</code> (chr), and <code>quality_flag</code> (chr).</p>
     </div>
 
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

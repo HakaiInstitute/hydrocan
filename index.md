@@ -28,10 +28,10 @@ The main functions are
 [`hc_read_flows()`](https://hakaiinstitute.github.io/hydrocan/reference/hc_read_flows.md)
 for sub-daily observations and
 [`hc_read_daily_flows()`](https://hakaiinstitute.github.io/hydrocan/reference/hc_read_daily_flows.md)
-for daily aggregates. Both accept one or more station numbers, a date
-range, and an optional `source` argument to target a specific adapter
-directly. When `source` is omitted, the router matches each station
-number to its data source automatically.
+for daily aggregates. Both accept one or more station IDs, a date range,
+and an optional `source` argument to target a specific adapter directly.
+When `source` is omitted, the router matches each station ID to its data
+source automatically.
 
 ``` r
 
@@ -39,58 +39,58 @@ library(hydrocan)
 
 # Sub-daily flow observations from a single Hydro-Quebec station
 hc_read_flows(
-  station_number = "3-230",
+  station_id = "3-230",
   start_date = Sys.Date() - 7
 )
 #> ── hydrocan ────────────────────────────────────────────────────────────────────
 #>   Observations: 192
 #>   Source: hydroquebec
-#>   Parameter: flow
-#>   Date range: 2026-04-22 to 2026-04-25 23:00:00
+#>   Parameter: water_discharge
+#>   Date range: 2026-04-23 to 2026-04-26 23:00:00
 #>   Station: 1 returned
 #> ✔ All stations returned.
 #> ────────────────────────────────────────────────────────────────────────────────
 #> # A tibble: 192 × 8
-#>    station_number datetime            value parameter units source      approval
-#>  * <chr>          <dttm>              <dbl> <chr>     <chr> <chr>       <chr>   
-#>  1 3-230          2026-04-22 00:00:00  213. flow      m3/s  hydroquebec <NA>    
-#>  2 3-230          2026-04-22 00:00:00  213. flow      m3/s  hydroquebec <NA>    
-#>  3 3-230          2026-04-22 01:00:00  214. flow      m3/s  hydroquebec <NA>    
-#>  4 3-230          2026-04-22 01:00:00  214. flow      m3/s  hydroquebec <NA>    
-#>  5 3-230          2026-04-22 02:00:00  214. flow      m3/s  hydroquebec <NA>    
-#>  6 3-230          2026-04-22 02:00:00  214. flow      m3/s  hydroquebec <NA>    
-#>  7 3-230          2026-04-22 03:00:00  214. flow      m3/s  hydroquebec <NA>    
-#>  8 3-230          2026-04-22 03:00:00  214. flow      m3/s  hydroquebec <NA>    
-#>  9 3-230          2026-04-22 04:00:00  215. flow      m3/s  hydroquebec <NA>    
-#> 10 3-230          2026-04-22 04:00:00  215. flow      m3/s  hydroquebec <NA>    
+#>    station_id timestamp           value parameter   unit  provider_name approval
+#>  * <chr>      <dttm>              <dbl> <chr>       <chr> <chr>         <chr>   
+#>  1 3-230      2026-04-23 00:00:00  218. water_disc… m3/s  hydroquebec   <NA>    
+#>  2 3-230      2026-04-23 00:00:00  218. water_disc… m3/s  hydroquebec   <NA>    
+#>  3 3-230      2026-04-23 01:00:00  218. water_disc… m3/s  hydroquebec   <NA>    
+#>  4 3-230      2026-04-23 01:00:00  218. water_disc… m3/s  hydroquebec   <NA>    
+#>  5 3-230      2026-04-23 02:00:00  218. water_disc… m3/s  hydroquebec   <NA>    
+#>  6 3-230      2026-04-23 02:00:00  218. water_disc… m3/s  hydroquebec   <NA>    
+#>  7 3-230      2026-04-23 03:00:00  218. water_disc… m3/s  hydroquebec   <NA>    
+#>  8 3-230      2026-04-23 03:00:00  218. water_disc… m3/s  hydroquebec   <NA>    
+#>  9 3-230      2026-04-23 04:00:00  218. water_disc… m3/s  hydroquebec   <NA>    
+#> 10 3-230      2026-04-23 04:00:00  218. water_disc… m3/s  hydroquebec   <NA>    
 #> # ℹ 182 more rows
 #> # ℹ 1 more variable: quality_flag <chr>
 
 # Daily flows from two stations across two sources in one call -
 # the router detects that "030101" belongs to CEHQ and "3-230" to Hydro-Quebec
 hc_read_daily_flows(
-  station_number = c("030101", "3-230"),
+  station_id = c("030101", "3-230"),
   start_date = Sys.Date() - 7
 )
 #> ── hydrocan ────────────────────────────────────────────────────────────────────
-#>   Observations: 8
+#>   Observations: 7
 #>   Sources: cehq, hydroquebec
-#>   Parameter: flow
-#>   Date range: 2026-04-22 to 2026-04-25
+#>   Parameter: water_discharge
+#>   Date range: 2026-04-23 to 2026-04-26
 #>   Stations: 2 returned
 #> ✔ All stations returned.
 #> ────────────────────────────────────────────────────────────────────────────────
-#> # A tibble: 8 × 8
-#>   station_number date       value parameter units source   approval quality_flag
-#> * <chr>          <date>     <dbl> <chr>     <chr> <chr>    <chr>    <chr>       
-#> 1 030101         2026-04-22 17.7  flow      m3/s  cehq     approved MJ          
-#> 2 030101         2026-04-23 13.8  flow      m3/s  cehq     approved MJ          
-#> 3 030101         2026-04-24 11.4  flow      m3/s  cehq     approved MJ          
-#> 4 030101         2026-04-25  9.32 flow      m3/s  cehq     approved MJ          
-#> 5 3-230          2026-04-22 24.3  flow      m3/s  hydroqu… <NA>     Apport filt…
-#> 6 3-230          2026-04-23 25.3  flow      m3/s  hydroqu… <NA>     Apport filt…
-#> 7 3-230          2026-04-24 27.5  flow      m3/s  hydroqu… <NA>     Apport filt…
-#> 8 3-230          2026-04-25 29.7  flow      m3/s  hydroqu… <NA>     Apport filt…
+#> # A tibble: 7 × 8
+#>   station_id date       value parameter       unit  provider_name approval
+#> * <chr>      <date>     <dbl> <chr>           <chr> <chr>         <chr>   
+#> 1 030101     2026-04-23 13.8  water_discharge m3/s  cehq          approved
+#> 2 030101     2026-04-24 11.4  water_discharge m3/s  cehq          approved
+#> 3 030101     2026-04-25  9.32 water_discharge m3/s  cehq          approved
+#> 4 3-230      2026-04-23 25.3  water_discharge m3/s  hydroquebec   <NA>    
+#> 5 3-230      2026-04-24 27.5  water_discharge m3/s  hydroquebec   <NA>    
+#> 6 3-230      2026-04-25 29.7  water_discharge m3/s  hydroquebec   <NA>    
+#> 7 3-230      2026-04-26 32.2  water_discharge m3/s  hydroquebec   <NA>    
+#> # ℹ 1 more variable: quality_flag <chr>
 ```
 
 ## Supported sources

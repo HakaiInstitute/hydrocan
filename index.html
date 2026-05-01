@@ -83,64 +83,64 @@
 <div class="section level2">
 <h2 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
 </h2>
-<p>The main functions are <code><a href="reference/hc_read_flows.html">hc_read_flows()</a></code> for sub-daily observations and <code><a href="reference/hc_read_daily_flows.html">hc_read_daily_flows()</a></code> for daily aggregates. Both accept one or more station numbers, a date range, and an optional <code>source</code> argument to target a specific adapter directly. When <code>source</code> is omitted, the router matches each station number to its data source automatically.</p>
+<p>The main functions are <code><a href="reference/hc_read_flows.html">hc_read_flows()</a></code> for sub-daily observations and <code><a href="reference/hc_read_daily_flows.html">hc_read_daily_flows()</a></code> for daily aggregates. Both accept one or more station IDs, a date range, and an optional <code>source</code> argument to target a specific adapter directly. When <code>source</code> is omitted, the router matches each station ID to its data source automatically.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/HakaiInstitute/hydrocan" class="external-link">hydrocan</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Sub-daily flow observations from a single Hydro-Quebec station</span></span>
 <span><span class="fu"><a href="reference/hc_read_flows.html">hc_read_flows</a></span><span class="op">(</span></span>
-<span>  station_number <span class="op">=</span> <span class="st">"3-230"</span>,</span>
+<span>  station_id <span class="op">=</span> <span class="st">"3-230"</span>,</span>
 <span>  start_date <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="fl">7</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; ── hydrocan ────────────────────────────────────────────────────────────────────</span></span>
 <span><span class="co">#&gt;   Observations: 192</span></span>
 <span><span class="co">#&gt;   Source: hydroquebec</span></span>
-<span><span class="co">#&gt;   Parameter: flow</span></span>
-<span><span class="co">#&gt;   Date range: 2026-04-22 to 2026-04-25 23:00:00</span></span>
+<span><span class="co">#&gt;   Parameter: water_discharge</span></span>
+<span><span class="co">#&gt;   Date range: 2026-04-23 to 2026-04-26 23:00:00</span></span>
 <span><span class="co">#&gt;   Station: 1 returned</span></span>
 <span><span class="co">#&gt; ✔ All stations returned.</span></span>
 <span><span class="co">#&gt; ────────────────────────────────────────────────────────────────────────────────</span></span>
 <span><span class="co">#&gt; # A tibble: 192 × 8</span></span>
-<span><span class="co">#&gt;    station_number datetime            value parameter units source      approval</span></span>
-<span><span class="co">#&gt;  * &lt;chr&gt;          &lt;dttm&gt;              &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt;       &lt;chr&gt;   </span></span>
-<span><span class="co">#&gt;  1 3-230          2026-04-22 00:00:00  213. flow      m3/s  hydroquebec &lt;NA&gt;    </span></span>
-<span><span class="co">#&gt;  2 3-230          2026-04-22 00:00:00  213. flow      m3/s  hydroquebec &lt;NA&gt;    </span></span>
-<span><span class="co">#&gt;  3 3-230          2026-04-22 01:00:00  214. flow      m3/s  hydroquebec &lt;NA&gt;    </span></span>
-<span><span class="co">#&gt;  4 3-230          2026-04-22 01:00:00  214. flow      m3/s  hydroquebec &lt;NA&gt;    </span></span>
-<span><span class="co">#&gt;  5 3-230          2026-04-22 02:00:00  214. flow      m3/s  hydroquebec &lt;NA&gt;    </span></span>
-<span><span class="co">#&gt;  6 3-230          2026-04-22 02:00:00  214. flow      m3/s  hydroquebec &lt;NA&gt;    </span></span>
-<span><span class="co">#&gt;  7 3-230          2026-04-22 03:00:00  214. flow      m3/s  hydroquebec &lt;NA&gt;    </span></span>
-<span><span class="co">#&gt;  8 3-230          2026-04-22 03:00:00  214. flow      m3/s  hydroquebec &lt;NA&gt;    </span></span>
-<span><span class="co">#&gt;  9 3-230          2026-04-22 04:00:00  215. flow      m3/s  hydroquebec &lt;NA&gt;    </span></span>
-<span><span class="co">#&gt; 10 3-230          2026-04-22 04:00:00  215. flow      m3/s  hydroquebec &lt;NA&gt;    </span></span>
+<span><span class="co">#&gt;    station_id timestamp           value parameter   unit  provider_name approval</span></span>
+<span><span class="co">#&gt;  * &lt;chr&gt;      &lt;dttm&gt;              &lt;dbl&gt; &lt;chr&gt;       &lt;chr&gt; &lt;chr&gt;         &lt;chr&gt;   </span></span>
+<span><span class="co">#&gt;  1 3-230      2026-04-23 00:00:00  218. water_disc… m3/s  hydroquebec   &lt;NA&gt;    </span></span>
+<span><span class="co">#&gt;  2 3-230      2026-04-23 00:00:00  218. water_disc… m3/s  hydroquebec   &lt;NA&gt;    </span></span>
+<span><span class="co">#&gt;  3 3-230      2026-04-23 01:00:00  218. water_disc… m3/s  hydroquebec   &lt;NA&gt;    </span></span>
+<span><span class="co">#&gt;  4 3-230      2026-04-23 01:00:00  218. water_disc… m3/s  hydroquebec   &lt;NA&gt;    </span></span>
+<span><span class="co">#&gt;  5 3-230      2026-04-23 02:00:00  218. water_disc… m3/s  hydroquebec   &lt;NA&gt;    </span></span>
+<span><span class="co">#&gt;  6 3-230      2026-04-23 02:00:00  218. water_disc… m3/s  hydroquebec   &lt;NA&gt;    </span></span>
+<span><span class="co">#&gt;  7 3-230      2026-04-23 03:00:00  218. water_disc… m3/s  hydroquebec   &lt;NA&gt;    </span></span>
+<span><span class="co">#&gt;  8 3-230      2026-04-23 03:00:00  218. water_disc… m3/s  hydroquebec   &lt;NA&gt;    </span></span>
+<span><span class="co">#&gt;  9 3-230      2026-04-23 04:00:00  218. water_disc… m3/s  hydroquebec   &lt;NA&gt;    </span></span>
+<span><span class="co">#&gt; 10 3-230      2026-04-23 04:00:00  218. water_disc… m3/s  hydroquebec   &lt;NA&gt;    </span></span>
 <span><span class="co">#&gt; # ℹ 182 more rows</span></span>
 <span><span class="co">#&gt; # ℹ 1 more variable: quality_flag &lt;chr&gt;</span></span>
 <span></span>
 <span><span class="co"># Daily flows from two stations across two sources in one call -</span></span>
 <span><span class="co"># the router detects that "030101" belongs to CEHQ and "3-230" to Hydro-Quebec</span></span>
 <span><span class="fu"><a href="reference/hc_read_daily_flows.html">hc_read_daily_flows</a></span><span class="op">(</span></span>
-<span>  station_number <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"030101"</span>, <span class="st">"3-230"</span><span class="op">)</span>,</span>
+<span>  station_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"030101"</span>, <span class="st">"3-230"</span><span class="op">)</span>,</span>
 <span>  start_date <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="fl">7</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; ── hydrocan ────────────────────────────────────────────────────────────────────</span></span>
-<span><span class="co">#&gt;   Observations: 8</span></span>
+<span><span class="co">#&gt;   Observations: 7</span></span>
 <span><span class="co">#&gt;   Sources: cehq, hydroquebec</span></span>
-<span><span class="co">#&gt;   Parameter: flow</span></span>
-<span><span class="co">#&gt;   Date range: 2026-04-22 to 2026-04-25</span></span>
+<span><span class="co">#&gt;   Parameter: water_discharge</span></span>
+<span><span class="co">#&gt;   Date range: 2026-04-23 to 2026-04-26</span></span>
 <span><span class="co">#&gt;   Stations: 2 returned</span></span>
 <span><span class="co">#&gt; ✔ All stations returned.</span></span>
 <span><span class="co">#&gt; ────────────────────────────────────────────────────────────────────────────────</span></span>
-<span><span class="co">#&gt; # A tibble: 8 × 8</span></span>
-<span><span class="co">#&gt;   station_number date       value parameter units source   approval quality_flag</span></span>
-<span><span class="co">#&gt; * &lt;chr&gt;          &lt;date&gt;     &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;       </span></span>
-<span><span class="co">#&gt; 1 030101         2026-04-22 17.7  flow      m3/s  cehq     approved MJ          </span></span>
-<span><span class="co">#&gt; 2 030101         2026-04-23 13.8  flow      m3/s  cehq     approved MJ          </span></span>
-<span><span class="co">#&gt; 3 030101         2026-04-24 11.4  flow      m3/s  cehq     approved MJ          </span></span>
-<span><span class="co">#&gt; 4 030101         2026-04-25  9.32 flow      m3/s  cehq     approved MJ          </span></span>
-<span><span class="co">#&gt; 5 3-230          2026-04-22 24.3  flow      m3/s  hydroqu… &lt;NA&gt;     Apport filt…</span></span>
-<span><span class="co">#&gt; 6 3-230          2026-04-23 25.3  flow      m3/s  hydroqu… &lt;NA&gt;     Apport filt…</span></span>
-<span><span class="co">#&gt; 7 3-230          2026-04-24 27.5  flow      m3/s  hydroqu… &lt;NA&gt;     Apport filt…</span></span>
-<span><span class="co">#&gt; 8 3-230          2026-04-25 29.7  flow      m3/s  hydroqu… &lt;NA&gt;     Apport filt…</span></span></code></pre></div>
+<span><span class="co">#&gt; # A tibble: 7 × 8</span></span>
+<span><span class="co">#&gt;   station_id date       value parameter       unit  provider_name approval</span></span>
+<span><span class="co">#&gt; * &lt;chr&gt;      &lt;date&gt;     &lt;dbl&gt; &lt;chr&gt;           &lt;chr&gt; &lt;chr&gt;         &lt;chr&gt;   </span></span>
+<span><span class="co">#&gt; 1 030101     2026-04-23 13.8  water_discharge m3/s  cehq          approved</span></span>
+<span><span class="co">#&gt; 2 030101     2026-04-24 11.4  water_discharge m3/s  cehq          approved</span></span>
+<span><span class="co">#&gt; 3 030101     2026-04-25  9.32 water_discharge m3/s  cehq          approved</span></span>
+<span><span class="co">#&gt; 4 3-230      2026-04-23 25.3  water_discharge m3/s  hydroquebec   &lt;NA&gt;    </span></span>
+<span><span class="co">#&gt; 5 3-230      2026-04-24 27.5  water_discharge m3/s  hydroquebec   &lt;NA&gt;    </span></span>
+<span><span class="co">#&gt; 6 3-230      2026-04-25 29.7  water_discharge m3/s  hydroquebec   &lt;NA&gt;    </span></span>
+<span><span class="co">#&gt; 7 3-230      2026-04-26 32.2  water_discharge m3/s  hydroquebec   &lt;NA&gt;    </span></span>
+<span><span class="co">#&gt; # ℹ 1 more variable: quality_flag &lt;chr&gt;</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="supported-sources">Supported sources<a class="anchor" aria-label="anchor" href="#supported-sources"></a>

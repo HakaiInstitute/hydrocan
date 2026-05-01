@@ -22,6 +22,7 @@ hc_read_stations(source = NULL)
 
 ## Value
 
-A tibble with columns `station_number` (chr), `station_name` (chr),
-`source` (chr), `longitude` (dbl), `latitude` (dbl), `elevation_m`
-(dbl), `period_start` (Date), `period_end` (Date), and `notes` (list).
+A tibble with columns `station_id` (chr), `station_name` (chr),
+`provider_name` (chr), `longitude` (dbl), `latitude` (dbl),
+`elevation_m` (dbl), `period_start` (Date), `period_end` (Date), and
+`notes` (list).

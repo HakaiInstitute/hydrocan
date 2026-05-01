@@ -56,7 +56,10 @@ function must be supplied.</p>
 <span>  fetch_daily_flows_fn <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  fetch_levels_fn <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  fetch_daily_levels_fn <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  list_stations_meta_fn <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>  list_stations_meta_fn <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  license <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  license_url <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  terms_url <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -66,7 +69,7 @@ function must be supplied.</p>
 
 <dl><dt id="arg-name">name<a class="anchor" aria-label="anchor" href="#arg-name"></a></dt>
 <dd><p>Non-empty string identifying this source. Used as the registry
-key and as the <code>source</code> column in output.</p></dd>
+key and as the <code>provider_name</code> column in output.</p></dd>
 
 
 <dt id="arg-description">description<a class="anchor" aria-label="anchor" href="#arg-description"></a></dt>
@@ -80,31 +83,44 @@ vector of station IDs this source can serve.</p></dd>
 
 
 <dt id="arg-fetch-flows-fn">fetch_flows_fn<a class="anchor" aria-label="anchor" href="#arg-fetch-flows-fn"></a></dt>
-<dd><p>Optional <code>function(station_number, start_date, end_date)</code> returning a tibble matching the flows schema (<code>datetime</code>
+<dd><p>Optional <code>function(station_id, start_date, end_date)</code> returning a tibble matching the flows schema (<code>timestamp</code>
 column). <code>NULL</code> if sub-daily flow data is not available.</p></dd>
 
 
 <dt id="arg-fetch-daily-flows-fn">fetch_daily_flows_fn<a class="anchor" aria-label="anchor" href="#arg-fetch-daily-flows-fn"></a></dt>
-<dd><p>Optional <code>function(station_number, start_date, end_date)</code> returning a tibble matching the daily flows schema (<code>date</code>
+<dd><p>Optional <code>function(station_id, start_date, end_date)</code> returning a tibble matching the daily flows schema (<code>date</code>
 column). <code>NULL</code> if daily flow data is not available.</p></dd>
 
 
 <dt id="arg-fetch-levels-fn">fetch_levels_fn<a class="anchor" aria-label="anchor" href="#arg-fetch-levels-fn"></a></dt>
-<dd><p>Optional <code>function(station_number, start_date, end_date)</code> returning a tibble matching the flows schema (<code>datetime</code>
-column) with <code>parameter = "level"</code>. <code>NULL</code> if sub-daily level data is not
-available.</p></dd>
+<dd><p>Optional <code>function(station_id, start_date, end_date)</code> returning a tibble matching the flows schema (<code>timestamp</code>
+column) with <code>parameter = "water_level"</code>. <code>NULL</code> if sub-daily level data
+is not available.</p></dd>
 
 
 <dt id="arg-fetch-daily-levels-fn">fetch_daily_levels_fn<a class="anchor" aria-label="anchor" href="#arg-fetch-daily-levels-fn"></a></dt>
-<dd><p>Optional <code>function(station_number, start_date, end_date)</code> returning a tibble matching the daily flows schema (<code>date</code>
-column) with <code>parameter = "level"</code>. <code>NULL</code> if daily level data is not
-available.</p></dd>
+<dd><p>Optional <code>function(station_id, start_date, end_date)</code> returning a tibble matching the daily flows schema (<code>date</code>
+column) with <code>parameter = "water_level"</code>. <code>NULL</code> if daily level data is
+not available.</p></dd>
 
 
 <dt id="arg-list-stations-meta-fn">list_stations_meta_fn<a class="anchor" aria-label="anchor" href="#arg-list-stations-meta-fn"></a></dt>
 <dd><p>Optional function with no arguments returning
 a tibble matching the stations schema. <code>NULL</code> if station metadata is not
 available.</p></dd>
+
+
+<dt id="arg-license">license<a class="anchor" aria-label="anchor" href="#arg-license"></a></dt>
+<dd><p>Optional string naming the data license (e.g. <code>"CC-BY 4.0"</code>).</p></dd>
+
+
+<dt id="arg-license-url">license_url<a class="anchor" aria-label="anchor" href="#arg-license-url"></a></dt>
+<dd><p>Optional string with a URL to the license text.</p></dd>
+
+
+<dt id="arg-terms-url">terms_url<a class="anchor" aria-label="anchor" href="#arg-terms-url"></a></dt>
+<dd><p>Optional string with a URL to the data provider's terms of
+use or data policy.</p></dd>
 
 </dl></div>
     <div class="section level2">

@@ -136,7 +136,7 @@ hc_read_stations <- function(source = NULL) {
 #'
 #' Fetches sub-daily observations for one or more stations across the requested
 #' date range. The data source is determined automatically from the station
-#' number, or fixed explicitly via `source`.
+#' ID, or fixed explicitly via `source`.
 #'
 #' @param station_id Character vector of station identifiers.
 #' @param start_date Start of the requested period (Date, or character

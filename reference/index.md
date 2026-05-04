@@ -2,6 +2,8 @@
 
 ## All functions
 
+- [`hc_citation()`](https://hakaiinstitute.github.io/hydrocan/reference/hc_citation.md)
+  : Cite a hydrocan data source
 - [`hc_list_sources()`](https://hakaiinstitute.github.io/hydrocan/reference/hc_list_sources.md)
   : List registered data sources
 - [`hc_read_daily_flows()`](https://hakaiinstitute.github.io/hydrocan/reference/hc_read_daily_flows.md)

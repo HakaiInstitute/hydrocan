@@ -15,9 +15,12 @@ new_hydrocan_adapter(
   fetch_levels_fn = NULL,
   fetch_daily_levels_fn = NULL,
   list_stations_meta_fn = NULL,
+  title = NULL,
+  publisher = NULL,
   license = NULL,
   license_url = NULL,
-  terms_url = NULL
+  terms_url = NULL,
+  docs_url = NULL
 )
 ```
 
@@ -70,6 +73,16 @@ new_hydrocan_adapter(
   Optional function with no arguments returning a tibble matching the
   stations schema. `NULL` if station metadata is not available.
 
+- title:
+
+  Optional string with the formal name of the dataset as published by
+  the provider (used in citations).
+
+- publisher:
+
+  Optional string naming the organization that publishes the data (used
+  in citations).
+
 - license:
 
   Optional string naming the data license (e.g. `"CC-BY 4.0"`).
@@ -82,6 +95,12 @@ new_hydrocan_adapter(
 
   Optional string with a URL to the data provider's terms of use or data
   policy.
+
+- docs_url:
+
+  Optional string with a URL to human-readable documentation about the
+  data (field definitions, codes, data structure). A machine- readable
+  metadata endpoint is acceptable if no human-readable page exists.
 
 ## Value
 

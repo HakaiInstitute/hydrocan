@@ -71,7 +71,7 @@
 <blockquote>
 <p><strong>Warning:</strong> This package is in very early development. The API may change without notice and it should not be used in production.</p>
 </blockquote>
-<p>hydrocan provides unified access to Canadian hydrometric data from diverse web-published sources. It is complementary to <a href="https://docs.ropensci.org/tidyhydat/" class="external-link">tidyhydat</a>, which covers the federal Water Survey of Canada (WSC) network. hydrocan adds provincial and utility networks that have no existing R package.</p>
+<p>hydrocan provides unified access to Canadian hydrometric data from diverse web-published sources. It is complementary to <a href="https://docs.ropensci.org/tidyhydat/" class="external-link">tidyhydat</a>, which covers the federal Water Survey of Canada (WSC) network. hydrocan adds provincial and utility networks data sources that have no existing R package.</p>
 <p>Every function returns a consistent tibble regardless of the underlying data source, so analysis code works unchanged as new sources are added.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
@@ -133,11 +133,11 @@
 <span><span class="co">#&gt; # A tibble: 9 × 8</span></span>
 <span><span class="co">#&gt;   station_id date       value parameter unit  provider_name quality_code qf_desc</span></span>
 <span><span class="co">#&gt; * &lt;chr&gt;      &lt;date&gt;     &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt;         &lt;chr&gt;        &lt;chr&gt;  </span></span>
-<span><span class="co">#&gt; 1 030101     2026-04-27  6.67 water_di… m3/s  cehq          MJ           &lt;NA&gt;   </span></span>
-<span><span class="co">#&gt; 2 030101     2026-04-28  5.79 water_di… m3/s  cehq          MJ           &lt;NA&gt;   </span></span>
-<span><span class="co">#&gt; 3 030101     2026-04-29  5.01 water_di… m3/s  cehq          MJ           &lt;NA&gt;   </span></span>
-<span><span class="co">#&gt; 4 030101     2026-04-30  4.76 water_di… m3/s  cehq          MJ           &lt;NA&gt;   </span></span>
-<span><span class="co">#&gt; 5 030101     2026-05-01  5.63 water_di… m3/s  cehq          MJ           &lt;NA&gt;   </span></span>
+<span><span class="co">#&gt; 1 030101     2026-04-27  6.67 water_di… m3/s  cehq          MJ           La don…</span></span>
+<span><span class="co">#&gt; 2 030101     2026-04-28  5.79 water_di… m3/s  cehq          MJ           La don…</span></span>
+<span><span class="co">#&gt; 3 030101     2026-04-29  5.01 water_di… m3/s  cehq          MJ           La don…</span></span>
+<span><span class="co">#&gt; 4 030101     2026-04-30  4.76 water_di… m3/s  cehq          MJ           La don…</span></span>
+<span><span class="co">#&gt; 5 030101     2026-05-01  5.63 water_di… m3/s  cehq          MJ           La don…</span></span>
 <span><span class="co">#&gt; 6 3-230      2026-04-27 35.4  water_in… m3/s  hydroquebec   &lt;NA&gt;         &lt;NA&gt;   </span></span>
 <span><span class="co">#&gt; 7 3-230      2026-04-28 40.3  water_in… m3/s  hydroquebec   &lt;NA&gt;         &lt;NA&gt;   </span></span>
 <span><span class="co">#&gt; 8 3-230      2026-04-29 47.5  water_in… m3/s  hydroquebec   &lt;NA&gt;         &lt;NA&gt;   </span></span>
@@ -148,6 +148,29 @@
 </h2>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/hc_list_sources.html">hc_list_sources</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
+</h2>
+<p>If you use data accessed through hydrocan in your work, please cite the original data source. Use <code><a href="reference/hc_citation.html">hc_citation()</a></code> to get a formatted citation and BibTeX entry:</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/hc_citation.html">hc_citation</a></span><span class="op">(</span><span class="st">"hydroquebec"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; To cite 'hydroquebec' data in publications use:</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;   Hydro-Québec (2026). "Débits et apports naturels aux installations</span></span>
+<span><span class="co">#&gt;   d’Hydro-Québec." Accessed via the hydrocan R package License: CC</span></span>
+<span><span class="co">#&gt;   BY-NC 4.0,</span></span>
+<span><span class="co">#&gt;   &lt;https://donnees.hydroquebec.com/explore/dataset/donnees-hydrometriques/information/&gt;.</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; A BibTeX entry for LaTeX users is</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;   @Misc{,</span></span>
+<span><span class="co">#&gt;     title = {Débits et apports naturels aux installations d’Hydro-Québec},</span></span>
+<span><span class="co">#&gt;     year = {2026},</span></span>
+<span><span class="co">#&gt;     note = {Accessed via the hydrocan R package License: CC BY-NC 4.0},</span></span>
+<span><span class="co">#&gt;     author = {{Hydro-Québec}},</span></span>
+<span><span class="co">#&gt;     url = {https://donnees.hydroquebec.com/explore/dataset/donnees-hydrometriques/information/},</span></span>
+<span><span class="co">#&gt;   }</span></span></code></pre></div>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">

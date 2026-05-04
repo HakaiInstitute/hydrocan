@@ -57,9 +57,12 @@ function must be supplied.</p>
 <span>  fetch_levels_fn <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  fetch_daily_levels_fn <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  list_stations_meta_fn <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  title <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  publisher <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  license <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  license_url <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  terms_url <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>  terms_url <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  docs_url <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -110,6 +113,16 @@ a tibble matching the stations schema. <code>NULL</code> if station metadata is 
 available.</p></dd>
 
 
+<dt id="arg-title">title<a class="anchor" aria-label="anchor" href="#arg-title"></a></dt>
+<dd><p>Optional string with the formal name of the dataset as
+published by the provider (used in citations).</p></dd>
+
+
+<dt id="arg-publisher">publisher<a class="anchor" aria-label="anchor" href="#arg-publisher"></a></dt>
+<dd><p>Optional string naming the organization that publishes the
+data (used in citations).</p></dd>
+
+
 <dt id="arg-license">license<a class="anchor" aria-label="anchor" href="#arg-license"></a></dt>
 <dd><p>Optional string naming the data license (e.g. <code>"CC-BY 4.0"</code>).</p></dd>
 
@@ -121,6 +134,12 @@ available.</p></dd>
 <dt id="arg-terms-url">terms_url<a class="anchor" aria-label="anchor" href="#arg-terms-url"></a></dt>
 <dd><p>Optional string with a URL to the data provider's terms of
 use or data policy.</p></dd>
+
+
+<dt id="arg-docs-url">docs_url<a class="anchor" aria-label="anchor" href="#arg-docs-url"></a></dt>
+<dd><p>Optional string with a URL to human-readable documentation
+about the data (field definitions, codes, data structure). A machine-
+readable metadata endpoint is acceptable if no human-readable page exists.</p></dd>
 
 </dl></div>
     <div class="section level2">

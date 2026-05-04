@@ -35,9 +35,9 @@ hc_citation <- function(source) {
 
   args <- list(
     bibtype = "Misc",
-    title   = adapter$title %||% adapter$name,
-    year    = format(Sys.Date(), "%Y"),
-    note    = note
+    title = adapter$title %||% adapter$name,
+    year = format(Sys.Date(), "%Y"),
+    note = note
   )
   if (!is.null(adapter$publisher)) {
     args$author <- utils::person(family = adapter$publisher)
@@ -52,7 +52,9 @@ hc_citation <- function(source) {
   # section in the same style as citation('pkg').
   class(entry) <- c("citation", "bibentry")
   attr(entry, "mheader") <- paste0(
-    "To cite '", adapter$name, "' data in publications use:"
+    "To cite '",
+    adapter$name,
+    "' data in publications use:"
   )
   entry
 }

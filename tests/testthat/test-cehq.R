@@ -98,7 +98,7 @@ test_that("CEHQ fetch_daily_flows passes through quality_code correctly", {
     # 2022-01-05: no remark -> quality_code NA
     expect_true(is.na(result$quality_code[[5L]]))
     # qf_desc is populated from the internal remark code lookup
-    expect_true(is.na(result$qf_desc[[1L]]))   # no remark -> NA
+    expect_true(is.na(result$qf_desc[[1L]])) # no remark -> NA
     expect_equal(result$qf_desc[[2L]], "La donn\u00e9e est provisoire")
     expect_equal(result$qf_desc[[3L]], "La donn\u00e9e est estim\u00e9e.")
     expect_equal(result$qf_desc[[4L]], "La donn\u00e9e est estim\u00e9e.")

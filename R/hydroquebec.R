@@ -80,10 +80,13 @@
 # removing upstream reservoir operations from the water balance.
 .hq_map_parameter <- function(type) {
   dplyr::case_when(
-    type == "D\u00e9bit total"    ~ "water_discharge",
+    type == "D\u00e9bit total" ~ "water_discharge",
     type == "Apport filtr\u00e9" ~ "water_inflow",
-    startsWith(type, "D\u00e9bit d\u00e9vers\u00e9") ~ "water_discharge_spilled",
-    startsWith(type, "D\u00e9bit turbin\u00e9")  ~ "water_discharge_turbined",
+    startsWith(
+      type,
+      "D\u00e9bit d\u00e9vers\u00e9"
+    ) ~ "water_discharge_spilled",
+    startsWith(type, "D\u00e9bit turbin\u00e9") ~ "water_discharge_turbined",
     TRUE ~ NA_character_
   )
 }

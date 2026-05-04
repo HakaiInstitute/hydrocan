@@ -187,6 +187,8 @@ hydrocan_adapter_cehq <- function() {
     fetch_daily_flows_fn = .cehq_fetch_daily_flows,
     fetch_daily_levels_fn = .cehq_fetch_daily_levels,
     list_stations_meta_fn = .cehq_list_stations_meta,
+    title = "Stations hydrom\u00e9triques",
+    publisher = "Minist\u00e8re de l\u2019Environnement, de la Lutte contre les changements climatiques, de la Faune et des Parcs",
     license = "CC BY 4.0",
     license_url = "https://creativecommons.org/licenses/by/4.0/",
     terms_url = "https://www.donneesquebec.ca/licence/#cc-by",

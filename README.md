@@ -90,11 +90,11 @@ hc_read_daily_flows(
 #> # A tibble: 9 × 8
 #>   station_id date       value parameter unit  provider_name quality_code qf_desc
 #> * <chr>      <date>     <dbl> <chr>     <chr> <chr>         <chr>        <chr>  
-#> 1 030101     2026-04-27  6.67 water_di… m3/s  cehq          MJ           <NA>   
-#> 2 030101     2026-04-28  5.79 water_di… m3/s  cehq          MJ           <NA>   
-#> 3 030101     2026-04-29  5.01 water_di… m3/s  cehq          MJ           <NA>   
-#> 4 030101     2026-04-30  4.76 water_di… m3/s  cehq          MJ           <NA>   
-#> 5 030101     2026-05-01  5.63 water_di… m3/s  cehq          MJ           <NA>   
+#> 1 030101     2026-04-27  6.67 water_di… m3/s  cehq          MJ           La don…
+#> 2 030101     2026-04-28  5.79 water_di… m3/s  cehq          MJ           La don…
+#> 3 030101     2026-04-29  5.01 water_di… m3/s  cehq          MJ           La don…
+#> 4 030101     2026-04-30  4.76 water_di… m3/s  cehq          MJ           La don…
+#> 5 030101     2026-05-01  5.63 water_di… m3/s  cehq          MJ           La don…
 #> 6 3-230      2026-04-27 35.4  water_in… m3/s  hydroquebec   <NA>         <NA>   
 #> 7 3-230      2026-04-28 40.3  water_in… m3/s  hydroquebec   <NA>         <NA>   
 #> 8 3-230      2026-04-29 47.5  water_in… m3/s  hydroquebec   <NA>         <NA>   
@@ -105,4 +105,30 @@ hc_read_daily_flows(
 
 ``` r
 hc_list_sources()
+```
+
+## Citation
+
+If you use data accessed through hydrocan in your work, please cite the
+original data source. Use `hc_citation()` to get a formatted citation
+and BibTeX entry:
+
+``` r
+hc_citation("hydroquebec")
+#> To cite 'hydroquebec' data in publications use:
+#> 
+#>   Hydro-Québec (2026). "Débits et apports naturels aux installations
+#>   d’Hydro-Québec." Accessed via the hydrocan R package. License: CC
+#>   BY-NC 4.0.,
+#>   <https://donnees.hydroquebec.com/explore/dataset/donnees-hydrometriques/information/>.
+#> 
+#> A BibTeX entry for LaTeX users is
+#> 
+#>   @Misc{,
+#>     title = {Débits et apports naturels aux installations d’Hydro-Québec},
+#>     year = {2026},
+#>     note = {Accessed via the hydrocan R package. License: CC BY-NC 4.0.},
+#>     author = {{Hydro-Québec}},
+#>     url = {https://donnees.hydroquebec.com/explore/dataset/donnees-hydrometriques/information/},
+#>   }
 ```

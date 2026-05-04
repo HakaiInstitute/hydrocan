@@ -179,8 +179,10 @@ test_that("new_hydrocan_adapter accepts valid license fields", {
   expect_equal(a$terms_url, "https://example.com/terms")
 })
 
-test_that("new_hydrocan_adapter stores NULL when license fields are omitted", {
+test_that("new_hydrocan_adapter stores NULL when optional fields are omitted", {
   a <- new_hydrocan_adapter("ok", "desc", identity, fetch_flows_fn = identity)
+  expect_null(a$title)
+  expect_null(a$publisher)
   expect_null(a$license)
   expect_null(a$license_url)
   expect_null(a$terms_url)

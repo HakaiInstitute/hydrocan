@@ -72,4 +72,14 @@ hc_read_daily_flows(
 hc_list_sources()
 ```
 
+## Citation
+
+If you use data accessed through hydrocan in your work, please cite the
+original data source. Use `hc_citation()` to get a formatted citation and
+BibTeX entry:
+
+```{r citation}
+hc_citation("hydroquebec")
+```
+
 

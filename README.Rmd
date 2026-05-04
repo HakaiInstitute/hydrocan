@@ -46,19 +46,30 @@ The main functions are `hc_read_flows()` for sub-daily observations and
 `hc_read_daily_flows()` for daily aggregates. Both accept one or more station
 IDs, a date range, and an optional `source` argument to target a specific
 adapter directly. When `source` is omitted, the router matches each station ID
-to its data source automatically.
+to its data source automatically. If you don't know the station that you
+want to query, you can make use of `hc_read_stations()`
 
-```{r usage}
+```{r stations}
 library(hydrocan)
 
+hc_read_stations("hydroquebec")
+```
+
+`hy_read_stations` station IDs can be passed to `hc_read_flows` to return 
+hydrometric data for that station. 
+
+```{r usage}
 # Sub-daily flow observations from a single Hydro-Quebec station
 hc_read_flows(
-  station_id = "3-230",
+  station_id = "3-100",
   start_date = Sys.Date() - 7
 )
+```
 
-# Daily flows from two stations across two sources in one call -
-# the router detects that "030101" belongs to CEHQ and "3-230" to Hydro-Quebec
+You can also query daily flows from two stations across two sources in one call.
+hydrocan detects that "030101" belongs to CEHQ and "3-230" to Hydro-Quebec:
+
+```{r mulit-source}
 hc_read_daily_flows(
   station_id = c("030101", "3-230"),
   start_date = Sys.Date() - 7

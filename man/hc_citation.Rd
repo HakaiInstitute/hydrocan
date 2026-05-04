@@ -14,7 +14,7 @@ See \code{\link[=hc_list_sources]{hc_list_sources()}} for available names.}
 A \code{\link[=bibentry]{bibentry()}} object.
 }
 \description{
-Returns a citation for one or all registered data sources, formatted as a
+Returns a citation for a registered data source, formatted as a
 \code{\link[=bibentry]{bibentry()}} object. The output behaves like \code{\link[=citation]{citation()}}: it prints a
 human-readable reference and a BibTeX entry, and can be passed to
 \code{\link[=toBibtex]{toBibtex()}}.

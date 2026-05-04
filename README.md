@@ -19,7 +19,7 @@ hydrocan provides unified access to Canadian hydrometric data from
 diverse web-published sources. It is complementary to
 [tidyhydat](https://docs.ropensci.org/tidyhydat/), which covers the
 federal Water Survey of Canada (WSC) network. hydrocan adds provincial
-and utility networks that have no existing R package.
+and utility networks data sources that have no existing R package.
 
 Every function returns a consistent tibble regardless of the underlying
 data source, so analysis code works unchanged as new sources are added.
@@ -118,8 +118,8 @@ hc_citation("hydroquebec")
 #> To cite 'hydroquebec' data in publications use:
 #> 
 #>   Hydro-Québec (2026). "Débits et apports naturels aux installations
-#>   d’Hydro-Québec." Accessed via the hydrocan R package. License: CC
-#>   BY-NC 4.0.,
+#>   d’Hydro-Québec." Accessed via the hydrocan R package License: CC
+#>   BY-NC 4.0,
 #>   <https://donnees.hydroquebec.com/explore/dataset/donnees-hydrometriques/information/>.
 #> 
 #> A BibTeX entry for LaTeX users is
@@ -127,7 +127,7 @@ hc_citation("hydroquebec")
 #>   @Misc{,
 #>     title = {Débits et apports naturels aux installations d’Hydro-Québec},
 #>     year = {2026},
-#>     note = {Accessed via the hydrocan R package. License: CC BY-NC 4.0.},
+#>     note = {Accessed via the hydrocan R package License: CC BY-NC 4.0},
 #>     author = {{Hydro-Québec}},
 #>     url = {https://donnees.hydroquebec.com/explore/dataset/donnees-hydrometriques/information/},
 #>   }

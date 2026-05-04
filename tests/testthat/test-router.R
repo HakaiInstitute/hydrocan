@@ -1,6 +1,6 @@
 test_that(".route_and_fetch returns data for a known station", {
   local_register_adapter(mock_adapter)
-  result <- hydrocan:::.route_and_fetch(
+  result <- .route_and_fetch(
     "TOCHI001",
     as.Date("2024-01-01"),
     as.Date("2024-01-03"),
@@ -13,7 +13,7 @@ test_that(".route_and_fetch returns data for a known station", {
 test_that(".route_and_fetch warns and skips an unknown station", {
   local_register_adapter(mock_adapter)
   expect_warning(
-    result <- hydrocan:::.route_and_fetch(
+    result <- .route_and_fetch(
       "ALDERAAN001",
       as.Date("2024-01-01"),
       as.Date("2024-01-03"),
@@ -26,7 +26,7 @@ test_that(".route_and_fetch warns and skips an unknown station", {
 
 test_that(".route_and_fetch respects the source argument", {
   local_register_adapter(mock_adapter)
-  result <- hydrocan:::.route_and_fetch(
+  result <- .route_and_fetch(
     "TOCHI001",
     as.Date("2024-01-01"),
     as.Date("2024-01-01"),
@@ -37,7 +37,7 @@ test_that(".route_and_fetch respects the source argument", {
 
 test_that(".route_and_fetch errors on unknown source name", {
   expect_error(
-    hydrocan:::.route_and_fetch(
+    .route_and_fetch(
       "X",
       as.Date("2024-01-01"),
       as.Date("2024-01-01"),
@@ -60,7 +60,7 @@ test_that(".route_and_fetch errors on station ID collision across sources", {
   local_register_adapter(mock_adapter)
   local_register_adapter(collision_adapter)
   expect_error(
-    hydrocan:::.route_and_fetch(
+    .route_and_fetch(
       "TOCHI001",
       as.Date("2024-01-01"),
       as.Date("2024-01-01")
@@ -71,7 +71,7 @@ test_that(".route_and_fetch errors on station ID collision across sources", {
 
 test_that(".route_and_fetch handles multiple stations", {
   local_register_adapter(mock_adapter)
-  result <- hydrocan:::.route_and_fetch(
+  result <- .route_and_fetch(
     c("TOCHI001", "HOTH001"),
     as.Date("2024-01-01"),
     as.Date("2024-01-02"),
@@ -82,7 +82,7 @@ test_that(".route_and_fetch handles multiple stations", {
 
 test_that(".route_and_fetch dispatches fetch_levels_fn when type is 'levels'", {
   local_register_adapter(mock_adapter)
-  result <- hydrocan:::.route_and_fetch(
+  result <- .route_and_fetch(
     "TOCHI001",
     as.Date("2024-01-01"),
     as.Date("2024-01-03"),
@@ -95,7 +95,7 @@ test_that(".route_and_fetch dispatches fetch_levels_fn when type is 'levels'", {
 
 test_that(".route_and_fetch dispatches fetch_daily_levels_fn when type is 'daily_levels'", {
   local_register_adapter(mock_adapter)
-  result <- hydrocan:::.route_and_fetch(
+  result <- .route_and_fetch(
     "TOCHI001",
     as.Date("2024-01-01"),
     as.Date("2024-01-03"),
@@ -109,7 +109,7 @@ test_that(".route_and_fetch dispatches fetch_daily_levels_fn when type is 'daily
 
 test_that(".route_and_fetch dispatches fetch_daily_flows_fn when type is 'daily'", {
   local_register_adapter(mock_adapter)
-  result <- hydrocan:::.route_and_fetch(
+  result <- .route_and_fetch(
     "TOCHI001",
     as.Date("2024-01-01"),
     as.Date("2024-01-03"),
@@ -130,7 +130,7 @@ test_that(".route_and_fetch converts a per-station fetch error to a warning", {
   )
   local_register_adapter(error_adapter)
   expect_warning(
-    result <- hydrocan:::.route_and_fetch(
+    result <- .route_and_fetch(
       "ERR001",
       as.Date("2024-01-01"),
       as.Date("2024-01-01"),
@@ -144,7 +144,7 @@ test_that(".route_and_fetch converts a per-station fetch error to a warning", {
 test_that(".route_and_fetch errors when no adapters are registered", {
   local_clear_registry()
   expect_error(
-    hydrocan:::.route_and_fetch(
+    .route_and_fetch(
       "X",
       as.Date("2024-01-01"),
       as.Date("2024-01-01")

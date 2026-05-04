@@ -103,7 +103,7 @@ mock_adapter_flows_only <- new_hydrocan_adapter(
 # name was absent (removes it) and where it existed before (puts it back).
 local_register_adapter <- function(adapter, env = parent.frame()) {
   name <- adapter$name
-  registry <- hydrocan:::.hydrocan_registry
+  registry <- .hydrocan_registry
   had_previous <- exists(name, envir = registry, inherits = FALSE)
   previous <- if (had_previous) get(name, envir = registry) else NULL
 
@@ -123,7 +123,7 @@ local_register_adapter <- function(adapter, env = parent.frame()) {
 # Clear the entire registry for the duration of one test, restoring all prior
 # entries on exit. Used for tests that need a known-empty or isolated registry.
 local_clear_registry <- function(env = parent.frame()) {
-  registry <- hydrocan:::.hydrocan_registry
+  registry <- .hydrocan_registry
   saved_names <- ls(envir = registry)
   saved <- mget(saved_names, envir = registry)
   rm(list = saved_names, envir = registry)

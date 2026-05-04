@@ -201,7 +201,7 @@ test_that("register_hydrocan_adapter stores adapter in registry", {
     fetch_flows_fn = function(...) NULL
   )
   local_register_adapter(a)
-  expect_true(exists("reg_test", envir = hydrocan:::.hydrocan_registry))
+  expect_true(exists("reg_test", envir = .hydrocan_registry))
 })
 
 test_that("hc_list_sources returns the correct schema", {

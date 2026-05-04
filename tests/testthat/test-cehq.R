@@ -1,5 +1,5 @@
 test_that("hydrocan_adapter_cehq creates a valid adapter", {
-  a <- hydrocan:::hydrocan_adapter_cehq()
+  a <- hydrocan_adapter_cehq()
   expect_s3_class(a, "hydrocan_adapter")
   expect_equal(a$name, "cehq")
   expect_true(is.function(a$list_stations_fn))
@@ -12,7 +12,7 @@ test_that("hydrocan_adapter_cehq creates a valid adapter", {
 
 test_that("CEHQ station list returns only open flow stations", {
   httptest2::with_mock_api({
-    stations <- hydrocan:::hydrocan_adapter_cehq()$list_stations_fn()
+    stations <- hydrocan_adapter_cehq()$list_stations_fn()
     expect_type(stations, "character")
     expect_equal(stations, "030101")
   })
@@ -20,7 +20,7 @@ test_that("CEHQ station list returns only open flow stations", {
 
 test_that("CEHQ station metadata returns correct schema", {
   httptest2::with_mock_api({
-    meta <- hydrocan:::hydrocan_adapter_cehq()$list_stations_meta_fn()
+    meta <- hydrocan_adapter_cehq()$list_stations_meta_fn()
     expect_s3_class(meta, "data.frame")
     expect_named(
       meta,
@@ -158,7 +158,7 @@ test_that("CEHQ fetch_daily_flows returns empty tibble for unknown station", {
   httptest2::with_mock_api({
     # 999999_Q.R fixture returns a 404; the adapter catches httr2_http_404
     # and returns an empty tibble. Network errors and 5xx propagate.
-    result <- hydrocan:::hydrocan_adapter_cehq()$fetch_daily_flows_fn(
+    result <- hydrocan_adapter_cehq()$fetch_daily_flows_fn(
       "999999",
       as.Date("2022-01-01"),
       as.Date("2022-01-05")

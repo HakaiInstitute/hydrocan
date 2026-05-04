@@ -2,7 +2,7 @@
 
 Fetches sub-daily observations for one or more stations across the
 requested date range. The data source is determined automatically from
-the station number, or fixed explicitly via `source`.
+the station ID, or fixed explicitly via `source`.
 
 ## Usage
 

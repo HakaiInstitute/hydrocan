@@ -84,7 +84,7 @@
     type == "Apport filtr\u00e9" ~ "water_inflow",
     startsWith(type, "D\u00e9bit d\u00e9vers\u00e9") ~ "water_discharge_spilled",
     startsWith(type, "D\u00e9bit turbin\u00e9")  ~ "water_discharge_turbined",
-    .default = NA_character_
+    TRUE ~ NA_character_
   )
 }
 

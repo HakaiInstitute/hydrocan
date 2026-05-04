@@ -16,6 +16,9 @@ knitr::opts_chunk$set(
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/HakaiInstitute/hydrocan/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/HakaiInstitute/hydrocan/actions/workflows/R-CMD-check.yaml)
+[![R-universe version](https://HakaiInstitute.r-universe.dev/gaplightr/badges/version)](https://HakaiInstitute.r-universe.dev/gaplightr)
+[![r-universe status](https://HakaiInstitute.r-universe.dev/gaplightr/badges/checks)](https://HakaiInstitute.r-universe.dev/gaplightr)
+<!-- badges: end -->
 <!-- badges: end -->
 
 > **Warning:** This package is in very early development. The API may change without notice and it should not be used in production.

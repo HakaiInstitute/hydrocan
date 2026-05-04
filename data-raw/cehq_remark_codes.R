@@ -15,7 +15,7 @@ raw <- readLines(url, encoding = "latin1", warn = FALSE)
 
 # The Lexique block runs from the "Lexique:" line to just before the data.
 lexique_start <- grep("^Lexique", raw)
-data_start    <- grep("^[0-9]{6}[[:space:]]", raw)[1L]
+data_start <- grep("^[0-9]{6}[[:space:]]", raw)[1L]
 lexique_lines <- raw[lexique_start:(data_start - 1L)]
 
 # Strip the line-prefix labels ("Lexique:" and "(Remarque)") so the code
@@ -38,12 +38,12 @@ parsed <- regmatches(
   regexpr("[A-Z][A-Z0-9*]*[[:space:]]*:[[:space:]]+.+", entries)
 )
 
-codes <- trimws(sub("([A-Z][A-Z0-9*]*)[[:space:]]*:.*",  "\\1", parsed))
+codes <- trimws(sub("([A-Z][A-Z0-9*]*)[[:space:]]*:.*", "\\1", parsed))
 descs <- trimws(sub("[A-Z][A-Z0-9*]*[[:space:]]*:[[:space:]]+", "", parsed))
 
 cehq_remark_codes <- data.frame(
   quality_code = codes,
-  qf_desc      = descs,
+  qf_desc = descs,
   stringsAsFactors = FALSE
 )
 

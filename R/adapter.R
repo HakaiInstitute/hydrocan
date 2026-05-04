@@ -96,15 +96,15 @@ new_hydrocan_adapter <- function(
     "docs_url"
   )) {
     val <- get(nm)
-    if (!is.null(val)) {
-      if (!is.character(val) || length(val) != 1L || is.na(val)) {
-        stop(
-          "'",
-          nm,
-          "' must be a single non-NA character string or NULL.",
-          call. = FALSE
-        )
-      }
+    if (
+      (!is.null(val)) && (!is.character(val) || length(val) != 1L || is.na(val))
+    ) {
+      stop(
+        "'",
+        nm,
+        "' must be a single non-NA character string or NULL.",
+        call. = FALSE
+      )
     }
   }
 

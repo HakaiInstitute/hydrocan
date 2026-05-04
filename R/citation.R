@@ -1,6 +1,6 @@
 #' Cite a hydrocan data source
 #'
-#' Returns a citation for one or all registered data sources, formatted as a
+#' Returns a citation for a registered data source, formatted as a
 #' [bibentry()] object. The output behaves like [citation()]: it prints a
 #' human-readable reference and a BibTeX entry, and can be passed to
 #' [toBibtex()].

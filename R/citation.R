@@ -28,9 +28,9 @@ hc_citation <- function(source) {
 # omitted rather than passed as NA, since bibentry() handles missing fields
 # better than explicit NAs.
 .adapter_bibentry <- function(adapter) {
-  note <- "Accessed via the hydrocan R package."
+  note <- "Accessed via the hydrocan R package"
   if (!is.null(adapter$license)) {
-    note <- paste0(note, " License: ", adapter$license, ".")
+    note <- paste0(note, " License: ", adapter$license)
   }
 
   args <- list(

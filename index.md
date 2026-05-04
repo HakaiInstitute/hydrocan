@@ -40,20 +40,20 @@ query, you can make use of
 library(hydrocan)
 
 hc_read_stations("hydroquebec")
-#> # A tibble: 93 × 9
+#> # A tibble: 42 × 9
 #>    station_id station_name          provider_name longitude latitude elevation_m
 #>    <chr>      <chr>                 <chr>             <dbl>    <dbl>       <dbl>
 #>  1 3-100      Outardes-4            hydroquebec       -68.9     49.7          NA
-#>  2 3-101      Outardes-3            hydroquebec       -68.7     49.6          NA
-#>  3 3-102      Outardes-2            hydroquebec       -68.4     49.1          NA
-#>  4 3-103      Petit Lac Manicouagan hydroquebec       -67.8     51.8           0
-#>  5 3-104      Barrage Intermédiaire hydroquebec       -67.9     51.8          NA
-#>  6 3-105      Hart-Jaune            hydroquebec       -67.9     51.8          NA
-#>  7 3-106      Manic-5               hydroquebec       -68.7     50.6          NA
-#>  8 3-107      Manic-3               hydroquebec       -68.6     49.7          NA
-#>  9 3-109      Manic-2               hydroquebec       -68.3     49.3          NA
-#> 10 3-110      Manic-1               hydroquebec       -68.3     49.2          NA
-#> # ℹ 83 more rows
+#>  2 3-104      Barrage Intermédiaire hydroquebec       -67.9     51.8          NA
+#>  3 3-105      Hart-Jaune            hydroquebec       -67.9     51.8          NA
+#>  4 3-107      Manic-3               hydroquebec       -68.6     49.7          NA
+#>  5 3-110      Manic-1               hydroquebec       -68.3     49.2          NA
+#>  6 3-118      Duplanter             hydroquebec       -69.8     54.8          NA
+#>  7 3-121      Laforge-1             hydroquebec       -72.6     54.2          NA
+#>  8 3-122      La Grande-4           hydroquebec       -73.5     53.9          NA
+#>  9 3-123      La Grande-3           hydroquebec       -76.0     53.7          NA
+#> 10 3-13       Témiscouata           hydroquebec       -68.6     47.6          NA
+#> # ℹ 32 more rows
 #> # ℹ 3 more variables: period_start <date>, period_end <date>, notes <list>
 ```
 
@@ -68,28 +68,28 @@ hc_read_flows(
   start_date = Sys.Date() - 7
 )
 #> ── hydrocan ────────────────────────────────────────────────────────────────────
-#>   Observations: 288
+#>   Observations: 93
 #>   Source: hydroquebec
-#>   Parameters: water_discharge_spilled, water_discharge,
-#>   water_discharge_turbined
-#>   Date range: 2026-04-27 to 2026-04-30 23:00:00
+#>   Parameters: water_discharge, water_discharge_turbined,
+#>   water_discharge_spilled
+#>   Date range: 2026-04-27 to 2026-04-30 21:00:00
 #>   Station: 1 returned
 #> ✔ All stations returned.
 #> ────────────────────────────────────────────────────────────────────────────────
-#> # A tibble: 288 × 8
+#> # A tibble: 93 × 8
 #>    station_id timestamp           value parameter            unit  provider_name
 #>  * <chr>      <dttm>              <dbl> <chr>                <chr> <chr>        
-#>  1 3-100      2026-04-27 00:00:00    0  water_discharge_spi… m3/s  hydroquebec  
-#>  2 3-100      2026-04-27 00:00:00  334. water_discharge      m3/s  hydroquebec  
-#>  3 3-100      2026-04-27 00:00:00  334. water_discharge_tur… m3/s  hydroquebec  
-#>  4 3-100      2026-04-27 01:00:00  333. water_discharge      m3/s  hydroquebec  
-#>  5 3-100      2026-04-27 01:00:00  333. water_discharge_tur… m3/s  hydroquebec  
-#>  6 3-100      2026-04-27 01:00:00    0  water_discharge_spi… m3/s  hydroquebec  
-#>  7 3-100      2026-04-27 02:00:00    0  water_discharge_spi… m3/s  hydroquebec  
-#>  8 3-100      2026-04-27 02:00:00  314. water_discharge_tur… m3/s  hydroquebec  
-#>  9 3-100      2026-04-27 02:00:00  314. water_discharge      m3/s  hydroquebec  
-#> 10 3-100      2026-04-27 03:00:00    0  water_discharge_spi… m3/s  hydroquebec  
-#> # ℹ 278 more rows
+#>  1 3-100      2026-04-27 00:00:00  334. water_discharge      m3/s  hydroquebec  
+#>  2 3-100      2026-04-27 00:00:00  334. water_discharge_tur… m3/s  hydroquebec  
+#>  3 3-100      2026-04-27 02:00:00  314. water_discharge_tur… m3/s  hydroquebec  
+#>  4 3-100      2026-04-27 03:00:00  310. water_discharge      m3/s  hydroquebec  
+#>  5 3-100      2026-04-27 05:00:00  299. water_discharge      m3/s  hydroquebec  
+#>  6 3-100      2026-04-27 05:00:00  299. water_discharge_tur… m3/s  hydroquebec  
+#>  7 3-100      2026-04-27 06:00:00    0  water_discharge_spi… m3/s  hydroquebec  
+#>  8 3-100      2026-04-27 06:00:00  299. water_discharge      m3/s  hydroquebec  
+#>  9 3-100      2026-04-27 08:00:00  298. water_discharge      m3/s  hydroquebec  
+#> 10 3-100      2026-04-27 10:00:00    0  water_discharge_spi… m3/s  hydroquebec  
+#> # ℹ 83 more rows
 #> # ℹ 2 more variables: quality_code <chr>, qf_desc <chr>
 ```
 
@@ -103,15 +103,16 @@ hc_read_daily_flows(
   station_id = c("030101", "3-230"),
   start_date = Sys.Date() - 7
 )
+#> Warning: Station '3-230' not found in any data source. Skipping.
 #> ── hydrocan ────────────────────────────────────────────────────────────────────
-#>   Observations: 9
-#>   Sources: cehq, hydroquebec
-#>   Parameters: water_discharge, water_inflow
+#>   Observations: 5
+#>   Source: cehq
+#>   Parameter: water_discharge
 #>   Date range: 2026-04-27 to 2026-05-01
-#>   Stations: 2 returned
-#> ✔ All stations returned.
+#>   Station: 1 returned
+#> ! Stations requested but not returned: "3-230"
 #> ────────────────────────────────────────────────────────────────────────────────
-#> # A tibble: 9 × 8
+#> # A tibble: 5 × 8
 #>   station_id date       value parameter unit  provider_name quality_code qf_desc
 #> * <chr>      <date>     <dbl> <chr>     <chr> <chr>         <chr>        <chr>  
 #> 1 030101     2026-04-27  6.67 water_di… m3/s  cehq          MJ           La don…
@@ -119,10 +120,6 @@ hc_read_daily_flows(
 #> 3 030101     2026-04-29  5.01 water_di… m3/s  cehq          MJ           La don…
 #> 4 030101     2026-04-30  4.76 water_di… m3/s  cehq          MJ           La don…
 #> 5 030101     2026-05-01  5.63 water_di… m3/s  cehq          MJ           La don…
-#> 6 3-230      2026-04-27 35.4  water_in… m3/s  hydroquebec   <NA>         <NA>   
-#> 7 3-230      2026-04-28 40.3  water_in… m3/s  hydroquebec   <NA>         <NA>   
-#> 8 3-230      2026-04-29 47.5  water_in… m3/s  hydroquebec   <NA>         <NA>   
-#> 9 3-230      2026-04-30 50.2  water_in… m3/s  hydroquebec   <NA>         <NA>
 ```
 
 ## Supported sources

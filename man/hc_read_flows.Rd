@@ -27,5 +27,5 @@ UTC), \code{value} (dbl), \code{parameter} (chr), \code{unit} (chr), \code{provi
 \description{
 Fetches sub-daily observations for one or more stations across the requested
 date range. The data source is determined automatically from the station
-number, or fixed explicitly via \code{source}.
+ID, or fixed explicitly via \code{source}.
 }

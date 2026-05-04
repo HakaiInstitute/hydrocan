@@ -13,11 +13,11 @@
       --------------------------------------------------------------------------------
     Output
       # A tibble: 2 x 8
-        station_id timestamp           value parameter    unit  provider_name approval
-      * <chr>      <dttm>              <dbl> <chr>        <chr> <chr>         <chr>   
-      1 TOCHI001   2024-01-01 06:00:00     1 water_disch~ m3/s  mock          provisi~
-      2 TOCHI001   2024-01-01 18:00:00     2 water_disch~ m3/s  mock          provisi~
-      # i 1 more variable: quality_flag <chr>
+        station_id timestamp           value parameter       unit  provider_name
+      * <chr>      <dttm>              <dbl> <chr>           <chr> <chr>        
+      1 TOCHI001   2024-01-01 06:00:00     1 water_discharge m3/s  mock         
+      2 TOCHI001   2024-01-01 18:00:00     2 water_discharge m3/s  mock         
+      # i 2 more variables: quality_code <chr>, qf_desc <chr>
 
 # print.hydrocan_daily snapshot
 
@@ -34,10 +34,9 @@
       --------------------------------------------------------------------------------
     Output
       # A tibble: 1 x 8
-        station_id date       value parameter       unit  provider_name approval   
-      * <chr>      <date>     <dbl> <chr>           <chr> <chr>         <chr>      
-      1 TOCHI001   2024-01-01    10 water_discharge m3/s  mock          provisional
-      # i 1 more variable: quality_flag <chr>
+        station_id date       value parameter unit  provider_name quality_code qf_desc
+      * <chr>      <date>     <dbl> <chr>     <chr> <chr>         <chr>        <chr>  
+      1 TOCHI001   2024-01-01    10 water_di~ m3/s  mock          <NA>         <NA>   
 
 # print.hydrocan_realtime reports stations that were requested but not returned
 
@@ -54,9 +53,9 @@
       --------------------------------------------------------------------------------
     Output
       # A tibble: 2 x 8
-        station_id timestamp           value parameter    unit  provider_name approval
-      * <chr>      <dttm>              <dbl> <chr>        <chr> <chr>         <chr>   
-      1 TOCHI001   2024-01-01 06:00:00     1 water_disch~ m3/s  mock          provisi~
-      2 TOCHI001   2024-01-01 18:00:00     2 water_disch~ m3/s  mock          provisi~
-      # i 1 more variable: quality_flag <chr>
+        station_id timestamp           value parameter       unit  provider_name
+      * <chr>      <dttm>              <dbl> <chr>           <chr> <chr>        
+      1 TOCHI001   2024-01-01 06:00:00     1 water_discharge m3/s  mock         
+      2 TOCHI001   2024-01-01 18:00:00     2 water_discharge m3/s  mock         
+      # i 2 more variables: quality_code <chr>, qf_desc <chr>
 

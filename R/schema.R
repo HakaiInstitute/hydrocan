@@ -6,8 +6,8 @@
   "parameter",
   "unit",
   "provider_name",
-  "approval",
-  "quality_flag"
+  "quality_code",
+  "qf_desc"
 )
 .DAILY_COLS <- c(
   "station_id",
@@ -16,8 +16,8 @@
   "parameter",
   "unit",
   "provider_name",
-  "approval",
-  "quality_flag"
+  "quality_code",
+  "qf_desc"
 )
 .STATIONS_COLS <- c(
   "station_id",
@@ -30,8 +30,6 @@
   "period_end",
   "notes"
 )
-
-.VALID_APPROVAL <- c("provisional", "approved", "estimated")
 
 # Maps raw unit strings from any data source to canonical hydrocan forms.
 # Add entries here as new sources are integrated.
@@ -95,16 +93,6 @@ validate_hydrocan_schema <- function(
   }
 
   if (type != "stations") {
-    bad <- !is.na(df$approval) & !(df$approval %in% .VALID_APPROVAL)
-    if (any(bad)) {
-      stop(
-        "Column 'approval' contains invalid values: ",
-        paste(unique(df$approval[bad]), collapse = ", "),
-        ". Must be one of: ",
-        paste(.VALID_APPROVAL, collapse = ", "),
-        call. = FALSE
-      )
-    }
     df$unit <- .normalize_units(df$unit)
   }
 

@@ -17,8 +17,8 @@ good_rt <- tibble::tibble(
   parameter = "water_discharge",
   unit = "m3/s",
   provider_name = "mock",
-  approval = "provisional",
-  quality_flag = NA_character_
+  quality_code = NA_character_,
+  qf_desc = NA_character_
 )
 
 good_daily <- tibble::tibble(
@@ -28,8 +28,8 @@ good_daily <- tibble::tibble(
   parameter = "water_discharge",
   unit = "m3/s",
   provider_name = "mock",
-  approval = "provisional",
-  quality_flag = NA_character_
+  quality_code = NA_character_,
+  qf_desc = NA_character_
 )
 
 test_that("validate_hydrocan_schema passes a well-formed realtime tibble", {
@@ -51,35 +51,6 @@ test_that("validate_hydrocan_schema errors on missing column", {
     hydrocan:::validate_hydrocan_schema(good_daily[, -2], "daily"),
     "date"
   )
-})
-
-test_that("validate_hydrocan_schema errors on invalid approval value", {
-  bad <- good_rt
-  bad$approval <- "unknown"
-  expect_error(
-    hydrocan:::validate_hydrocan_schema(bad, "realtime"),
-    "approval"
-  )
-})
-
-test_that("validate_hydrocan_schema accepts NA in approval", {
-  na_approval <- good_rt
-  na_approval$approval <- NA_character_
-  expect_s3_class(
-    hydrocan:::validate_hydrocan_schema(na_approval, "realtime"),
-    "data.frame"
-  )
-})
-
-test_that("validate_hydrocan_schema accepts all valid approval values", {
-  for (val in c("provisional", "approved", "estimated")) {
-    df <- good_rt
-    df$approval <- val
-    expect_s3_class(
-      hydrocan:::validate_hydrocan_schema(df, "realtime"),
-      "data.frame"
-    )
-  }
 })
 
 test_that(".normalize_units maps known variants to canonical strings", {

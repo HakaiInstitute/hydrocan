@@ -80,10 +80,13 @@
 # removing upstream reservoir operations from the water balance.
 .hq_map_parameter <- function(type) {
   dplyr::case_when(
-    type == "D\u00e9bit total"    ~ "water_discharge",
+    type == "D\u00e9bit total" ~ "water_discharge",
     type == "Apport filtr\u00e9" ~ "water_inflow",
-    startsWith(type, "D\u00e9bit d\u00e9vers\u00e9") ~ "water_discharge_spilled",
-    startsWith(type, "D\u00e9bit turbin\u00e9")  ~ "water_discharge_turbined",
+    startsWith(
+      type,
+      "D\u00e9bit d\u00e9vers\u00e9"
+    ) ~ "water_discharge_spilled",
+    startsWith(type, "D\u00e9bit turbin\u00e9") ~ "water_discharge_turbined",
     TRUE ~ NA_character_
   )
 }
@@ -205,6 +208,12 @@ hydrocan_adapter_hydroquebec <- function() {
     .hq_list_stations,
     fetch_flows_fn = .hq_fetch_flows,
     fetch_daily_flows_fn = .hq_fetch_daily_flows,
-    list_stations_meta_fn = .hq_list_stations_meta
+    list_stations_meta_fn = .hq_list_stations_meta,
+    title = "D\u00e9bits et apports naturels aux installations d\u2019Hydro-Qu\u00e9bec",
+    publisher = "Hydro-Qu\u00e9bec",
+    license = "CC BY-NC 4.0",
+    license_url = "https://creativecommons.org/licenses/by-nc/4.0/",
+    terms_url = "https://www.hydroquebec.com/documents-data/open-data/licence.html",
+    docs_url = "https://donnees.hydroquebec.com/explore/dataset/donnees-hydrometriques/information/"
   )
 }

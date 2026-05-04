@@ -27,7 +27,7 @@ hydrocan provides unified access to Canadian hydrometric data from diverse
 web-published sources. It is complementary to
 [tidyhydat](https://docs.ropensci.org/tidyhydat/), which covers the federal
 Water Survey of Canada (WSC) network. hydrocan adds provincial and utility
-networks that have no existing R package.
+networks data sources that have no existing R package.
 
 Every function returns a consistent tibble regardless of the underlying data
 source, so analysis code works unchanged as new sources are added.
@@ -70,6 +70,16 @@ hc_read_daily_flows(
 ```{r}
 #| eval: false
 hc_list_sources()
+```
+
+## Citation
+
+If you use data accessed through hydrocan in your work, please cite the
+original data source. Use `hc_citation()` to get a formatted citation and
+BibTeX entry:
+
+```{r citation}
+hc_citation("hydroquebec")
 ```
 
 

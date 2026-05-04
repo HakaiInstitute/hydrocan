@@ -10,7 +10,7 @@ hc_list_sources()
 A tibble with columns \code{name} (chr), \code{description} (chr),
 \code{has_flows} (lgl), \code{has_daily_flows} (lgl), \code{has_levels} (lgl),
 \code{has_daily_levels} (lgl), \code{has_stations} (lgl), \code{license} (chr),
-\code{license_url} (chr), and \code{terms_url} (chr).
+\code{license_url} (chr), \code{terms_url} (chr), and \code{docs_url} (chr).
 }
 \description{
 Returns a summary of all data sources currently available via hydrocan,

@@ -25,8 +25,8 @@
     parameter = parameter,
     unit = unit,
     provider_name = "mock",
-    approval = "provisional",
-    quality_flag = NA_character_
+    quality_code = NA_character_,
+    qf_desc = NA_character_
   )
 }
 
@@ -47,8 +47,8 @@
     parameter = parameter,
     unit = unit,
     provider_name = "mock",
-    approval = "provisional",
-    quality_flag = NA_character_
+    quality_code = NA_character_,
+    qf_desc = NA_character_
   )
 }
 

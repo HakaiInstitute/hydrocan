@@ -74,6 +74,20 @@
   )
 }
 
+# Map depil_json_type_point_donnee to hydrocan parameter vocabulary. "Débit
+# total" is the total outflow; spilled and turbined flows are sub-types keyed
+# by prefix; "Apport filtré" is the naturalized catchment inflow computed by
+# removing upstream reservoir operations from the water balance.
+.hq_map_parameter <- function(type) {
+  dplyr::case_when(
+    type == "D\u00e9bit total"    ~ "water_discharge",
+    type == "Apport filtr\u00e9" ~ "water_inflow",
+    startsWith(type, "D\u00e9bit d\u00e9vers\u00e9") ~ "water_discharge_spilled",
+    startsWith(type, "D\u00e9bit turbin\u00e9")  ~ "water_discharge_turbined",
+    .default = NA_character_
+  )
+}
+
 # Common select fields used by both fetch functions.
 .HQ_SELECT <- "identifiant,split_date,split_value,depil_json_nom_unite_mesure,depil_json_type_point_donnee"
 
@@ -93,11 +107,11 @@
     station_id = df$identifiant,
     timestamp = .hq_parse_datetime(df$split_date),
     value = suppressWarnings(as.numeric(df$split_value)),
-    parameter = "water_discharge",
+    parameter = .hq_map_parameter(df$depil_json_type_point_donnee),
     unit = df$depil_json_nom_unite_mesure,
     provider_name = "hydroquebec",
-    approval = NA_character_,
-    quality_flag = df$depil_json_type_point_donnee
+    quality_code = NA_character_,
+    qf_desc = NA_character_
   )
 
   # Date-range filter applied in R: split_date is stored as text in the API.
@@ -126,11 +140,11 @@
     station_id = df$identifiant,
     date = as.Date(.hq_parse_datetime(df$split_date), tz = "UTC"),
     value = suppressWarnings(as.numeric(df$split_value)),
-    parameter = "water_discharge",
+    parameter = .hq_map_parameter(df$depil_json_type_point_donnee),
     unit = df$depil_json_nom_unite_mesure,
     provider_name = "hydroquebec",
-    approval = NA_character_,
-    quality_flag = df$depil_json_type_point_donnee
+    quality_code = NA_character_,
+    qf_desc = NA_character_
   )
 
   result[

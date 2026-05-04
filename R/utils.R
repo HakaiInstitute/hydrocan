@@ -74,8 +74,8 @@
     parameter = character(),
     unit = character(),
     provider_name = character(),
-    approval = character(),
-    quality_flag = character()
+    quality_code = character(),
+    qf_desc = character()
   )
 }
 
@@ -87,7 +87,7 @@
     parameter = character(),
     unit = character(),
     provider_name = character(),
-    approval = character(),
-    quality_flag = character()
+    quality_code = character(),
+    qf_desc = character()
   )
 }

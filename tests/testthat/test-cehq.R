@@ -10,15 +10,6 @@ test_that("hydrocan_adapter_cehq creates a valid adapter", {
   expect_true(is.function(a$list_stations_meta_fn))
 })
 
-test_that(".cehq_remark_to_approval maps all code branches", {
-  expect_equal(hydrocan:::.cehq_remark_to_approval(NA_character_), "approved")
-  expect_equal(hydrocan:::.cehq_remark_to_approval("E"), "estimated")
-  expect_equal(hydrocan:::.cehq_remark_to_approval("P"), "provisional")
-  expect_equal(hydrocan:::.cehq_remark_to_approval("P*"), "provisional")
-  expect_equal(hydrocan:::.cehq_remark_to_approval("V"), "approved")
-  expect_equal(hydrocan:::.cehq_remark_to_approval("C"), "approved")
-})
-
 test_that("CEHQ station list returns only open flow stations", {
   httptest2::with_mock_api({
     stations <- hydrocan:::hydrocan_adapter_cehq()$list_stations_fn()
@@ -73,8 +64,8 @@ test_that("CEHQ fetch_daily_flows returns valid schema for a known station", {
         "parameter",
         "unit",
         "provider_name",
-        "approval",
-        "quality_flag"
+        "quality_code",
+        "qf_desc"
       )
     )
     expect_equal(nrow(result), 5L)
@@ -85,7 +76,7 @@ test_that("CEHQ fetch_daily_flows returns valid schema for a known station", {
   })
 })
 
-test_that("CEHQ fetch_daily_flows maps approval and quality_flag correctly", {
+test_that("CEHQ fetch_daily_flows passes through quality_code correctly", {
   httptest2::with_mock_api({
     result <- hc_read_daily_flows(
       station_id = "030101",
@@ -93,24 +84,21 @@ test_that("CEHQ fetch_daily_flows maps approval and quality_flag correctly", {
       end_date = "2022-01-05",
       source = "cehq"
     )
-    # 2022-01-01: no remark -> approved, quality_flag NA
-    expect_equal(result$approval[[1L]], "approved")
-    expect_true(is.na(result$quality_flag[[1L]]))
-    # 2022-01-02: P remark (value present) -> provisional
+    # 2022-01-01: no remark -> quality_code NA
+    expect_true(is.na(result$quality_code[[1L]]))
+    # 2022-01-02: P remark (value present)
     expect_equal(result$value[[2L]], 6.14)
-    expect_equal(result$approval[[2L]], "provisional")
-    expect_equal(result$quality_flag[[2L]], "P")
-    # 2022-01-03: E remark (value present) -> estimated
+    expect_equal(result$quality_code[[2L]], "P")
+    # 2022-01-03: E remark (value present)
     expect_equal(result$value[[3L]], 4.56)
-    expect_equal(result$approval[[3L]], "estimated")
-    expect_equal(result$quality_flag[[3L]], "E")
-    # 2022-01-04: E in value column (no measurement) -> NA value, estimated
+    expect_equal(result$quality_code[[3L]], "E")
+    # 2022-01-04: E in value column (no measurement) -> NA value
     expect_true(is.na(result$value[[4L]]))
-    expect_equal(result$approval[[4L]], "estimated")
-    expect_equal(result$quality_flag[[4L]], "E")
-    # 2022-01-05: no remark -> approved
-    expect_equal(result$approval[[5L]], "approved")
-    expect_true(is.na(result$quality_flag[[5L]]))
+    expect_equal(result$quality_code[[4L]], "E")
+    # 2022-01-05: no remark -> quality_code NA
+    expect_true(is.na(result$quality_code[[5L]]))
+    # qf_desc is always NA (passthrough; source provides no descriptions)
+    expect_true(all(is.na(result$qf_desc)))
   })
 })
 
@@ -132,8 +120,8 @@ test_that("CEHQ fetch_daily_levels returns valid schema for a known station", {
         "parameter",
         "unit",
         "provider_name",
-        "approval",
-        "quality_flag"
+        "quality_code",
+        "qf_desc"
       )
     )
     expect_equal(nrow(result), 5L)
@@ -143,7 +131,7 @@ test_that("CEHQ fetch_daily_levels returns valid schema for a known station", {
   })
 })
 
-test_that("CEHQ fetch_daily_levels maps approval and quality_flag correctly", {
+test_that("CEHQ fetch_daily_levels passes through quality_code correctly", {
   httptest2::with_mock_api({
     result <- hc_read_daily_levels(
       station_id = "030101",
@@ -151,13 +139,12 @@ test_that("CEHQ fetch_daily_levels maps approval and quality_flag correctly", {
       end_date = "2022-01-05",
       source = "cehq"
     )
-    expect_equal(result$approval[[1L]], "approved")
-    expect_true(is.na(result$quality_flag[[1L]]))
-    expect_equal(result$approval[[2L]], "provisional")
-    expect_equal(result$quality_flag[[2L]], "P")
-    expect_equal(result$approval[[3L]], "estimated")
+    expect_true(is.na(result$quality_code[[1L]]))
+    expect_equal(result$quality_code[[2L]], "P")
+    expect_equal(result$quality_code[[3L]], "E")
     expect_equal(result$value[[4L]], NA_real_)
-    expect_equal(result$approval[[4L]], "estimated")
+    expect_equal(result$quality_code[[4L]], "E")
+    expect_true(all(is.na(result$qf_desc)))
   })
 })
 
@@ -181,8 +168,8 @@ test_that("CEHQ fetch_daily_flows returns empty tibble for unknown station", {
         "parameter",
         "unit",
         "provider_name",
-        "approval",
-        "quality_flag"
+        "quality_code",
+        "qf_desc"
       )
     )
   })

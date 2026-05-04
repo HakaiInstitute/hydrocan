@@ -17,8 +17,8 @@ test_that("hc_read_flows returns the correct schema", {
       "parameter",
       "unit",
       "provider_name",
-      "approval",
-      "quality_flag"
+      "quality_code",
+      "qf_desc"
     )
   )
   expect_s3_class(result$timestamp, "POSIXct")
@@ -44,8 +44,8 @@ test_that("hc_read_daily_flows returns the correct schema", {
       "parameter",
       "unit",
       "provider_name",
-      "approval",
-      "quality_flag"
+      "quality_code",
+      "qf_desc"
     )
   )
   expect_s3_class(result$date, "Date")
@@ -82,8 +82,8 @@ test_that("hc_read_levels returns the correct schema", {
       "parameter",
       "unit",
       "provider_name",
-      "approval",
-      "quality_flag"
+      "quality_code",
+      "qf_desc"
     )
   )
   expect_equal(unique(result$parameter), "water_level")
@@ -109,8 +109,8 @@ test_that("hc_read_daily_levels returns the correct schema", {
       "parameter",
       "unit",
       "provider_name",
-      "approval",
-      "quality_flag"
+      "quality_code",
+      "qf_desc"
     )
   )
   expect_s3_class(result$date, "Date")

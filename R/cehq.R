@@ -76,27 +76,6 @@
   )
 }
 
-# Map CEHQ remark codes to hydrocan's approval vocabulary. Codes documented
-# in the CEHQ data file headers:
-#   E        = estimated
-#   P, P*    = provisional
-#   all else = approved (gauged, converted, corrected, etc.)
-.cehq_remark_to_approval <- function(remark) {
-  ifelse(
-    is.na(remark),
-    "approved",
-    ifelse(
-      remark == "E",
-      "estimated",
-      ifelse(
-        startsWith(remark, "P"),
-        "provisional",
-        "approved"
-      )
-    )
-  )
-}
-
 # Parse a CEHQ daily observation file. The file suffix selects the parameter:
 # "_Q.txt" for discharge (flow, m³/s) or "_N.txt" for stage (level, m).
 #
@@ -158,10 +137,8 @@
     parameter = parameter,
     unit = unit,
     provider_name = "cehq",
-    approval = .cehq_remark_to_approval(
-      ifelse(has_value, raw$remark, raw$v_or_r)
-    ),
-    quality_flag = ifelse(has_value, raw$remark, raw$v_or_r)
+    quality_code = ifelse(has_value, raw$remark, raw$v_or_r),
+    qf_desc = NA_character_
   )
 
   result[

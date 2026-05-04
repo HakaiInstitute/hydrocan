@@ -19,13 +19,13 @@ test_that("hc_citation uses title when available", {
   )
   local_register_adapter(a)
   result <- hc_citation("titled")
-  expect_true(grepl("My Dataset Title", paste(format(result), collapse = "\n")))
+  expect_match(paste(format(result), collapse = "\n"), "My Dataset Title")
 })
 
 test_that("hc_citation falls back to name when title is NULL", {
   local_register_adapter(mock_adapter)
   result <- hc_citation("mock")
-  expect_true(grepl("mock", paste(format(result), collapse = "\n")))
+  expect_match(paste(format(result), collapse = "\n"), "mock")
 })
 
 test_that("hc_citation includes license in note when available", {
@@ -40,5 +40,5 @@ test_that("hc_citation includes license in note when available", {
   )
   local_register_adapter(a)
   result <- hc_citation("licensed")
-  expect_true(grepl("CC BY 4.0", paste(format(result), collapse = "\n")))
+  expect_match(paste(format(result), collapse = "\n"), "CC BY 4.0")
 })

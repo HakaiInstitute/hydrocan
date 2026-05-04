@@ -186,7 +186,7 @@ test_that("hc_read_stations returns the correct schema", {
 test_that("hc_read_stations returns one row per station", {
   local_register_adapter(mock_adapter)
   result <- hc_read_stations(source = "mock")
-  expect_equal(nrow(result), length(.mock_stations))
+  expect_length(.mock_stations, nrow(result))
 })
 
 test_that("hc_read_stations warns and returns empty tibble when adapter has no metadata support", {
@@ -335,6 +335,6 @@ test_that("hc_read_stations without source queries all registered adapters", {
   local_clear_registry()
   local_register_adapter(mock_adapter)
   result <- hc_read_stations()
-  expect_equal(nrow(result), length(.mock_stations))
+  expect_length(.mock_stations, nrow(result))
   expect_equal(unique(result$provider_name), "mock")
 })

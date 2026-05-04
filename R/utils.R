@@ -32,7 +32,7 @@
 .hydrocan_request <- function(url) {
   httr2::request(url) |>
     httr2::req_user_agent(
-      'https://github.com/HakaiInstitute/hydrocan'
+      "https://github.com/HakaiInstitute/hydrocan"
     )
 }
 

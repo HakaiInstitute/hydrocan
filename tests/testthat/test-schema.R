@@ -33,38 +33,38 @@ good_daily <- tibble::tibble(
 )
 
 test_that("validate_hydrocan_schema passes a well-formed realtime tibble", {
-  result <- hydrocan:::validate_hydrocan_schema(good_rt, "realtime")
+  result <- validate_hydrocan_schema(good_rt, "realtime")
   expect_s3_class(result, "data.frame")
 })
 
 test_that("validate_hydrocan_schema passes a well-formed daily tibble", {
-  result <- hydrocan:::validate_hydrocan_schema(good_daily, "daily")
+  result <- validate_hydrocan_schema(good_daily, "daily")
   expect_s3_class(result, "data.frame")
 })
 
 test_that("validate_hydrocan_schema errors on missing column", {
   expect_error(
-    hydrocan:::validate_hydrocan_schema(good_rt[, -1], "realtime"),
+    validate_hydrocan_schema(good_rt[, -1], "realtime"),
     "station_id"
   )
   expect_error(
-    hydrocan:::validate_hydrocan_schema(good_daily[, -2], "daily"),
+    validate_hydrocan_schema(good_daily[, -2], "daily"),
     "date"
   )
 })
 
 test_that(".normalize_units maps known variants to canonical strings", {
-  expect_equal(hydrocan:::.normalize_units("m\u00b3/s"), "m3/s")
-  expect_equal(hydrocan:::.normalize_units("cms"), "m3/s")
-  expect_equal(hydrocan:::.normalize_units("m^3/s"), "m3/s")
-  expect_equal(hydrocan:::.normalize_units("cfs"), "ft3/s")
-  expect_equal(hydrocan:::.normalize_units("feet"), "ft")
-  expect_equal(hydrocan:::.normalize_units("metres"), "m")
+  expect_equal(.normalize_units("m\u00b3/s"), "m3/s")
+  expect_equal(.normalize_units("cms"), "m3/s")
+  expect_equal(.normalize_units("m^3/s"), "m3/s")
+  expect_equal(.normalize_units("cfs"), "ft3/s")
+  expect_equal(.normalize_units("feet"), "ft")
+  expect_equal(.normalize_units("metres"), "m")
 })
 
 test_that(".normalize_units passes unknown units through with a warning", {
   expect_warning(
-    result <- hydrocan:::.normalize_units("furlongs/fortnight"),
+    result <- .normalize_units("furlongs/fortnight"),
     "furlongs/fortnight"
   )
   expect_equal(result, "furlongs/fortnight")
@@ -73,18 +73,18 @@ test_that(".normalize_units passes unknown units through with a warning", {
 test_that("validate_hydrocan_schema normalizes units in the returned tibble", {
   raw <- good_rt
   raw$unit <- "m\u00b3/s"
-  result <- hydrocan:::validate_hydrocan_schema(raw, "realtime")
+  result <- validate_hydrocan_schema(raw, "realtime")
   expect_equal(result$unit, "m3/s")
 })
 
 test_that("validate_hydrocan_schema passes a well-formed stations tibble", {
-  result <- hydrocan:::validate_hydrocan_schema(good_stations, "stations")
+  result <- validate_hydrocan_schema(good_stations, "stations")
   expect_s3_class(result, "data.frame")
 })
 
 test_that("validate_hydrocan_schema errors on missing column for stations type", {
   expect_error(
-    hydrocan:::validate_hydrocan_schema(
+    validate_hydrocan_schema(
       good_stations[, names(good_stations) != "longitude"],
       "stations"
     ),
@@ -95,7 +95,7 @@ test_that("validate_hydrocan_schema errors on missing column for stations type",
 
 test_that(".normalize_units handles a vector of mixed units", {
   expect_warning(
-    result <- hydrocan:::.normalize_units(c(
+    result <- .normalize_units(c(
       "cms",
       "cfs",
       "furlongs/fortnight"

@@ -30,6 +30,9 @@
 #' @param license_url Optional string with a URL to the license text.
 #' @param terms_url Optional string with a URL to the data provider's terms of
 #'   use or data policy.
+#' @param docs_url Optional string with a URL to human-readable documentation
+#'   about the data (field definitions, codes, data structure). A machine-
+#'   readable metadata endpoint is acceptable if no human-readable page exists.
 #'
 #' @return A list with class `"hydrocan_adapter"`.
 #' @export
@@ -44,7 +47,8 @@ new_hydrocan_adapter <- function(
   list_stations_meta_fn = NULL,
   license = NULL,
   license_url = NULL,
-  terms_url = NULL
+  terms_url = NULL,
+  docs_url = NULL
 ) {
   if (!is.character(name) || length(name) != 1L || nchar(name) == 0L) {
     stop("'name' must be a single non-empty character string.", call. = FALSE)
@@ -77,7 +81,7 @@ new_hydrocan_adapter <- function(
   if (!is.null(list_stations_meta_fn) && !is.function(list_stations_meta_fn)) {
     stop("'list_stations_meta_fn' must be a function or NULL.", call. = FALSE)
   }
-  for (nm in c("license", "license_url", "terms_url")) {
+  for (nm in c("license", "license_url", "terms_url", "docs_url")) {
     val <- get(nm)
     if (!is.null(val)) {
       if (!is.character(val) || length(val) != 1L || is.na(val)) {
@@ -103,7 +107,8 @@ new_hydrocan_adapter <- function(
       list_stations_meta_fn = list_stations_meta_fn,
       license = license,
       license_url = license_url,
-      terms_url = terms_url
+      terms_url = terms_url,
+      docs_url = docs_url
     ),
     class = "hydrocan_adapter"
   )

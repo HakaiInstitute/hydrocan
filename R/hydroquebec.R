@@ -205,6 +205,10 @@ hydrocan_adapter_hydroquebec <- function() {
     .hq_list_stations,
     fetch_flows_fn = .hq_fetch_flows,
     fetch_daily_flows_fn = .hq_fetch_daily_flows,
-    list_stations_meta_fn = .hq_list_stations_meta
+    list_stations_meta_fn = .hq_list_stations_meta,
+    license = "CC BY-NC 4.0",
+    license_url = "https://creativecommons.org/licenses/by-nc/4.0/",
+    terms_url = "https://www.hydroquebec.com/documents-data/open-data/licence.html",
+    docs_url = "https://donnees.hydroquebec.com/explore/dataset/donnees-hydrometriques/information/"
   )
 }

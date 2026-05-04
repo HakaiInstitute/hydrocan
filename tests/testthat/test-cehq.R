@@ -97,8 +97,12 @@ test_that("CEHQ fetch_daily_flows passes through quality_code correctly", {
     expect_equal(result$quality_code[[4L]], "E")
     # 2022-01-05: no remark -> quality_code NA
     expect_true(is.na(result$quality_code[[5L]]))
-    # qf_desc is always NA (passthrough; source provides no descriptions)
-    expect_true(all(is.na(result$qf_desc)))
+    # qf_desc is populated from the internal remark code lookup
+    expect_true(is.na(result$qf_desc[[1L]]))   # no remark -> NA
+    expect_equal(result$qf_desc[[2L]], "La donn\u00e9e est provisoire")
+    expect_equal(result$qf_desc[[3L]], "La donn\u00e9e est estim\u00e9e.")
+    expect_equal(result$qf_desc[[4L]], "La donn\u00e9e est estim\u00e9e.")
+    expect_true(is.na(result$qf_desc[[5L]]))
   })
 })
 
@@ -144,7 +148,9 @@ test_that("CEHQ fetch_daily_levels passes through quality_code correctly", {
     expect_equal(result$quality_code[[3L]], "E")
     expect_equal(result$value[[4L]], NA_real_)
     expect_equal(result$quality_code[[4L]], "E")
-    expect_true(all(is.na(result$qf_desc)))
+    expect_true(is.na(result$qf_desc[[1L]]))
+    expect_equal(result$qf_desc[[2L]], "La donn\u00e9e est provisoire")
+    expect_equal(result$qf_desc[[3L]], "La donn\u00e9e est estim\u00e9e.")
   })
 })
 

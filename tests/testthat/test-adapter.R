@@ -139,7 +139,7 @@ test_that("new_hydrocan_adapter rejects invalid license fields", {
     identity,
     fetch_flows_fn = identity
   )
-  for (nm in c("license", "license_url", "terms_url")) {
+  for (nm in c("license", "license_url", "terms_url", "docs_url")) {
     expect_error(
       do.call(
         new_hydrocan_adapter,
@@ -184,6 +184,7 @@ test_that("new_hydrocan_adapter stores NULL when license fields are omitted", {
   expect_null(a$license)
   expect_null(a$license_url)
   expect_null(a$terms_url)
+  expect_null(a$docs_url)
 })
 
 test_that("register_hydrocan_adapter rejects non-adapter input", {
@@ -217,7 +218,8 @@ test_that("hc_list_sources returns the correct schema", {
       "has_stations",
       "license",
       "license_url",
-      "terms_url"
+      "terms_url",
+      "docs_url"
     )
   )
   expect_type(result$has_flows, "logical")

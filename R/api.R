@@ -7,7 +7,7 @@
 #' @return A tibble with columns `name` (chr), `description` (chr),
 #'   `has_flows` (lgl), `has_daily_flows` (lgl), `has_levels` (lgl),
 #'   `has_daily_levels` (lgl), `has_stations` (lgl), `license` (chr),
-#'   `license_url` (chr), and `terms_url` (chr).
+#'   `license_url` (chr), `terms_url` (chr), and `docs_url` (chr).
 #' @export
 hc_list_sources <- function() {
   adapters <- as.list(.hydrocan_registry)
@@ -22,7 +22,8 @@ hc_list_sources <- function() {
       has_stations = logical(),
       license = character(),
       license_url = character(),
-      terms_url = character()
+      terms_url = character(),
+      docs_url = character()
     ))
   }
   tibble::tibble(
@@ -62,6 +63,11 @@ hc_list_sources <- function() {
     terms_url = vapply(
       adapters,
       \(a) if (!is.null(a$terms_url)) a$terms_url else NA_character_,
+      character(1L)
+    ),
+    docs_url = vapply(
+      adapters,
+      \(a) if (!is.null(a$docs_url)) a$docs_url else NA_character_,
       character(1L)
     )
   )

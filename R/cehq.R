@@ -130,6 +130,8 @@
   numeric_value <- suppressWarnings(as.numeric(raw$v_or_r))
   has_value <- !is.na(numeric_value)
 
+  quality_code <- ifelse(has_value, raw$remark, raw$v_or_r)
+
   result <- tibble::tibble(
     station_id = station_id,
     date = as.Date(raw$date_str, format = "%Y/%m/%d"),
@@ -137,8 +139,10 @@
     parameter = parameter,
     unit = unit,
     provider_name = "cehq",
-    quality_code = ifelse(has_value, raw$remark, raw$v_or_r),
-    qf_desc = NA_character_
+    quality_code = quality_code,
+    qf_desc = cehq_remark_codes$qf_desc[
+      match(quality_code, cehq_remark_codes$quality_code)
+    ]
   )
 
   result[
@@ -182,6 +186,12 @@ hydrocan_adapter_cehq <- function() {
     .cehq_list_stations,
     fetch_daily_flows_fn = .cehq_fetch_daily_flows,
     fetch_daily_levels_fn = .cehq_fetch_daily_levels,
-    list_stations_meta_fn = .cehq_list_stations_meta
+    list_stations_meta_fn = .cehq_list_stations_meta,
+    title = "Stations hydrom\u00e9triques",
+    publisher = "Minist\u00e8re de l\u2019Environnement, de la Lutte contre les changements climatiques, de la Faune et des Parcs",
+    license = "CC BY 4.0",
+    license_url = "https://creativecommons.org/licenses/by/4.0/",
+    terms_url = "https://www.donneesquebec.ca/licence/#cc-by",
+    docs_url = "https://www.cehq.gouv.qc.ca/hydrometrie/index.htm"
   )
 }

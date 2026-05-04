@@ -54,7 +54,15 @@ test_that("HQ fetch returns a valid schema for a known station", {
       )
     )
     expect_gt(nrow(result), 0L)
-    expect_true(all(result$parameter %in% c("water_discharge", "water_discharge_spilled", "water_discharge_turbined", "water_inflow")))
+    expect_true(all(
+      result$parameter %in%
+        c(
+          "water_discharge",
+          "water_discharge_spilled",
+          "water_discharge_turbined",
+          "water_inflow"
+        )
+    ))
     expect_equal(unique(result$provider_name), "hydroquebec")
     expect_true(all(is.na(result$quality_code)))
   })

@@ -26,10 +26,17 @@
 #' @param list_stations_meta_fn Optional function with no arguments returning
 #'   a tibble matching the stations schema. `NULL` if station metadata is not
 #'   available.
+#' @param title Optional string with the formal name of the dataset as
+#'   published by the provider (used in citations).
+#' @param publisher Optional string naming the organization that publishes the
+#'   data (used in citations).
 #' @param license Optional string naming the data license (e.g. `"CC-BY 4.0"`).
 #' @param license_url Optional string with a URL to the license text.
 #' @param terms_url Optional string with a URL to the data provider's terms of
 #'   use or data policy.
+#' @param docs_url Optional string with a URL to human-readable documentation
+#'   about the data (field definitions, codes, data structure). A machine-
+#'   readable metadata endpoint is acceptable if no human-readable page exists.
 #'
 #' @return A list with class `"hydrocan_adapter"`.
 #' @export
@@ -42,9 +49,12 @@ new_hydrocan_adapter <- function(
   fetch_levels_fn = NULL,
   fetch_daily_levels_fn = NULL,
   list_stations_meta_fn = NULL,
+  title = NULL,
+  publisher = NULL,
   license = NULL,
   license_url = NULL,
-  terms_url = NULL
+  terms_url = NULL,
+  docs_url = NULL
 ) {
   if (!is.character(name) || length(name) != 1L || nchar(name) == 0L) {
     stop("'name' must be a single non-empty character string.", call. = FALSE)
@@ -77,7 +87,14 @@ new_hydrocan_adapter <- function(
   if (!is.null(list_stations_meta_fn) && !is.function(list_stations_meta_fn)) {
     stop("'list_stations_meta_fn' must be a function or NULL.", call. = FALSE)
   }
-  for (nm in c("license", "license_url", "terms_url")) {
+  for (nm in c(
+    "title",
+    "publisher",
+    "license",
+    "license_url",
+    "terms_url",
+    "docs_url"
+  )) {
     val <- get(nm)
     if (!is.null(val)) {
       if (!is.character(val) || length(val) != 1L || is.na(val)) {
@@ -101,9 +118,12 @@ new_hydrocan_adapter <- function(
       fetch_levels_fn = fetch_levels_fn,
       fetch_daily_levels_fn = fetch_daily_levels_fn,
       list_stations_meta_fn = list_stations_meta_fn,
+      title = title,
+      publisher = publisher,
       license = license,
       license_url = license_url,
-      terms_url = terms_url
+      terms_url = terms_url,
+      docs_url = docs_url
     ),
     class = "hydrocan_adapter"
   )

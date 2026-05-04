@@ -2,6 +2,7 @@
 
 S3method(print,hydrocan_daily)
 S3method(print,hydrocan_realtime)
+export(hc_citation)
 export(hc_list_sources)
 export(hc_read_daily_flows)
 export(hc_read_daily_levels)

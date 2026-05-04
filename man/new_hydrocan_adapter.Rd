@@ -13,9 +13,12 @@ new_hydrocan_adapter(
   fetch_levels_fn = NULL,
   fetch_daily_levels_fn = NULL,
   list_stations_meta_fn = NULL,
+  title = NULL,
+  publisher = NULL,
   license = NULL,
   license_url = NULL,
-  terms_url = NULL
+  terms_url = NULL,
+  docs_url = NULL
 )
 }
 \arguments{
@@ -46,12 +49,22 @@ not available.}
 a tibble matching the stations schema. \code{NULL} if station metadata is not
 available.}
 
+\item{title}{Optional string with the formal name of the dataset as
+published by the provider (used in citations).}
+
+\item{publisher}{Optional string naming the organization that publishes the
+data (used in citations).}
+
 \item{license}{Optional string naming the data license (e.g. \code{"CC-BY 4.0"}).}
 
 \item{license_url}{Optional string with a URL to the license text.}
 
 \item{terms_url}{Optional string with a URL to the data provider's terms of
 use or data policy.}
+
+\item{docs_url}{Optional string with a URL to human-readable documentation
+about the data (field definitions, codes, data structure). A machine-
+readable metadata endpoint is acceptable if no human-readable page exists.}
 }
 \value{
 A list with class \code{"hydrocan_adapter"}.

@@ -141,6 +141,12 @@ register_hydrocan_adapter <- function(adapter) {
   if (!inherits(adapter, "hydrocan_adapter")) {
     stop("'adapter' must be a 'hydrocan_adapter' object.", call. = FALSE)
   }
+  adapter$list_stations_fn <- memoise::memoise(adapter$list_stations_fn)
+  if (!is.null(adapter$list_stations_meta_fn)) {
+    adapter$list_stations_meta_fn <- memoise::memoise(
+      adapter$list_stations_meta_fn
+    )
+  }
   assign(adapter$name, adapter, envir = .hydrocan_registry)
   invisible(adapter)
 }

@@ -21,6 +21,7 @@ Imports:
     cli,
     dplyr,
     httr2,
+    memoise,
     tibble
 Suggests:
     httptest2,

@@ -55,39 +55,11 @@
 }
 
 .hakai_erddap_list_stations <- function() {
-  df <- .hakai_erddap_query("station_id", "distinct()")
-  if (is.null(df)) {
-    return(character(0))
-  }
-  df$station_id
+  hakai_erddap_stations$station_id
 }
 
 .hakai_erddap_list_stations_meta <- function() {
-  df <- .hakai_erddap_query(
-    c(
-      "station_id",
-      "station_description",
-      "latitude",
-      "longitude",
-      "elevation"
-    ),
-    "distinct()"
-  )
-  if (is.null(df)) {
-    return(.empty_stations_tibble())
-  }
-
-  tibble::tibble(
-    station_id = df$station_id,
-    station_name = df$station_description,
-    provider_name = "hakai_erddap",
-    longitude = suppressWarnings(as.double(df$longitude)),
-    latitude = suppressWarnings(as.double(df$latitude)),
-    elevation_m = suppressWarnings(as.double(df$elevation)),
-    period_start = as.Date(NA_character_),
-    period_end = as.Date(NA_character_),
-    notes = vector("list", nrow(df))
-  )
+  hakai_erddap_stations
 }
 
 .hakai_erddap_fetch_flows <- function(station_id, start_date, end_date) {

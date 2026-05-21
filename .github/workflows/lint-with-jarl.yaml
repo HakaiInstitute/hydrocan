@@ -14,4 +14,4 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: etiennebacher/setup-jarl@c35ca3e867df86402478ea1dbfae36419c80ac2b
-        run: jarl check .
+      - run: jarl check .

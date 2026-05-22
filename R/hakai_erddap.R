@@ -49,6 +49,7 @@
   df <- utils::read.csv(
     text = httr2::resp_body_string(resp),
     colClasses = "character",
+    na.strings = c("NaN", "NA"),
     check.names = FALSE
   )
   df[-1L, , drop = FALSE]
@@ -78,7 +79,7 @@
   tibble::tibble(
     station_id = df$station_id,
     timestamp = as.POSIXct(df$time, format = "%Y-%m-%dT%H:%M:%SZ", tz = "UTC"),
-    value = suppressWarnings(as.double(df$discharge_rate)),
+    value = as.double(df$discharge_rate),
     parameter = "water_discharge",
     unit = "m3/s",
     provider_name = "hakai_erddap",
@@ -103,7 +104,7 @@
   tibble::tibble(
     station_id = df$station_id,
     timestamp = as.POSIXct(df$time, format = "%Y-%m-%dT%H:%M:%SZ", tz = "UTC"),
-    value = suppressWarnings(as.double(df$stage)),
+    value = as.double(df$stage),
     parameter = "water_level",
     unit = "m",
     provider_name = "hakai_erddap",

@@ -116,7 +116,7 @@ test_that("Hakai ERDDAP fetch_levels returns valid schema for a known station", 
     expect_equal(unique(result$parameter), "water_level")
     expect_equal(unique(result$unit), "m")
     expect_equal(unique(result$provider_name), "hakai_erddap")
-    expect_true(any(!is.na(result$value)))
+    expect_true(!all(is.na(result$value)))
     expect_true(all(is.na(result$qf_desc)))
   })
 })

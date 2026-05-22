@@ -67,7 +67,11 @@
   df <- .hakai_erddap_query(
     c("station_id", "time", "discharge_rate", "discharge_rate_qc"),
     c(
-      paste0('station_id="', station_id, '"'),
+      paste0(
+        'station_id="',
+        utils::URLencode(station_id, reserved = TRUE),
+        '"'
+      ),
       paste0("time>=", format(start_date, "%Y-%m-%dT00:00:00Z")),
       paste0("time<=", format(end_date, "%Y-%m-%dT23:59:59Z"))
     )
@@ -92,7 +96,11 @@
   df <- .hakai_erddap_query(
     c("station_id", "time", "stage", "stage_qc"),
     c(
-      paste0('station_id="', station_id, '"'),
+      paste0(
+        'station_id="',
+        utils::URLencode(station_id, reserved = TRUE),
+        '"'
+      ),
       paste0("time>=", format(start_date, "%Y-%m-%dT00:00:00Z")),
       paste0("time<=", format(end_date, "%Y-%m-%dT23:59:59Z"))
     )

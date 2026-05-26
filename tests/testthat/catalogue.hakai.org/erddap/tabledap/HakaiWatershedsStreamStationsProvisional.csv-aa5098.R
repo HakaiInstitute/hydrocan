@@ -1,0 +1,12 @@
+structure(list(method = "GET", url = "https://catalogue.hakai.org/erddap/tabledap/HakaiWatershedsStreamStationsProvisional.csv?station_id,time,discharge_rate,discharge_rate_qc&station_id=%22UNKNOWN999%22&time>=2023-08-01T00:00:00Z&time<=2023-08-03T23:59:59Z", 
+    status_code = 404L, headers = structure(list(Date = "Fri, 22 May 2026 16:48:16 GMT", 
+        Server = "Apache", `Strict-Transport-Security` = "max-age=0", 
+        `X-Frame-Options` = "SAMEORIGIN", `X-Content-Type-Options` = "nosniff", 
+        `Last-Modified` = "Fri, 22 May 2026 16:48:16 GMT", `xdods-server` = "dods/3.7", 
+        `erddap-server` = "2.25_1", `Content-Description` = "dods-error", 
+        `Content-Encoding` = "identity", `Content-Type` = "text/plain;charset=UTF-8", 
+        `Access-Control-Allow-Origin` = "*", `X-Robots-Tag` = "noindex, nofollow, noarchive, nosnippet", 
+        `Transfer-Encoding` = "chunked"), class = "httr2_headers"), 
+    body = charToRaw("Error {\n    code=404;\n    message=\"Not Found: Your query produced no matching results. (nRows = 0)\";\n}\n"), 
+    timing = c(redirect = 0, namelookup = 0, connect = 0, pretransfer = 0.000154, 
+    starttransfer = 2.141118, total = 2.141158), cache = new.env(parent = emptyenv())), class = "httr2_response")

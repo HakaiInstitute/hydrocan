@@ -13,6 +13,13 @@
 
 .HQ_API_URL <- "https://donnees.hydroquebec.com/api/explore/v2.1/catalog/datasets/donnees-hydrometriques/records"
 
+# The Hydro-Quebec server returns a malformed content-security-policy header
+# that libcurl rejects over HTTP/2. Forcing HTTP/1.1 avoids the framing error.
+.hq_request <- function() {
+  .hydrocan_request(.HQ_API_URL) |>
+    httr2::req_options(http_version = 2L)
+}
+
 # Collect the $results data.frame from each ODS API response and bind into one.
 .hq_bind_pages <- function(resps) {
   pages <- Filter(
@@ -28,7 +35,7 @@
 .hq_collect <- function(where, select) {
   limit <- 100L
 
-  req <- .hydrocan_request(.HQ_API_URL) |>
+  req <- .hq_request() |>
     httr2::req_url_query(
       where = where,
       select = select,
@@ -48,7 +55,7 @@
 .hq_list_stations <- function() {
   limit <- 100L
 
-  req <- .hydrocan_request(.HQ_API_URL) |>
+  req <- .hq_request() |>
     httr2::req_url_query(
       select = "identifiant",
       group_by = "identifiant",
@@ -162,7 +169,7 @@
   select <- "identifiant,nom,xcoord,ycoord,zcoord,date_debut,date_fin,coderegionqc,regionqc"
   limit <- 100L
 
-  req <- .hydrocan_request(.HQ_API_URL) |>
+  req <- .hq_request() |>
     httr2::req_url_query(
       select = select,
       group_by = "identifiant,nom,xcoord,ycoord,zcoord,date_debut,date_fin,coderegionqc,regionqc",

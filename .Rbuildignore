@@ -7,6 +7,6 @@
 ^docs$
 ^pkgdown$
 ^\.claude$
-^Claude.md
+^Claude\.md$
 ^tasks$
 ^data-raw$

@@ -171,6 +171,12 @@
   "H08KC0703", "H08KC0708", "H08KC0844", "ISHK01"
 )
 
+# Suppress R CMD check notes for dplyr column names used in mutate/select
+utils::globalVariables(c(
+  "timestamp", "end_timestamp", "value", "approval_level",
+  "parameter", "unit", "provider_name", "quality_code", "qf_desc"
+))
+
 
 # ---------------------------------------------------------------------------
 # Internal helpers — HTTP layer

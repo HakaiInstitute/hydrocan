@@ -307,6 +307,10 @@
       parameter     = "water_discharge",
       unit          = "m3/s",
       provider_name = "bc_aquarius"
+    ) |>
+    dplyr::select(
+      station_id, timestamp, value, parameter,
+      unit, provider_name, quality_code, qf_desc
     )
 }
 
@@ -327,7 +331,10 @@
       unit          = "m3/s",
       provider_name = "bc_aquarius"
     ) |>
-    dplyr::select(-timestamp)
+    dplyr::select(
+      station_id, date, value, parameter,
+      unit, provider_name, quality_code, qf_desc
+    )
 }
 
 # Sub-daily levels (native logger interval, typically 5 min)
@@ -345,6 +352,10 @@
       parameter     = "water_level",
       unit          = "m",
       provider_name = "bc_aquarius"
+    ) |>
+    dplyr::select(
+      station_id, timestamp, value, parameter,
+      unit, provider_name, quality_code, qf_desc
     )
 }
 
@@ -365,7 +376,10 @@
       unit          = "m",
       provider_name = "bc_aquarius"
     ) |>
-    dplyr::select(-timestamp)
+    dplyr::select(
+      station_id, date, value, parameter,
+      unit, provider_name, quality_code, qf_desc
+    )
 }
 
 

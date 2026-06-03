@@ -62,7 +62,7 @@ cehq_data <- hc_read_daily_flows(
   source = "cehq"
 )
 
-hq_data <- hc_read_flows(
+hq_data <- hc_read_daily_flows(
   station_id = "3-230",
   start_date = Sys.Date() - 7,
   end_date = Sys.Date(),

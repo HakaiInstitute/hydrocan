@@ -26,3 +26,12 @@ A tibble with columns `station_id` (chr), `station_name` (chr),
 `provider_name` (chr), `longitude` (dbl), `latitude` (dbl),
 `elevation_m` (dbl), `period_start` (Date), `period_end` (Date), and
 `notes` (list).
+
+## Examples
+
+``` r
+if (FALSE) { # \dontrun{
+try(hc_read_stations())
+try(hc_read_stations(source = "cehq"))
+} # }
+```

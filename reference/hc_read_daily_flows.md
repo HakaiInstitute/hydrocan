@@ -41,5 +41,13 @@ hc_read_daily_flows(
 ## Value
 
 A tibble with columns `station_id` (chr), `date` (Date), `value` (dbl),
-`parameter` (chr), `unit` (chr), `provider_name` (chr), `approval`
-(chr), and `quality_flag` (chr).
+`parameter` (chr), `unit` (chr), `provider_name` (chr), `quality_code`
+(chr), and `qf_desc` (chr).
+
+## Examples
+
+``` r
+if (FALSE) { # \dontrun{
+try(hc_read_daily_flows("030101", start_date = "2020-01-01", end_date = "2020-01-31"))
+} # }
+```

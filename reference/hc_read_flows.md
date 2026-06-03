@@ -37,4 +37,12 @@ hc_read_flows(station_id, start_date, end_date = Sys.Date(), source = NULL)
 
 A tibble with columns `station_id` (chr), `timestamp` (POSIXct UTC),
 `value` (dbl), `parameter` (chr), `unit` (chr), `provider_name` (chr),
-`approval` (chr), and `quality_flag` (chr).
+`quality_code` (chr), and `qf_desc` (chr).
+
+## Examples
+
+``` r
+if (FALSE) { # \dontrun{
+try(hc_read_flows("703", start_date = Sys.Date() - 7))
+} # }
+```

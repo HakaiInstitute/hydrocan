@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">hydrocan</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -259,17 +259,15 @@ data is not available</td>
 <td>Must equal the adapter name</td>
 </tr>
 <tr class="odd">
-<td><code>approval</code></td>
-<td>chr or NA</td>
-<td>
-<code>"provisional"</code>, <code>"approved"</code>,
-<code>"estimated"</code>, or <code>NA</code>
-</td>
+<td><code>quality_code</code></td>
+<td>chr</td>
+<td>Raw provider quality code; <code>NA</code> if unavailable</td>
 </tr>
 <tr class="even">
-<td><code>quality_flag</code></td>
+<td><code>qf_desc</code></td>
 <td>chr</td>
-<td>Source-specific passthrough; <code>NA</code> if unavailable</td>
+<td>Provider description of the quality code; <code>NA</code> if
+unavailable</td>
 </tr>
 </tbody>
 </table>
@@ -482,8 +480,8 @@ supports.</p>
 <span>    parameter     <span class="op">=</span> <span class="st">"water_discharge"</span>,</span>
 <span>    unit          <span class="op">=</span> <span class="st">"m3/s"</span>,</span>
 <span>    provider_name <span class="op">=</span> <span class="st">"myprov"</span>,</span>
-<span>    approval      <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/if_else.html" class="external-link">if_else</a></span><span class="op">(</span><span class="va">resp</span><span class="op">$</span><span class="va">approved</span>, <span class="st">"approved"</span>, <span class="st">"provisional"</span><span class="op">)</span>,</span>
-<span>    quality_flag  <span class="op">=</span> <span class="va">resp</span><span class="op">$</span><span class="va">quality_code</span></span>
+<span>    quality_code  <span class="op">=</span> <span class="va">resp</span><span class="op">$</span><span class="va">quality_code</span>,</span>
+<span>    qf_desc       <span class="op">=</span> <span class="cn">NA_character_</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="op">}</span></span>
 <span></span>
@@ -557,8 +555,8 @@ state on exit.</li>
 <span>    parameter     <span class="op">=</span> <span class="st">"water_discharge"</span>,</span>
 <span>    unit          <span class="op">=</span> <span class="st">"m3/s"</span>,</span>
 <span>    provider_name <span class="op">=</span> <span class="st">"myprov"</span>,</span>
-<span>    approval      <span class="op">=</span> <span class="st">"provisional"</span>,</span>
-<span>    quality_flag  <span class="op">=</span> <span class="cn">NA_character_</span></span>
+<span>    quality_code  <span class="op">=</span> <span class="cn">NA_character_</span>,</span>
+<span>    qf_desc       <span class="op">=</span> <span class="cn">NA_character_</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="op">}</span></span>
 <span></span>
@@ -595,9 +593,6 @@ every data-fetching API call (<code><a href="../reference/hc_read_flows.html">hc
 if:</p>
 <ul>
 <li>Any required column is missing from the returned tibble.</li>
-<li>The <code>approval</code> column contains a non-<code>NA</code>
-value other than <code>"provisional"</code>, <code>"approved"</code>, or
-<code>"estimated"</code>.</li>
 </ul>
 <p>It also normalises the <code>unit</code> column: common variants such
 as <code>"m³/s"</code>, <code>"cms"</code>, or <code>"m^3/s"</code> are

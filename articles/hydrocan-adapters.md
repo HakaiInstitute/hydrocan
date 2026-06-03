@@ -64,8 +64,8 @@ At least one fetch function must be non-`NULL`.
 | `parameter` | chr | `"water_discharge"` or `"water_level"` |
 | `unit` | chr | Canonical form after normalization (e.g. `"m3/s"`, `"m"`) |
 | `provider_name` | chr | Must equal the adapter name |
-| `approval` | chr or NA | `"provisional"`, `"approved"`, `"estimated"`, or `NA` |
-| `quality_flag` | chr | Source-specific passthrough; `NA` if unavailable |
+| `quality_code` | chr | Raw provider quality code; `NA` if unavailable |
+| `qf_desc` | chr | Provider description of the quality code; `NA` if unavailable |
 
 #### Daily - `fetch_daily_flows_fn` / `fetch_daily_levels_fn`
 
@@ -229,8 +229,8 @@ Create `R/myprov.R`:
     parameter     = "water_discharge",
     unit          = "m3/s",
     provider_name = "myprov",
-    approval      = dplyr::if_else(resp$approved, "approved", "provisional"),
-    quality_flag  = resp$quality_code
+    quality_code  = resp$quality_code,
+    qf_desc       = NA_character_
   )
 }
 
@@ -310,8 +310,8 @@ is:
     parameter     = "water_discharge",
     unit          = "m3/s",
     provider_name = "myprov",
-    approval      = "provisional",
-    quality_flag  = NA_character_
+    quality_code  = NA_character_,
+    qf_desc       = NA_character_
   )
 }
 
@@ -350,8 +350,6 @@ data-fetching API call
 It will stop with a clear message if:
 
 - Any required column is missing from the returned tibble.
-- The `approval` column contains a non-`NA` value other than
-  `"provisional"`, `"approved"`, or `"estimated"`.
 
 It also normalises the `unit` column: common variants such as `"m³/s"`,
 `"cms"`, or `"m^3/s"` are all mapped to the canonical `"m3/s"`.

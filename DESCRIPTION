@@ -3,6 +3,12 @@ Title: Unified Access to Canadian Hydrometric Data
 Version: 0.0.0.9000
 Authors@R:
     c(person("Sam", "Albers", email = "sam.albers@hakai.org", role = c("aut", "cre")),
+person(
+      "Emily", "Haughton",
+      email = "Emily.haughton@hakai.org",
+      comment = c(ORCID = "0009-0002-5756-1805"),
+      role = "ctb"
+    ),
     person("Tula Foundation", , role = c("fnd", "cph")),
     person("Canada Water Agency", , role = "fnd"))
 Description: Provides a unified interface for accessing diverse

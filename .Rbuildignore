@@ -11,3 +11,5 @@
 ^tasks$
 ^data-raw$
 ^\.positai$
+^cran-comments\.md$
+

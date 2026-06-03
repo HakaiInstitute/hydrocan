@@ -22,7 +22,7 @@ the station ID. See \code{\link[=hc_list_sources]{hc_list_sources()}} for availa
 \value{
 A tibble with columns \code{station_id} (chr), \code{timestamp} (POSIXct
 UTC), \code{value} (dbl), \code{parameter} (chr), \code{unit} (chr), \code{provider_name}
-(chr), \code{approval} (chr), and \code{quality_flag} (chr).
+(chr), \code{quality_code} (chr), and \code{qf_desc} (chr).
 }
 \description{
 Fetches sub-daily observations for one or more stations across the requested

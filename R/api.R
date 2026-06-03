@@ -155,7 +155,7 @@ hc_read_stations <- function(source = NULL) {
 #'
 #' @return A tibble with columns `station_id` (chr), `timestamp` (POSIXct
 #'   UTC), `value` (dbl), `parameter` (chr), `unit` (chr), `provider_name`
-#'   (chr), `approval` (chr), and `quality_flag` (chr).
+#'   (chr), `quality_code` (chr), and `qf_desc` (chr).
 #' @export
 hc_read_flows <- function(
   station_id,
@@ -187,7 +187,7 @@ hc_read_flows <- function(
 #'
 #' @return A tibble with columns `station_id` (chr), `timestamp` (POSIXct
 #'   UTC), `value` (dbl), `parameter` (chr: `"water_level"`), `unit` (chr),
-#'   `provider_name` (chr), `approval` (chr), and `quality_flag` (chr).
+#'   `provider_name` (chr), `quality_code` (chr), and `qf_desc` (chr).
 #' @export
 hc_read_levels <- function(
   station_id,
@@ -219,7 +219,7 @@ hc_read_levels <- function(
 #'
 #' @return A tibble with columns `station_id` (chr), `date` (Date),
 #'   `value` (dbl), `parameter` (chr), `unit` (chr), `provider_name` (chr),
-#'   `approval` (chr), and `quality_flag` (chr).
+#'   `quality_code` (chr), and `qf_desc` (chr).
 #' @export
 hc_read_daily_flows <- function(
   station_id,
@@ -248,7 +248,7 @@ hc_read_daily_flows <- function(
 #'
 #' @return A tibble with columns `station_id` (chr), `date` (Date),
 #'   `value` (dbl), `parameter` (chr: `"water_level"`), `unit` (chr),
-#'   `provider_name` (chr), `approval` (chr), and `quality_flag` (chr).
+#'   `provider_name` (chr), `quality_code` (chr), and `qf_desc` (chr).
 #' @export
 hc_read_daily_levels <- function(
   station_id,

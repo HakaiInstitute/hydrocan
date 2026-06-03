@@ -15,6 +15,7 @@
 
 # The Hydro-Quebec server returns a malformed content-security-policy header
 # that libcurl rejects over HTTP/2. Forcing HTTP/1.1 avoids the framing error.
+# Note: libcurl's numeric constant for HTTP/1.1 is 2 (CURL_HTTP_VERSION_1_1).
 .hq_request <- function() {
   .hydrocan_request(.HQ_API_URL) |>
     httr2::req_options(http_version = 2L)

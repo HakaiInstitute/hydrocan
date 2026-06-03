@@ -182,8 +182,9 @@
 .build_aquarius_url <- function(stn_number, parameter, start_time, end_time,
                                 unit_id  = 350L,
                                 interval = "PointsAsRecorded") {
-  parameter <- tools::toTitleCase(parameter)
-  data_set  <- glue::glue("{parameter}.Working@{stn_number}")
+  parameter  <- tools::toTitleCase(parameter)
+  data_set   <- glue::glue("{parameter}.Working@{stn_number}")
+  conversion <- if (interval == "Daily") "Aggregate" else "Instantaneous"
 
   httr2::url_modify(
     "https://bcmoe-prod.aquaticinformatics.net/Export/DataSet",
@@ -194,7 +195,7 @@
       EndTime            = end_time,
       DateRange          = "Custom",
       UnitID             = unit_id,
-      Conversion         = "Instantaneous",
+      Conversion         = conversion,
       IntervalPoints     = interval,
       ApprovalLevels     = "True",
       Qualifiers         = "False",

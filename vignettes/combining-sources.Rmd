@@ -81,9 +81,10 @@ all_flows |>
 ```{r}
 daily |>
   mutate(year = lubridate::year(date)) |>
+  group_by(station_id, provider_name, year) |>
   summarise(
     mean_flow = mean(value, na.rm = TRUE),
-    .by = c(station_id, provider_name, year)
+    .groups = "drop"
   ) |>
   arrange(year, provider_name)
 ```

@@ -29,3 +29,8 @@ Fetches sub-daily water level observations for one or more stations across
 the requested date range. The data source is determined automatically from
 the station ID, or fixed explicitly via \code{source}.
 }
+\examples{
+\dontrun{
+try(hc_read_levels("703", start_date = Sys.Date() - 7))
+}
+}

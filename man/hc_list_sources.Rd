@@ -17,3 +17,6 @@ Returns a summary of all data sources currently available via hydrocan,
 including their description and which data types they support.
 No network calls are made.
 }
+\examples{
+hc_list_sources()
+}

@@ -8,6 +8,8 @@
 #'   `has_flows` (lgl), `has_daily_flows` (lgl), `has_levels` (lgl),
 #'   `has_daily_levels` (lgl), `has_stations` (lgl), `license` (chr),
 #'   `license_url` (chr), `terms_url` (chr), and `docs_url` (chr).
+#' @examples
+#' hc_list_sources()
 #' @export
 hc_list_sources <- function() {
   adapters <- as.list(.hydrocan_registry)
@@ -87,6 +89,11 @@ hc_list_sources <- function() {
 #'   `provider_name` (chr), `longitude` (dbl), `latitude` (dbl),
 #'   `elevation_m` (dbl), `period_start` (Date), `period_end` (Date), and
 #'   `notes` (list).
+#' @examples
+#' \dontrun{
+#' try(hc_read_stations())
+#' try(hc_read_stations(source = "cehq"))
+#' }
 #' @export
 hc_read_stations <- function(source = NULL) {
   if (!is.null(source)) {
@@ -156,6 +163,10 @@ hc_read_stations <- function(source = NULL) {
 #' @return A tibble with columns `station_id` (chr), `timestamp` (POSIXct
 #'   UTC), `value` (dbl), `parameter` (chr), `unit` (chr), `provider_name`
 #'   (chr), `quality_code` (chr), and `qf_desc` (chr).
+#' @examples
+#' \dontrun{
+#' try(hc_read_flows("703", start_date = Sys.Date() - 7))
+#' }
 #' @export
 hc_read_flows <- function(
   station_id,
@@ -188,6 +199,10 @@ hc_read_flows <- function(
 #' @return A tibble with columns `station_id` (chr), `timestamp` (POSIXct
 #'   UTC), `value` (dbl), `parameter` (chr: `"water_level"`), `unit` (chr),
 #'   `provider_name` (chr), `quality_code` (chr), and `qf_desc` (chr).
+#' @examples
+#' \dontrun{
+#' try(hc_read_levels("703", start_date = Sys.Date() - 7))
+#' }
 #' @export
 hc_read_levels <- function(
   station_id,
@@ -220,6 +235,10 @@ hc_read_levels <- function(
 #' @return A tibble with columns `station_id` (chr), `date` (Date),
 #'   `value` (dbl), `parameter` (chr), `unit` (chr), `provider_name` (chr),
 #'   `quality_code` (chr), and `qf_desc` (chr).
+#' @examples
+#' \dontrun{
+#' try(hc_read_daily_flows("030101", start_date = "2020-01-01", end_date = "2020-01-31"))
+#' }
 #' @export
 hc_read_daily_flows <- function(
   station_id,
@@ -249,6 +268,10 @@ hc_read_daily_flows <- function(
 #' @return A tibble with columns `station_id` (chr), `date` (Date),
 #'   `value` (dbl), `parameter` (chr: `"water_level"`), `unit` (chr),
 #'   `provider_name` (chr), `quality_code` (chr), and `qf_desc` (chr).
+#' @examples
+#' \dontrun{
+#' try(hc_read_daily_levels("030101", start_date = "2020-01-01", end_date = "2020-01-31"))
+#' }
 #' @export
 hc_read_daily_levels <- function(
   station_id,

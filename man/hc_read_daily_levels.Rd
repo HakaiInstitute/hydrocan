@@ -34,3 +34,8 @@ Returns one water level value per station per calendar day as published by
 the data source. Not all data sources publish daily level data; those that
 do not will produce a warning and return no rows for the affected stations.
 }
+\examples{
+\dontrun{
+try(hc_read_daily_levels("030101", start_date = "2020-01-01", end_date = "2020-01-31"))
+}
+}

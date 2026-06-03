@@ -22,3 +22,9 @@ Returns location and period-of-record information for all stations available
 across registered data sources. Data sources that do not publish station
 metadata are skipped with a warning.
 }
+\examples{
+\dontrun{
+try(hc_read_stations())
+try(hc_read_stations(source = "cehq"))
+}
+}

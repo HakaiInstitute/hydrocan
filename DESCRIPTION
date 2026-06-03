@@ -1,6 +1,6 @@
 Package: hydrocan
 Title: Unified Access to Canadian Hydrometric Data
-Version: 0.0.0.9000
+Version: 0.0.1
 Authors@R:
     c(person("Sam", "Albers", email = "sam.albers@hakai.org", role = c("aut", "cre")),
     person("Tula Foundation", , role = c("fnd", "cph")),

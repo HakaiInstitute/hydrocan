@@ -34,7 +34,7 @@ test_that("bc_aquarius fetch_flows returns valid schema for a known station", {
   expect_equal(unique(result$parameter), "water_discharge")
   expect_equal(unique(result$unit), "m3/s")
   expect_equal(unique(result$provider_name), "bc_aquarius")
-  expect_true(!any(is.na(result$quality_code)))
+  expect_false(anyNA(result$quality_code))
 })
 
 test_that("bc_aquarius fetch_daily_flows returns valid schema for a known station", {

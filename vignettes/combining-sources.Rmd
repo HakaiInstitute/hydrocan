@@ -42,8 +42,8 @@ each ID to its adapter automatically.
 # CEHQ station (natural river gauge) + Hydro-Quebec station (reservoir)
 daily <- hc_read_daily_flows(
   station_id = c("023301", "3-230"),
-  start_date = "2020-01-01",
-  end_date = "2020-12-31"
+  start_date = Sys.Date() - 7,
+  end_date = Sys.Date()
 )
 
 daily

@@ -2,7 +2,7 @@
 
     Code
       print(result)
-    Message
+    Output
       -- hydrocan --------------------------------------------------------------------
         Observations: 2
         Source: mock
@@ -11,7 +11,6 @@
         Station: 1 returned
       v All stations returned.
       --------------------------------------------------------------------------------
-    Output
       # A tibble: 2 x 8
         station_id timestamp           value parameter       unit  provider_name
       * <chr>      <dttm>              <dbl> <chr>           <chr> <chr>        
@@ -23,7 +22,7 @@
 
     Code
       print(result)
-    Message
+    Output
       -- hydrocan --------------------------------------------------------------------
         Observations: 1
         Source: mock
@@ -32,7 +31,6 @@
         Station: 1 returned
       v All stations returned.
       --------------------------------------------------------------------------------
-    Output
       # A tibble: 1 x 8
         station_id date       value parameter unit  provider_name quality_code qf_desc
       * <chr>      <date>     <dbl> <chr>     <chr> <chr>         <chr>        <chr>  
@@ -42,7 +40,7 @@
 
     Code
       print(result)
-    Message
+    Output
       -- hydrocan --------------------------------------------------------------------
         Observations: 2
         Source: mock
@@ -51,7 +49,6 @@
         Station: 1 returned
       ! Stations requested but not returned: "ALDERAAN001"
       --------------------------------------------------------------------------------
-    Output
       # A tibble: 2 x 8
         station_id timestamp           value parameter       unit  provider_name
       * <chr>      <dttm>              <dbl> <chr>           <chr> <chr>        

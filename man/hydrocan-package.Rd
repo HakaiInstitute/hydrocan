@@ -22,6 +22,11 @@ Useful links:
 \author{
 \strong{Maintainer}: Sam Albers \email{sam.albers@hakai.org}
 
+Authors:
+\itemize{
+  \item Sam Albers \email{sam.albers@hakai.org}
+}
+
 Other contributors:
 \itemize{
   \item Tula Foundation [funder, copyright holder]

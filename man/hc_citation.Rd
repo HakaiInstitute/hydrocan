@@ -20,8 +20,6 @@ human-readable reference and a BibTeX entry, and can be passed to
 \code{\link[=toBibtex]{toBibtex()}}.
 }
 \examples{
-\dontrun{
 hc_citation("cehq")
 toBibtex(hc_citation("hydroquebec"))
-}
 }

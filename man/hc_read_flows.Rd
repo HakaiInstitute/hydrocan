@@ -30,7 +30,7 @@ date range. The data source is determined automatically from the station
 ID, or fixed explicitly via \code{source}.
 }
 \examples{
-\dontrun{
+\donttest{
 try(hc_read_flows("703", start_date = Sys.Date() - 7))
 }
 }

@@ -35,7 +35,7 @@ source. Not all data sources publish daily data; those that do not will
 produce a warning and return no rows for the affected stations.
 }
 \examples{
-\dontrun{
+\donttest{
 try(hc_read_daily_flows("030101", start_date = "2020-01-01", end_date = "2020-01-31"))
 }
 }

@@ -40,12 +40,16 @@ install.packages("hydrocan", repos = "https://hakaiinstitute.r-universe.dev")
 
 ## Usage
 
-The main functions are `hc_read_flows()` for sub-daily observations and
-`hc_read_daily_flows()` for daily aggregates. Both accept one or more station
-IDs, a date range, and an optional `source` argument to target a specific
-adapter directly. When `source` is omitted, the router matches each station ID
-to its data source automatically. If you don't know the station that you
-want to query, you can make use of `hc_read_stations()`
+The reading functions accept one or more station IDs, a date range, and an
+optional `source` argument to target a specific adapter directly. When `source`
+is omitted, the router matches each station ID to its data source automatically.
+Every function returns the same tibble columns regardless of source.
+
+### Station metadata
+
+If you don't know the station that you want to query, start with
+`hc_read_stations()`. The station IDs it returns can be passed to the reading
+functions below.
 
 ```{r stations}
 library(hydrocan)
@@ -53,24 +57,29 @@ library(hydrocan)
 hc_read_stations("hydroquebec")
 ```
 
-`hy_read_stations` station IDs can be passed to `hc_read_flows` to return 
-hydrometric data for that station. 
+### Daily flows
 
-```{r usage}
-# Sub-daily flow observations from a single Hydro-Quebec station
-hc_read_flows(
-  station_id = "3-100",
-  start_date = Sys.Date() - 7
-)
-```
+`hc_read_daily_flows()` returns daily aggregates. Note that not all providers publish daily data: check the `has_daily_flows` column of `hc_list_sources()` to see which ones do.
 
-You can also query daily flows from two stations across two sources in one call.
+You can query daily flows from two stations across two sources in one call.
 hydrocan detects that "030101" belongs to CEHQ and "3-230" to Hydro-Quebec:
 
 ```{r mulit-source}
 hc_read_daily_flows(
   station_id = c("030101", "3-230"),
   start_date = Sys.Date() - 30
+)
+```
+
+### Sub-daily flows
+
+`hc_read_flows()` returns sub-daily observations.
+
+```{r usage}
+# Sub-daily flow observations from a single Hydro-Quebec station
+hc_read_flows(
+  station_id = "3-100",
+  start_date = Sys.Date() - 7
 )
 ```
 

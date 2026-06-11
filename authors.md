@@ -4,6 +4,9 @@
 
 - **Sam Albers**. Author, maintainer.
 
+- **Emily Haughton**. Contributor.
+  [](https://orcid.org/0009-0002-5756-1805)
+
 - **Tula Foundation**. Funder, copyright holder.
 
 - **Canada Water Agency**. Funder.

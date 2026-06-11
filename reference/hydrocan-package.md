@@ -18,7 +18,14 @@ Useful links:
 
 **Maintainer**: Sam Albers <sam.albers@hakai.org>
 
+Authors:
+
+- Sam Albers <sam.albers@hakai.org>
+
 Other contributors:
+
+- Emily Haughton <emily.haughton@hakai.org>
+  ([ORCID](https://orcid.org/0009-0002-5756-1805)) \[contributor\]
 
 - Tula Foundation \[funder, copyright holder\]
 

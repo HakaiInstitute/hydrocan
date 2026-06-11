@@ -224,6 +224,20 @@ bc_stations_meta <- bc_datasets |>
     period_end = dplyr::if_else(is.finite(period_end), period_end, as.Date(NA))
   )
 
+# Hakai-operated stations also published to the BC Aquarius portal. Dropped
+# here to not duplicate what is already in hakai_erddap, which
+# carries the QC'd record. Keep this list in sync if Hakai stations are
+# added to or removed from the BC portal.
+bc_hakai_duplicates <- c(
+  "H08KC0626",
+  "H08KC0693",
+  "H08KC0703",
+  "H08KC0708",
+  "H08KC0844")
+
+bc_stations_meta <- bc_stations_meta |>
+  dplyr::filter(!LocationIdentifier %in% bc_hakai_duplicates)
+
 bc_aquarius_stations <- tibble::tibble(
   station_id = bc_stations_meta$LocationIdentifier,
   station_name = bc_stations_meta$station_name,

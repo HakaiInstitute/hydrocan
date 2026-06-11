@@ -13,7 +13,8 @@
 # commit R/sysdata.rda when the station network changes.
 #
 # Daily aggregation is handled server-side by Aquarius (IntervalPoints=Daily).
-# Sub-daily data is returned at the native logger interval (typically 5 min).
+# StartTime/EndTime are UTC day boundaries, not local BC time, and daily aggregates are computed over UTC days.
+# Sub-daily data is returned at the native logger interval.
 # There is no separate hourly tier in the hydrocan adapter contract;
 # hc_read_flows() covers all sub-daily data.
 #
@@ -40,13 +41,6 @@
   "950"  = "REVIEWED",
   "1200" = "APPROVED"
 )
-
-
-# Suppress R CMD check notes for dplyr column names used in mutate/select
-utils::globalVariables(c(
-  "timestamp", "end_timestamp", "value", "approval_level",
-  "parameter", "unit", "provider_name", "quality_code", "qf_desc"
-))
 
 
 # ---------------------------------------------------------------------------
@@ -284,6 +278,12 @@ hydrocan_adapter_bc_aquarius <- function() {
     fetch_daily_flows_fn  = .bc_aquarius_fetch_daily_flows,
     fetch_levels_fn       = .bc_aquarius_fetch_levels,
     fetch_daily_levels_fn = .bc_aquarius_fetch_daily_levels,
-    list_stations_meta_fn = .bc_aquarius_list_stations_meta
+    list_stations_meta_fn = .bc_aquarius_list_stations_meta,
+    title = "Hydrometric Stations",
+    publisher = "Government of British Columbia",
+    license = "CC BY 4.0",
+    license_url = "https://creativecommons.org/licenses/by/4.0/",
+    terms_url = "https://www2.gov.bc.ca/gov/content/home/disclaimer",
+    docs_url = "https://bcmoe-prod.aquaticinformatics.net/Data/GetFile/GettingStartedGuide"
   )
 }

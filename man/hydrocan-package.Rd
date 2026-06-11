@@ -22,8 +22,14 @@ Useful links:
 \author{
 \strong{Maintainer}: Sam Albers \email{sam.albers@hakai.org}
 
+Authors:
+\itemize{
+  \item Sam Albers \email{sam.albers@hakai.org}
+}
+
 Other contributors:
 \itemize{
+  \item Emily Haughton \email{emily.haughton@hakai.org} (\href{https://orcid.org/0009-0002-5756-1805}{ORCID}) [contributor]
   \item Tula Foundation [funder, copyright holder]
   \item Canada Water Agency [funder]
 }

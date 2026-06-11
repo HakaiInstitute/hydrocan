@@ -10,4 +10,6 @@
 ^Claude\.md$
 ^tasks$
 ^data-raw$
+^\.positai$
 ^cran-comments\.md$
+

@@ -3,8 +3,12 @@ Title: Unified Access to Canadian Hydrometric Data
 Version: 0.0.1
 Authors@R:
     c(person("Sam", "Albers", email = "sam.albers@hakai.org", role = c("aut", "cre")),
-    person("Tula Foundation", , role = c("fnd", "cph")),
-    person("Canada Water Agency", , role = "fnd"))
+      person("Emily", "Haughton",
+             email = "emily.haughton@hakai.org",
+             comment = c(ORCID = "0009-0002-5756-1805"),
+             role = "ctb"),
+      person("Tula Foundation", , role = c("fnd", "cph")),
+      person("Canada Water Agency", , role = "fnd"))
 Description: Provides a unified interface for accessing diverse
     web-published hydrometric data sources across Canada,
     presenting users with consistent tabular output regardless
@@ -12,15 +16,17 @@ Description: Provides a unified interface for accessing diverse
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.3
+RoxygenNote: 8.0.0
 URL: https://github.com/HakaiInstitute/hydrocan, https://hakaiinstitute.github.io/hydrocan/
 BugReports: https://github.com/HakaiInstitute/hydrocan/issues
-Depends: 
+Depends:
     R (>= 4.2.0)
 Imports:
     cli,
     dplyr,
+    glue,
     httr2,
+    readr,
     tibble
 Suggests:
     httptest2,

@@ -23,6 +23,12 @@ data source, so analysis code works unchanged as new sources are added.
 
 ## Installation
 
+You can install the CRAN version via:
+
+``` r
+install.packages("hydrocan")
+```
+
 You can install the development version of hydrocan from the Hakai
 Institute r-universe server:
 
@@ -81,27 +87,27 @@ hc_read_daily_flows(
   start_date = Sys.Date() - 30
 )
 #> ── hydrocan ────────────────────────────────────────────────────────────────────
-#>   Observations: 27
+#>   Observations: 35
 #>   Sources: cehq, hydroquebec
 #>   Parameters: water_discharge, water_inflow
-#>   Date range: 2026-05-06 to 2026-06-01
+#>   Date range: 2026-05-18 to 2026-06-14
 #>   Stations: 2 returned
 #> ✔ All stations returned.
 #> ────────────────────────────────────────────────────────────────────────────────
-#> # A tibble: 27 × 8
+#> # A tibble: 35 × 8
 #>    station_id date       value parameter       unit  provider_name quality_code
 #>  * <chr>      <date>     <dbl> <chr>           <chr> <chr>         <chr>       
-#>  1 030101     2026-05-06 10.2  water_discharge m3/s  cehq          MJ          
-#>  2 030101     2026-05-07 24.0  water_discharge m3/s  cehq          MJ          
-#>  3 030101     2026-05-08 18.6  water_discharge m3/s  cehq          MJ          
-#>  4 030101     2026-05-09 12.0  water_discharge m3/s  cehq          MJ          
-#>  5 030101     2026-05-10  8.51 water_discharge m3/s  cehq          MJ          
-#>  6 030101     2026-05-11  8.02 water_discharge m3/s  cehq          MJ          
-#>  7 030101     2026-05-12  6.94 water_discharge m3/s  cehq          MJ          
-#>  8 030101     2026-05-13  5.79 water_discharge m3/s  cehq          MJ          
-#>  9 030101     2026-05-14  6.14 water_discharge m3/s  cehq          MJ          
-#> 10 030101     2026-05-15 16.2  water_discharge m3/s  cehq          MJ          
-#> # ℹ 17 more rows
+#>  1 030101     2026-05-18  8.92 water_discharge m3/s  cehq          MJ          
+#>  2 030101     2026-05-19  7.14 water_discharge m3/s  cehq          MJ          
+#>  3 030101     2026-05-20  6.21 water_discharge m3/s  cehq          MJ          
+#>  4 030101     2026-05-21  5.07 water_discharge m3/s  cehq          MJ          
+#>  5 030101     2026-05-22  4.01 water_discharge m3/s  cehq          MJ          
+#>  6 030101     2026-05-23  3.37 water_discharge m3/s  cehq          MJ          
+#>  7 030101     2026-05-24  2.90 water_discharge m3/s  cehq          MJ          
+#>  8 030101     2026-05-25  3.16 water_discharge m3/s  cehq          MJ          
+#>  9 030101     2026-05-26  5.20 water_discharge m3/s  cehq          MJ          
+#> 10 030101     2026-05-27  5.23 water_discharge m3/s  cehq          MJ          
+#> # ℹ 25 more rows
 #> # ℹ 1 more variable: qf_desc <chr>
 ```
 
@@ -118,25 +124,25 @@ hc_read_flows(
 #> ── hydrocan ────────────────────────────────────────────────────────────────────
 #>   Observations: 288
 #>   Source: hydroquebec
-#>   Parameters: water_discharge_spilled, water_discharge,
-#>   water_discharge_turbined
-#>   Date range: 2026-05-29 to 2026-06-01 23:00:00
+#>   Parameters: water_discharge, water_discharge_turbined,
+#>   water_discharge_spilled
+#>   Date range: 2026-06-10 to 2026-06-13 23:00:00
 #>   Station: 1 returned
 #> ✔ All stations returned.
 #> ────────────────────────────────────────────────────────────────────────────────
 #> # A tibble: 288 × 8
 #>    station_id timestamp           value parameter            unit  provider_name
 #>  * <chr>      <dttm>              <dbl> <chr>                <chr> <chr>        
-#>  1 3-100      2026-05-29 00:00:00    0  water_discharge_spi… m3/s  hydroquebec  
-#>  2 3-100      2026-05-29 00:00:00  316. water_discharge      m3/s  hydroquebec  
-#>  3 3-100      2026-05-29 00:00:00  316. water_discharge_tur… m3/s  hydroquebec  
-#>  4 3-100      2026-05-29 01:00:00    0  water_discharge_spi… m3/s  hydroquebec  
-#>  5 3-100      2026-05-29 01:00:00  316. water_discharge_tur… m3/s  hydroquebec  
-#>  6 3-100      2026-05-29 01:00:00  316. water_discharge      m3/s  hydroquebec  
-#>  7 3-100      2026-05-29 02:00:00    0  water_discharge_spi… m3/s  hydroquebec  
-#>  8 3-100      2026-05-29 02:00:00  317. water_discharge      m3/s  hydroquebec  
-#>  9 3-100      2026-05-29 02:00:00  317. water_discharge_tur… m3/s  hydroquebec  
-#> 10 3-100      2026-05-29 03:00:00    0  water_discharge_spi… m3/s  hydroquebec  
+#>  1 3-100      2026-06-10 00:00:00  266. water_discharge      m3/s  hydroquebec  
+#>  2 3-100      2026-06-10 00:00:00  266. water_discharge_tur… m3/s  hydroquebec  
+#>  3 3-100      2026-06-10 00:00:00    0  water_discharge_spi… m3/s  hydroquebec  
+#>  4 3-100      2026-06-10 01:00:00  266. water_discharge      m3/s  hydroquebec  
+#>  5 3-100      2026-06-10 01:00:00    0  water_discharge_spi… m3/s  hydroquebec  
+#>  6 3-100      2026-06-10 01:00:00  266. water_discharge_tur… m3/s  hydroquebec  
+#>  7 3-100      2026-06-10 02:00:00  266. water_discharge      m3/s  hydroquebec  
+#>  8 3-100      2026-06-10 02:00:00    0  water_discharge_spi… m3/s  hydroquebec  
+#>  9 3-100      2026-06-10 02:00:00  266. water_discharge_tur… m3/s  hydroquebec  
+#> 10 3-100      2026-06-10 03:00:00    0  water_discharge_spi… m3/s  hydroquebec  
 #> # ℹ 278 more rows
 #> # ℹ 2 more variables: quality_code <chr>, qf_desc <chr>
 ```

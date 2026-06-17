@@ -48,7 +48,18 @@ A tibble with columns `station_id` (chr), `date` (Date), `value` (dbl),
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
+# \donttest{
 try(hc_read_daily_levels("030101", start_date = "2020-01-01", end_date = "2020-01-31"))
-} # }
+#> ── hydrocan ────────────────────────────────────────────────────────────────────
+#>   Observations: 0
+#>   Sources:
+#>   Parameters:
+#>   Date range: no data
+#>   Stations: 0 returned
+#> ! Stations requested but not returned: "030101"
+#> ────────────────────────────────────────────────────────────────────────────────
+#> # A tibble: 0 × 8
+#> # ℹ 8 variables: station_id <chr>, date <date>, value <dbl>, parameter <chr>,
+#> #   unit <chr>, provider_name <chr>, quality_code <chr>, qf_desc <chr>
+# }
 ```

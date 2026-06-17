@@ -42,7 +42,20 @@ A tibble with columns `station_id` (chr), `timestamp` (POSIXct UTC),
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
+# \donttest{
 try(hc_read_flows("703", start_date = Sys.Date() - 7))
-} # }
+#> Warning: Station '703' not found in any data source. Skipping.
+#> ── hydrocan ────────────────────────────────────────────────────────────────────
+#>   Observations: 0
+#>   Sources:
+#>   Parameters:
+#>   Date range: no data
+#>   Stations: 0 returned
+#> ! Stations requested but not returned: "703"
+#> ────────────────────────────────────────────────────────────────────────────────
+#> # A tibble: 0 × 8
+#> # ℹ 8 variables: station_id <chr>, timestamp <dttm>, value <dbl>,
+#> #   parameter <chr>, unit <chr>, provider_name <chr>, quality_code <chr>,
+#> #   qf_desc <chr>
+# }
 ```

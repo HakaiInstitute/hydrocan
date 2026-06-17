@@ -28,7 +28,7 @@
 
     <a class="navbar-brand me-2" href="index.html">hydrocan</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.1.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -74,8 +74,11 @@
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>You can install the development version of hydrocan from the Hakai Institute r-universe server:</p>
+<p>You can install the CRAN version via:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"hydrocan"</span><span class="op">)</span></span></code></pre></div>
+<p>You can install the development version of hydrocan from the Hakai Institute r-universe server:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"hydrocan"</span>, repos <span class="op">=</span> <span class="st">"https://hakaiinstitute.r-universe.dev"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
@@ -86,7 +89,7 @@
 <h3 id="station-metadata">Station metadata<a class="anchor" aria-label="anchor" href="#station-metadata"></a>
 </h3>
 <p>If you don’t know the station that you want to query, start with <code><a href="reference/hc_read_stations.html">hc_read_stations()</a></code>. The station IDs it returns can be passed to the reading functions below.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/HakaiInstitute/hydrocan" class="external-link">hydrocan</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="reference/hc_read_stations.html">hc_read_stations</a></span><span class="op">(</span><span class="st">"hydroquebec"</span><span class="op">)</span></span>
@@ -111,40 +114,40 @@
 </h3>
 <p><code><a href="reference/hc_read_daily_flows.html">hc_read_daily_flows()</a></code> returns daily aggregates. Note that not all providers publish daily data: check the <code>has_daily_flows</code> column of <code><a href="reference/hc_list_sources.html">hc_list_sources()</a></code> to see which ones do.</p>
 <p>You can query daily flows from two stations across two sources in one call. hydrocan detects that “030101” belongs to CEHQ and “3-230” to Hydro-Quebec:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/hc_read_daily_flows.html">hc_read_daily_flows</a></span><span class="op">(</span></span>
 <span>  station_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"030101"</span>, <span class="st">"3-230"</span><span class="op">)</span>,</span>
 <span>  start_date <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="fl">30</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; ── hydrocan ────────────────────────────────────────────────────────────────────</span></span>
-<span><span class="co">#&gt;   Observations: 27</span></span>
+<span><span class="co">#&gt;   Observations: 35</span></span>
 <span><span class="co">#&gt;   Sources: cehq, hydroquebec</span></span>
 <span><span class="co">#&gt;   Parameters: water_discharge, water_inflow</span></span>
-<span><span class="co">#&gt;   Date range: 2026-05-06 to 2026-06-01</span></span>
+<span><span class="co">#&gt;   Date range: 2026-05-18 to 2026-06-14</span></span>
 <span><span class="co">#&gt;   Stations: 2 returned</span></span>
 <span><span class="co">#&gt; ✔ All stations returned.</span></span>
 <span><span class="co">#&gt; ────────────────────────────────────────────────────────────────────────────────</span></span>
-<span><span class="co">#&gt; # A tibble: 27 × 8</span></span>
+<span><span class="co">#&gt; # A tibble: 35 × 8</span></span>
 <span><span class="co">#&gt;    station_id date       value parameter       unit  provider_name quality_code</span></span>
 <span><span class="co">#&gt;  * &lt;chr&gt;      &lt;date&gt;     &lt;dbl&gt; &lt;chr&gt;           &lt;chr&gt; &lt;chr&gt;         &lt;chr&gt;       </span></span>
-<span><span class="co">#&gt;  1 030101     2026-05-06 10.2  water_discharge m3/s  cehq          MJ          </span></span>
-<span><span class="co">#&gt;  2 030101     2026-05-07 24.0  water_discharge m3/s  cehq          MJ          </span></span>
-<span><span class="co">#&gt;  3 030101     2026-05-08 18.6  water_discharge m3/s  cehq          MJ          </span></span>
-<span><span class="co">#&gt;  4 030101     2026-05-09 12.0  water_discharge m3/s  cehq          MJ          </span></span>
-<span><span class="co">#&gt;  5 030101     2026-05-10  8.51 water_discharge m3/s  cehq          MJ          </span></span>
-<span><span class="co">#&gt;  6 030101     2026-05-11  8.02 water_discharge m3/s  cehq          MJ          </span></span>
-<span><span class="co">#&gt;  7 030101     2026-05-12  6.94 water_discharge m3/s  cehq          MJ          </span></span>
-<span><span class="co">#&gt;  8 030101     2026-05-13  5.79 water_discharge m3/s  cehq          MJ          </span></span>
-<span><span class="co">#&gt;  9 030101     2026-05-14  6.14 water_discharge m3/s  cehq          MJ          </span></span>
-<span><span class="co">#&gt; 10 030101     2026-05-15 16.2  water_discharge m3/s  cehq          MJ          </span></span>
-<span><span class="co">#&gt; # ℹ 17 more rows</span></span>
+<span><span class="co">#&gt;  1 030101     2026-05-18  8.92 water_discharge m3/s  cehq          MJ          </span></span>
+<span><span class="co">#&gt;  2 030101     2026-05-19  7.14 water_discharge m3/s  cehq          MJ          </span></span>
+<span><span class="co">#&gt;  3 030101     2026-05-20  6.21 water_discharge m3/s  cehq          MJ          </span></span>
+<span><span class="co">#&gt;  4 030101     2026-05-21  5.07 water_discharge m3/s  cehq          MJ          </span></span>
+<span><span class="co">#&gt;  5 030101     2026-05-22  4.01 water_discharge m3/s  cehq          MJ          </span></span>
+<span><span class="co">#&gt;  6 030101     2026-05-23  3.37 water_discharge m3/s  cehq          MJ          </span></span>
+<span><span class="co">#&gt;  7 030101     2026-05-24  2.90 water_discharge m3/s  cehq          MJ          </span></span>
+<span><span class="co">#&gt;  8 030101     2026-05-25  3.16 water_discharge m3/s  cehq          MJ          </span></span>
+<span><span class="co">#&gt;  9 030101     2026-05-26  5.20 water_discharge m3/s  cehq          MJ          </span></span>
+<span><span class="co">#&gt; 10 030101     2026-05-27  5.23 water_discharge m3/s  cehq          MJ          </span></span>
+<span><span class="co">#&gt; # ℹ 25 more rows</span></span>
 <span><span class="co">#&gt; # ℹ 1 more variable: qf_desc &lt;chr&gt;</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="sub-daily-flows">Sub-daily flows<a class="anchor" aria-label="anchor" href="#sub-daily-flows"></a>
 </h3>
 <p><code><a href="reference/hc_read_flows.html">hc_read_flows()</a></code> returns sub-daily observations.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Sub-daily flow observations from a single Hydro-Quebec station</span></span>
 <span><span class="fu"><a href="reference/hc_read_flows.html">hc_read_flows</a></span><span class="op">(</span></span>
 <span>  station_id <span class="op">=</span> <span class="st">"3-100"</span>,</span>
@@ -153,25 +156,25 @@
 <span><span class="co">#&gt; ── hydrocan ────────────────────────────────────────────────────────────────────</span></span>
 <span><span class="co">#&gt;   Observations: 288</span></span>
 <span><span class="co">#&gt;   Source: hydroquebec</span></span>
-<span><span class="co">#&gt;   Parameters: water_discharge_spilled, water_discharge,</span></span>
-<span><span class="co">#&gt;   water_discharge_turbined</span></span>
-<span><span class="co">#&gt;   Date range: 2026-05-29 to 2026-06-01 23:00:00</span></span>
+<span><span class="co">#&gt;   Parameters: water_discharge, water_discharge_turbined,</span></span>
+<span><span class="co">#&gt;   water_discharge_spilled</span></span>
+<span><span class="co">#&gt;   Date range: 2026-06-10 to 2026-06-13 23:00:00</span></span>
 <span><span class="co">#&gt;   Station: 1 returned</span></span>
 <span><span class="co">#&gt; ✔ All stations returned.</span></span>
 <span><span class="co">#&gt; ────────────────────────────────────────────────────────────────────────────────</span></span>
 <span><span class="co">#&gt; # A tibble: 288 × 8</span></span>
 <span><span class="co">#&gt;    station_id timestamp           value parameter            unit  provider_name</span></span>
 <span><span class="co">#&gt;  * &lt;chr&gt;      &lt;dttm&gt;              &lt;dbl&gt; &lt;chr&gt;                &lt;chr&gt; &lt;chr&gt;        </span></span>
-<span><span class="co">#&gt;  1 3-100      2026-05-29 00:00:00    0  water_discharge_spi… m3/s  hydroquebec  </span></span>
-<span><span class="co">#&gt;  2 3-100      2026-05-29 00:00:00  316. water_discharge      m3/s  hydroquebec  </span></span>
-<span><span class="co">#&gt;  3 3-100      2026-05-29 00:00:00  316. water_discharge_tur… m3/s  hydroquebec  </span></span>
-<span><span class="co">#&gt;  4 3-100      2026-05-29 01:00:00    0  water_discharge_spi… m3/s  hydroquebec  </span></span>
-<span><span class="co">#&gt;  5 3-100      2026-05-29 01:00:00  316. water_discharge_tur… m3/s  hydroquebec  </span></span>
-<span><span class="co">#&gt;  6 3-100      2026-05-29 01:00:00  316. water_discharge      m3/s  hydroquebec  </span></span>
-<span><span class="co">#&gt;  7 3-100      2026-05-29 02:00:00    0  water_discharge_spi… m3/s  hydroquebec  </span></span>
-<span><span class="co">#&gt;  8 3-100      2026-05-29 02:00:00  317. water_discharge      m3/s  hydroquebec  </span></span>
-<span><span class="co">#&gt;  9 3-100      2026-05-29 02:00:00  317. water_discharge_tur… m3/s  hydroquebec  </span></span>
-<span><span class="co">#&gt; 10 3-100      2026-05-29 03:00:00    0  water_discharge_spi… m3/s  hydroquebec  </span></span>
+<span><span class="co">#&gt;  1 3-100      2026-06-10 00:00:00  266. water_discharge      m3/s  hydroquebec  </span></span>
+<span><span class="co">#&gt;  2 3-100      2026-06-10 00:00:00  266. water_discharge_tur… m3/s  hydroquebec  </span></span>
+<span><span class="co">#&gt;  3 3-100      2026-06-10 00:00:00    0  water_discharge_spi… m3/s  hydroquebec  </span></span>
+<span><span class="co">#&gt;  4 3-100      2026-06-10 01:00:00  266. water_discharge      m3/s  hydroquebec  </span></span>
+<span><span class="co">#&gt;  5 3-100      2026-06-10 01:00:00    0  water_discharge_spi… m3/s  hydroquebec  </span></span>
+<span><span class="co">#&gt;  6 3-100      2026-06-10 01:00:00  266. water_discharge_tur… m3/s  hydroquebec  </span></span>
+<span><span class="co">#&gt;  7 3-100      2026-06-10 02:00:00  266. water_discharge      m3/s  hydroquebec  </span></span>
+<span><span class="co">#&gt;  8 3-100      2026-06-10 02:00:00    0  water_discharge_spi… m3/s  hydroquebec  </span></span>
+<span><span class="co">#&gt;  9 3-100      2026-06-10 02:00:00  266. water_discharge_tur… m3/s  hydroquebec  </span></span>
+<span><span class="co">#&gt; 10 3-100      2026-06-10 03:00:00    0  water_discharge_spi… m3/s  hydroquebec  </span></span>
 <span><span class="co">#&gt; # ℹ 278 more rows</span></span>
 <span><span class="co">#&gt; # ℹ 2 more variables: quality_code &lt;chr&gt;, qf_desc &lt;chr&gt;</span></span></code></pre></div>
 </div>
@@ -179,14 +182,14 @@
 <div class="section level2">
 <h2 id="supported-sources">Supported sources<a class="anchor" aria-label="anchor" href="#supported-sources"></a>
 </h2>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/hc_list_sources.html">hc_list_sources</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
 </h2>
 <p>If you use data accessed through hydrocan in your work, please cite the original data source. Use <code><a href="reference/hc_citation.html">hc_citation()</a></code> to get a formatted citation and BibTeX entry:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/hc_citation.html">hc_citation</a></span><span class="op">(</span><span class="st">"hydroquebec"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; To cite 'hydroquebec' data in publications use:</span></span>
 <span><span class="co">#&gt; </span></span>

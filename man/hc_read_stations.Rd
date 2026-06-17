@@ -23,7 +23,7 @@ across registered data sources. Data sources that do not publish station
 metadata are skipped with a warning.
 }
 \examples{
-\dontrun{
+\donttest{
 try(hc_read_stations())
 try(hc_read_stations(source = "cehq"))
 }

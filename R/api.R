@@ -90,7 +90,7 @@ hc_list_sources <- function() {
 #'   `elevation_m` (dbl), `period_start` (Date), `period_end` (Date), and
 #'   `notes` (list).
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' try(hc_read_stations())
 #' try(hc_read_stations(source = "cehq"))
 #' }
@@ -164,7 +164,7 @@ hc_read_stations <- function(source = NULL) {
 #'   UTC), `value` (dbl), `parameter` (chr), `unit` (chr), `provider_name`
 #'   (chr), `quality_code` (chr), and `qf_desc` (chr).
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' try(hc_read_flows("703", start_date = Sys.Date() - 7))
 #' }
 #' @export
@@ -200,7 +200,7 @@ hc_read_flows <- function(
 #'   UTC), `value` (dbl), `parameter` (chr: `"water_level"`), `unit` (chr),
 #'   `provider_name` (chr), `quality_code` (chr), and `qf_desc` (chr).
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' try(hc_read_levels("703", start_date = Sys.Date() - 7))
 #' }
 #' @export
@@ -236,7 +236,7 @@ hc_read_levels <- function(
 #'   `value` (dbl), `parameter` (chr), `unit` (chr), `provider_name` (chr),
 #'   `quality_code` (chr), and `qf_desc` (chr).
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' try(hc_read_daily_flows("030101", start_date = "2020-01-01", end_date = "2020-01-31"))
 #' }
 #' @export
@@ -269,7 +269,7 @@ hc_read_daily_flows <- function(
 #'   `value` (dbl), `parameter` (chr: `"water_level"`), `unit` (chr),
 #'   `provider_name` (chr), `quality_code` (chr), and `qf_desc` (chr).
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' try(hc_read_daily_levels("030101", start_date = "2020-01-01", end_date = "2020-01-31"))
 #' }
 #' @export

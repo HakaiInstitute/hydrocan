@@ -33,22 +33,24 @@ new_hydrocan_daily <- function(x, station_id) {
     date_rng <- "no data"
   }
 
-  cli::cli_rule(left = "hydrocan")
-  cli::cli_bullets(c(
-    " " = "Observations:   {format(n_obs, big.mark = ',')}",
-    " " = "{cli::qty(length(sources))}Source{?s}:      {paste(sources, collapse = ', ')}",
-    " " = "{cli::qty(length(params))}Parameter{?s}:   {paste(params, collapse = ', ')}",
-    " " = "Date range:     {date_rng}",
-    " " = "{cli::qty(length(returned))}Station{?s}:     {length(returned)} returned"
-  ))
-  if (length(missing) > 0L) {
-    cli::cli_alert_warning(
-      "Stations requested but not returned: {.val {missing}}"
-    )
-  } else {
-    cli::cli_alert_success("All stations returned.")
-  }
-  cli::cli_rule()
+  cli::cat_line(cli::cli_fmt({
+    cli::cli_rule(left = "hydrocan")
+    cli::cli_bullets(c(
+      " " = "Observations:   {format(n_obs, big.mark = ',')}",
+      " " = "{cli::qty(length(sources))}Source{?s}:      {paste(sources, collapse = ', ')}",
+      " " = "{cli::qty(length(params))}Parameter{?s}:   {paste(params, collapse = ', ')}",
+      " " = "Date range:     {date_rng}",
+      " " = "{cli::qty(length(returned))}Station{?s}:     {length(returned)} returned"
+    ))
+    if (length(missing) > 0L) {
+      cli::cli_alert_warning(
+        "Stations requested but not returned: {.val {missing}}"
+      )
+    } else {
+      cli::cli_alert_success("All stations returned.")
+    }
+    cli::cli_rule()
+  }))
 }
 
 #' @export

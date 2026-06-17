@@ -12,10 +12,8 @@
 #' @export
 #'
 #' @examples
-#' \dontrun{
 #' hc_citation("cehq")
 #' toBibtex(hc_citation("hydroquebec"))
-#' }
 hc_citation <- function(source) {
   adapter <- get0(source, envir = .hydrocan_registry)
   if (is.null(adapter)) {

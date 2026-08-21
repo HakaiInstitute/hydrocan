@@ -32,7 +32,7 @@ A tibble with columns `station_id` (chr), `station_name` (chr),
 ``` r
 # \donttest{
 try(hc_read_stations())
-#> # A tibble: 446 × 9
+#> # A tibble: 441 × 9
 #>    station_id station_name          provider_name longitude latitude elevation_m
 #>    <chr>      <chr>                 <chr>             <dbl>    <dbl>       <dbl>
 #>  1 3-100      Outardes-4            hydroquebec       -68.9     49.7          NA
@@ -45,7 +45,7 @@ try(hc_read_stations())
 #>  8 3-107      Manic-3               hydroquebec       -68.6     49.7          NA
 #>  9 3-109      Manic-2               hydroquebec       -68.3     49.3          NA
 #> 10 3-110      Manic-1               hydroquebec       -68.3     49.2          NA
-#> # ℹ 436 more rows
+#> # ℹ 431 more rows
 #> # ℹ 3 more variables: period_start <date>, period_end <date>, notes <list>
 try(hc_read_stations(source = "cehq"))
 #> # A tibble: 204 × 9

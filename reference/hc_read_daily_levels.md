@@ -50,6 +50,10 @@ A tibble with columns `station_id` (chr), `date` (Date), `value` (dbl),
 ``` r
 # \donttest{
 try(hc_read_daily_levels("030101", start_date = "2020-01-01", end_date = "2020-01-31"))
+#> Warning: Failed to fetch '030101' from 'cehq': Failed to perform HTTP request.
+#> Caused by error in `curl::curl_fetch_memory()`:
+#> ! Timeout was reached [www.cehq.gouv.qc.ca]:
+#> Resolving timed out after 10001 milliseconds
 #> ── hydrocan ────────────────────────────────────────────────────────────────────
 #>   Observations: 0
 #>   Sources:

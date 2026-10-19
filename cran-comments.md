@@ -1,7 +1,8 @@
-## Re-submission comments:
+## hydrocan 0.0.2
 
-- all \dontrun changed to \donttest or removed.
-- hydrocan is a data-access wrapper - it implements no published statistical/scientific method, so there are no method papers to cite. The data-source URLs are already documented per-adapter and surfaced via hc_citation() / hc_list_sources(), not method references.
+- Exclude Hakai station IDs from the bundled `bc_aquarius_stations` list so that
+  stations already served by the Hakai ERDDAP adapter are no longer duplicated by
+  the BC Aquarius adapter (#28)
 
 ## R CMD check results
 
@@ -16,5 +17,3 @@
 * ubuntu-devel, r: 'release' (rhub)
 
 0 errors | 0 warnings | 0 notes
-
-* This is a new release.

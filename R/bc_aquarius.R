@@ -13,7 +13,8 @@
 # commit R/sysdata.rda when the station network changes.
 #
 # Daily aggregation is handled server-side by Aquarius (IntervalPoints=Daily).
-# StartTime/EndTime are UTC day boundaries, not local BC time, and daily aggregates are computed over UTC days.
+# StartTime/EndTime are UTC, not local BC time, and daily aggregates are computed over UTC days.
+# end_date is inclusive, matching the other adapters; see .build_aquarius_url().
 # Sub-daily data is returned at the native logger interval.
 # There is no separate hourly tier in the hydrocan adapter contract;
 # hc_read_flows() covers all sub-daily data.
@@ -56,6 +57,16 @@
   parameter  <- tools::toTitleCase(parameter)
   data_set   <- glue::glue("{parameter}.Working@{stn_number}")
   conversion <- if (interval == "Daily") "Aggregate" else "Instantaneous"
+
+  # Aquarius treats EndTime as an exclusive instant (a bare date means 00:00
+  # UTC), which drops end_time itself. Daily aggregates are only returned for
+  # days that end before EndTime, so daily requests need the next midnight;
+  # sub-daily requests stop one second before it.
+  end_time <- if (interval == "Daily") {
+    format(as.Date(end_time) + 1L)
+  } else {
+    paste(format(as.Date(end_time)), "23:59:59")
+  }
 
   httr2::url_modify(
     "https://bcmoe-prod.aquaticinformatics.net/Export/DataSet",

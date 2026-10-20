@@ -1,5 +1,14 @@
 # Changelog
 
+## hydrocan 0.0.2.9000
+
+- BC Aquarius requests now include `end_date`. Previously the last
+  requested day was dropped from both daily and sub-daily results,
+  because the Aquarius API treats the end time as an exclusive cutoff at
+  00:00 UTC
+  ([\#35](https://github.com/HakaiInstitute/hydrocan/issues/35),
+  [\#36](https://github.com/HakaiInstitute/hydrocan/issues/36)).
+
 ## hydrocan 0.0.2
 
 CRAN release: 2026-10-19

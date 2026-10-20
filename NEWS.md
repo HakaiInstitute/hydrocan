@@ -1,3 +1,9 @@
+# hydrocan 0.0.2.9000
+
+- BC Aquarius requests now include `end_date`. Previously the last requested
+  day was dropped from both daily and sub-daily results, because the Aquarius
+  API treats the end time as an exclusive cutoff at 00:00 UTC (#35, #36).
+
 # hydrocan 0.0.2
 
 - Exclude Hakai station IDs from the bundled `bc_aquarius_stations` list so that

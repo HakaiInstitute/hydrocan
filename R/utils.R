@@ -41,14 +41,15 @@
 # response body. Each call returns a fresh closure with its own offset counter,
 # so sequential or concurrent fetches do not share state.
 .offset_next_req <- function(limit) {
-  offset <- 0L
+  state <- new.env(parent = emptyenv())
+  state$offset <- 0L
   function(resp, req) {
     body <- httr2::resp_body_json(resp, simplifyVector = TRUE)
-    offset <<- offset + limit
-    if (is.null(body$total_count) || offset >= body$total_count) {
+    state$offset <- state$offset + limit
+    if (is.null(body$total_count) || state$offset >= body$total_count) {
       return(NULL)
     }
-    httr2::req_url_query(req, offset = offset)
+    httr2::req_url_query(req, offset = state$offset)
   }
 }
 

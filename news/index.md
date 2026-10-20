@@ -2,6 +2,8 @@
 
 ## hydrocan 0.0.2
 
+CRAN release: 2026-10-19
+
 - Exclude Hakai station IDs from the bundled `bc_aquarius_stations` list
   so that stations already served by the Hakai ERDDAP adapter are no
   longer duplicated by the BC Aquarius adapter

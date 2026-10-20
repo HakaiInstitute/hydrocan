@@ -14,7 +14,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/HakaiInstitute/hydrocan/blob/v0.0.2/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/HakaiInstitute/hydrocan/blob/main/DESCRIPTION)
 
 Albers S (2026). *hydrocan: Unified Access to Canadian Hydrometric
 Data*. R package version 0.0.2,

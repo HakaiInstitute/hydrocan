@@ -38,18 +38,18 @@
 
 # Build a next_req callback for offset-based pagination. Suitable for any API
 # that uses limit/offset query parameters and returns total_count in the
-# response body. Each call returns a fresh closure with its own offset counter,
-# so sequential or concurrent fetches do not share state.
+# response body. The callback derives the next offset from the request that
+# produced the current page rather than from a shared counter, so it holds no
+# mutable state and sequential or concurrent fetches cannot interfere.
 .offset_next_req <- function(limit) {
-  state <- new.env(parent = emptyenv())
-  state$offset <- 0L
   function(resp, req) {
     body <- httr2::resp_body_json(resp, simplifyVector = TRUE)
-    state$offset <- state$offset + limit
-    if (is.null(body$total_count) || state$offset >= body$total_count) {
+    current <- as.integer(httr2::url_parse(req$url)$query$offset %||% 0L)
+    offset <- current + limit
+    if (is.null(body$total_count) || offset >= body$total_count) {
       return(NULL)
     }
-    httr2::req_url_query(req, offset = state$offset)
+    httr2::req_url_query(req, offset = offset)
   }
 }
 

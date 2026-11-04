@@ -13,3 +13,8 @@
 ^\.positai$
 ^cran-comments\.md$
 
+^vignettes/.*\.Rmd\.orig$
+^vignettes/precompile\.R$
+^scratch$
+^daily_mean_comparison$
+^SSN.*\.csv$

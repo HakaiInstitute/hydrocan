@@ -258,7 +258,7 @@ download it. Daily values from `bc_aquarius` have no quality codes.
 tidyhydat::search_stn_name("tsolum")
 ```
 
-WSC station 08HB011, Tsolum River near Courtenay, is downstream of the BC
+WSC station 08HB011, Tsolum River near Courtenay, BC, Canada, is downstream of the BC
 Government stations. `tidyhydat` uses its own column names, so rename them to
 match `hydrocan`. WSC data symbols become the quality codes:
 

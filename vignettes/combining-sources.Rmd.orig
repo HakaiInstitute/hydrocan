@@ -97,8 +97,7 @@ does.
 each one publishes:
 
 ```{r sources}
-hc_list_sources() |>
-  select(name, has_flows, has_daily_flows, has_levels, has_daily_levels, license)
+hc_list_sources()
 ```
 
 The `has_*` columns show which reading functions return data for a source:

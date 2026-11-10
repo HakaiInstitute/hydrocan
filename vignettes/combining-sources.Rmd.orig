@@ -125,7 +125,7 @@ stations <- hc_read_stations()
 
 ### By name
 
-If you know the river, search the station names. `grepl()` with
+If you know the river, search the station names. For example, `grepl()` with
 `ignore.case = TRUE` matches part of a name in any case:
 
 ```{r stations-name}

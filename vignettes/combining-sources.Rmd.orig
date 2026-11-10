@@ -49,7 +49,7 @@ vignette covers:
 5. checking and plotting the combined data
 
 This vignette is a high-level guide. Each function's arguments and outputs are
-documented in detail in its help page; see `help(package = "hydrocan")`.
+documented in detail in its help page; see [https://hakaiinstitute.github.io/hydrocan/reference/index.html](https://hakaiinstitute.github.io/hydrocan/reference/index.html).
 
 ## Installation
 

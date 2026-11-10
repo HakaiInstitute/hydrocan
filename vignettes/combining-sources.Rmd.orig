@@ -103,7 +103,7 @@ hc_list_sources()
 The `has_*` columns show which reading functions return data for a source:
 `hc_read_flows()` and `hc_read_daily_flows()` for flow, and
 `hc_read_levels()` and `hc_read_daily_levels()` for water level. The
-`description` column (not shown here) has a short summary of each source.
+`description` column has a short summary of each source.
 
 Each provider publishes its data under its own licence. Check the `license`
 and `terms_url` columns before reusing data, and use `hc_citation()` to cite a
